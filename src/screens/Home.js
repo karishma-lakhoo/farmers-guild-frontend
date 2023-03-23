@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    top: 250,
+    top:300,
     backgroundColor: 'white',
     borderRadius: 10,
   },
@@ -92,11 +92,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#4CAF50',
   },
-  topBar: {
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+   topBar: {
+       backgroundColor:'013220',
+       height: 50,
+       justifyContent: 'center',
+       alignItems: 'center',
+     },
   content: {
     flex: 1,
     backgroundColor: '#013220',
