@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, Text, Button, StyleSheet, Modal } from 'react-native';
+import { TouchableOpacity,Image ,SafeAreaView, View, Text, Button, StyleSheet, Modal } from 'react-native';
 import { IStackScreenProps } from '../../src/library/StackScreenProps';
 
 const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
 });
 
 export default HomeScreen;
