@@ -1,27 +1,43 @@
-import React from 'react';
-import { SafeAreaView, View, Text, Button, StyleSheet, Modal } from 'react-native';
+import React, {useState} from 'react';
+import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity } from 'react-native';
 import { IStackScreenProps } from '../../src/library/StackScreenProps';
+import {Home_popup} from '../../src/components/Home_popup.js';
+
+
 
 const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   const { navigation, route, nameProp } = props;
+  const[isModalVisible,setisModalVisible] = useState(false);
+  const changeModalVisible = (bool) => {
+    setisModalVisible(bool);
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBar}>
         <Text>Home</Text>
 
+
+      <TouchableOpacity style = {styles.addGardenButton}
+      onPress = {() => changeModalVisible(true)}
+      >
+        
+
+        <Text style = {styles.addGardenButtonText}> Add garden </Text>
+
+      </TouchableOpacity>
+
+
+        
         <Modal 
-        transparent = {true} 
-        visible = {true}
+        transparent = {true} addGardenButton
+        animationType = 'fade'
+        visible = {isModalVisible}
+        nRequestClose = {() => changeModalVisible(false)}
         >
 
-         <View style = {styles.popupmain}>
-          <View>
-          <Text style = {styles.headline}> testing</Text>
-          </View>
-         </View>
-
-
+        
+        <Home_popup/>
         </Modal>
 
       </View>
@@ -32,15 +48,39 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 
 const styles = StyleSheet.create({
 
-  popupmain: {
-    borderRadius:20,
-    width: '50%',
-    height: '50%',
-    top: '25%',
-    left: '25%',
-    alignItems: 'center',
+  addGardenButton:{
+    width: 120,
+    height: 40,
     justifyContent: 'center',
-    backgroundColor:"#001e00",
+    alignItems: 'center',
+    top: 250,
+    backgroundColor: 'white',
+    borderRadius: 10,
+  },
+
+  addGardenButtonText: {
+    fontWeight: 'bold',
+    color: 'black',
+    fontSize: 20,
+  },
+
+  popup: {
+    width: 250,
+    height: 400,
+    
+    justifyContent: 'center',
+    alignItems: 'center',
+   backgroundColor: '#000000',
+   borderRadius: 25,
+    
+  },
+
+  popupbackground: {
+    
+    backgroundColor:"#000000aa",
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   headline: {
