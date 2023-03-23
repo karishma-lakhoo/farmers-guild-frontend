@@ -1,25 +1,36 @@
-import { View, Text, Button, StyleSheet } from 'react-native';
 import React from 'react';
-
-import {IStackScreenProps} from "../../src/library/StackScreenProps"
+import { SafeAreaView, View, Text, Button, StyleSheet } from 'react-native';
+import { IStackScreenProps } from '../../src/library/StackScreenProps';
 
 const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
-    const { navigation, route, nameProp} = props;
+  const { navigation, route, nameProp } = props;
 
-    return (
-        <View style={styles.container}>
-            <Text>Home Screen</Text>
-        </View>
-    )
-}
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.topBar}>
+        <Text>Home</Text>
+      </View>
+
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    }
+  container: {
+    flex: 1,
+    backgroundColor: '#4CAF50',
+  },
+  topBar: {
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  content: {
+    flex: 1,
+    backgroundColor: '#013220',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default HomeScreen;
