@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity } from 'react-native';
+import React from 'react';
+import { SafeAreaView, View, Text, Button, StyleSheet, Modal } from 'react-native';
 import { IStackScreenProps } from '../../src/library/StackScreenProps';
 import {Home_popup} from '../../src/components/Home_popup.js';
 
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
 });
 
 export default HomeScreen;
