@@ -33,8 +33,7 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
         transparent = {true} addGardenButton
         animationType = 'fade'
         visible = {isModalVisible}
-        nRequestClose = {() => changeModalVisible(false)}
-        >
+        nRequestClose = {() => changeModalVisible(false)}>
 
         
         <Home_popup/>
