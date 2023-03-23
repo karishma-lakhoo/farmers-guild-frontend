@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, Text, Button, StyleSheet } from 'react-native';
+import { SafeAreaView, View, Text, Button, StyleSheet, Modal } from 'react-native';
 import { IStackScreenProps } from '../../src/library/StackScreenProps';
 
 const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
