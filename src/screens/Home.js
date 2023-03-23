@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   },
   topBar: {
     height: 50,
+    backgroundColor: '#013220',
     justifyContent: 'center',
     alignItems: 'center',
   },
