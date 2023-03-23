@@ -9,6 +9,21 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.topBar}>
         <Text>Home</Text>
+
+        <Modal 
+        transparent = {true} 
+        visible = {true}
+        >
+
+         <View style = {styles.popupmain}>
+          <View>
+          <Text style = {styles.headline}> testing</Text>
+          </View>
+         </View>
+
+
+        </Modal>
+
       </View>
 
     </SafeAreaView>
@@ -16,13 +31,29 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 };
 
 const styles = StyleSheet.create({
+
+  popupmain: {
+    borderRadius:20,
+    width: '50%',
+    height: '50%',
+    top: '25%',
+    left: '25%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor:"#001e00",
+  },
+
+  headline: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+  },
   container: {
     flex: 1,
     backgroundColor: '#4CAF50',
   },
   topBar: {
     height: 50,
-    backgroundColor: '#013220',
     justifyContent: 'center',
     alignItems: 'center',
   },
