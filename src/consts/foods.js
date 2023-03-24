@@ -31,6 +31,27 @@ const foods = [
         Date_harvested: '02/06/2022',
         image: require ('../images/Strawberry.png')
     },
+    {
+        id: '5',
+        name: 'Apple',
+        weight: '150g',
+        Date_harvested: '02/06/2022',
+        image: require ('../images/Apple.png')
+    },
+    {
+        id: '6',
+        name: 'Mango',
+        weight: '150g',
+        Date_harvested: '02/06/2022',
+        image: require ('../images/Mango.png')
+    },
+    {
+        id: '7',
+        name: 'Banana',
+        weight: '150g',
+        Date_harvested: '02/06/2022',
+        image: require ('../images/Banana.png')
+    },
 ];
 
 export default foods;
