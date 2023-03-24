@@ -9,6 +9,7 @@ const PlantDetsScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     return (
         <View style={styles.container}>
             <Text>Sign up Screen</Text>
+            <Button title="Go Back To Plants" onPress={() => navigation.navigate('Plants')}/>
         </View>
     )
 }
