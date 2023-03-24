@@ -8,14 +8,27 @@ import {Home_popup} from '../../src/components/Home_popup.js';
 const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   const { navigation, route, nameProp } = props;
   const[isModalVisible,setisModalVisible] = useState(false);
+
+  const[chooseData,setchooseData] = useState();
+
   const changeModalVisible = (bool) => {
     setisModalVisible(bool);
+  }
+
+  const setData = (data) => {
+    setchooseData(data);
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBar}>
-        <Text>Home</Text>
+        <Text
+        >
+          Home</Text>
+
+          <Text style = {styles.popupOutputTemp}>
+            {chooseData}
+          </Text>
 
 
       <TouchableOpacity style = {styles.addGardenButton}
@@ -30,13 +43,21 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 
         
         <Modal 
-        transparent = {true} addGardenButton
+        transparent = {true} //addGardenButton
         animationType = 'fade'
         visible = {isModalVisible}
-        nRequestClose = {() => changeModalVisible(false)}>
+        nRequestClose = {() => changeModalVisible(false)}
+        >
 
         
-        <Home_popup/>
+        
+
+  
+
+        <Home_popup
+        changeModalVisible = {changeModalVisible}
+        setData = {setData}
+        />
         </Modal>
 
       </View>
@@ -103,6 +124,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  popupOutputTemp:{
+    top: 380,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+  }
 });
 
 export default HomeScreen;
