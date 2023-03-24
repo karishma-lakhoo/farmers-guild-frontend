@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
       <NavigationContainer>
-          <Stack.Navigator initialRouteName={'Home'}>
+          <Stack.Navigator initialRouteName={'Login'}>
               {routes.map((r,i) => (
                   <Stack.Screen key={i} name={r.name}>
                       {(props) => <r.component nameProp = {r.name} {...props}/>}
@@ -22,4 +22,14 @@ export default function App() {
 
   );
 }
+
+const styles = StyleSheet.create({
+    root: {
+        flex: 1,
+        backgroundColor: '#F9FBFC',
+    },
+
+});
+
+
 
