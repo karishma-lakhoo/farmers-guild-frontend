@@ -31,12 +31,13 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
           </Text>
 
 
-      <TouchableOpacity style = {styles.addGardenButton}
+      <TouchableOpacity style = {styles.add}
       onPress = {() => changeModalVisible(true)}
       >
         
 
-        <Text style = {styles.addGardenButtonText}> Add garden </Text>
+        <Text style = {styles.addText}> Nothing growing yet </Text>
+        
 
       </TouchableOpacity>
 
@@ -68,9 +69,9 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 
 const styles = StyleSheet.create({
 
-  addGardenButton:{
+  add:{
     width: 120,
-    height: 40,
+    height: 60,
     justifyContent: 'center',
     alignItems: 'center',
     top:300,
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
-  addGardenButtonText: {
+  addText: {
     fontWeight: 'bold',
     color: 'black',
     fontSize: 20,

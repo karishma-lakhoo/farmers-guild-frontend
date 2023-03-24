@@ -5,7 +5,7 @@ StyleSheet, Text,View, TouchableOpacity,Dimensions
 
 
 const WIDTH = Dimensions.get('window').width;
-const HEIGHT_popup = 150;
+const HEIGHT_popup = 200;
 
 const Home_popup = (props) => {
 
@@ -22,7 +22,17 @@ const Home_popup = (props) => {
         >
 
             <View style = {styles.popup}>
-            <Text>Header</Text>
+
+            <TouchableOpacity style = {styles.addGardenButton}
+                onPress = {() => closeModal(false,'Add Garden')}
+                >
+                    <Text style = {styles.addGardenText}>
+                        Add garden</Text>
+
+
+                </TouchableOpacity>
+
+            
             
             <View styles = {styles.buttonsView}>
 
@@ -57,9 +67,9 @@ const styles = StyleSheet.create({
     },
     popup:{
         height: HEIGHT_popup,
-        paddingTop: 10,
+        paddingTop: 20,
         backgroundColor: 'white',
-        borderRadius: 10,
+        borderRadius: 50,
         width: WIDTH - 80,
         
     },
@@ -72,7 +82,7 @@ const styles = StyleSheet.create({
         margin: 5,
         fontSize: 20,
         fontWeight: 'bold',
-        color: 'white',
+        color: 'black',
       },
       buttonsView: {
         width: '100%',
@@ -93,6 +103,25 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       backgroundColor: 'green',
       borderRadius: 10,
+
+      },
+      addGardenButton:{
+        width: 120,
+        height: 40,
+        justifyContent: 'center',
+  
+        top: 10,
+        left: '25%',
+        alignItems: 'center',
+        backgroundColor: 'green',
+        borderRadius: 10,
+      },
+      addGardenText: {
+        margin: 5,
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'black',
+        
 
       },
        
