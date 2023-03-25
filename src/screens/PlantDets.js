@@ -46,11 +46,10 @@ const PlantDetsScreen: React.FunctionComponent<IStackScreenProps> = (props,) => 
                         </View>
                     </View>
                     <Text style={style.detailsText}>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry. Lorem Ipsum has been the industry's standard dummy text
-                        ever since the 1500s, when an unknown printer took a galley of type
-                        and scrambled it to make a type specimen book. It has survived not
-                        only five centuries.
+                        Lets Talk About SuvGay. This is the Gayest person you would know. He is mad in his head
+                        and talks at night in sleep with her gay people. Just to let you know if u see this guys just avoid him or he might
+                        end up giving u kisses. Keep your children away from him and yourself. As they say in planes
+                        help yourself before helping others.
                     </Text>
                     <View style={{marginTop: 40, marginBottom: 40}}>
                         <SecondaryButton title="Plant It" onPress={() => navigation.navigate('Log')} />
