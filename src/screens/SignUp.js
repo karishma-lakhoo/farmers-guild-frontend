@@ -121,7 +121,7 @@ const Btn = StyleSheet.create({
         backgroundColor: '#006400',
         width: '100%',
         padding: 15,
-        marginVertical: 35,
+        marginVertical: 36,
         alignItems:'center',
         borderRadius: 100,
     },
