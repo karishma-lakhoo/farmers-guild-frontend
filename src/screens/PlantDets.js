@@ -10,7 +10,7 @@ import {SecondaryButton} from "../consts/button";
 import {tags as item} from "react-native-svg/src/xml";
 import plants from "./Plants";
 
-const PlantDetsScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+const PlantDetsScreen: React.FunctionComponent<IStackScreenProps> = (props,) => {
     const { navigation, route, nameProp} = props;
     const plant = route.params;
 
@@ -53,7 +53,7 @@ const PlantDetsScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
                         only five centuries.
                     </Text>
                     <View style={{marginTop: 40, marginBottom: 40}}>
-                        <SecondaryButton title="Plant It" />
+                        <SecondaryButton title="Plant It" onPress={() => navigation.navigate('Log')} />
                     </View>
                 </View>
             </ScrollView>
