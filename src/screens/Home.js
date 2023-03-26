@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity, Image } from 'react-native';
 import { IStackScreenProps } from '../../src/library/StackScreenProps';
 import {Home_popup} from '../../src/components/Home_popup.js';
 import {AddGarden_Popup} from '../../src/components/addGardenPopup.js';
@@ -42,14 +42,16 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
           </Text>
 
 
+
+      <View style={styles.addGardenIcon}>
+       
+        <Image source = {require('../images/plus_sign.png')}/>
+      </View>
+
       <TouchableOpacity style = {styles.add}
       onPress = {() => changeModalVisible(true)}
       >
-        
-
         <Text style = {styles.addText}> Nothing growing yet </Text>
-        
-
       </TouchableOpacity>
 
 
@@ -60,12 +62,6 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
         visible = {isModalVisible}
         nRequestClose = {() => changeModalVisible(false)}
         >
-
-        
-        
-
-  
-
         <Home_popup
         changeModalVisible = {changeModalVisible}
         setData = {setData}
@@ -91,6 +87,11 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 };
 
 const styles = StyleSheet.create({
+
+  addGardenIcon:{
+    top : 280,
+    alignItems: 'center',
+  },
 
   add:{
     width: 120,
