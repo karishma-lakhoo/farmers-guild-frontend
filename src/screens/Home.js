@@ -31,9 +31,7 @@ const HomeScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBar}>
-        <Text
-        >
-          Home</Text>
+        
 
         
 
@@ -99,7 +97,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 22,
     color: 'black',
-    top: 320,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10,
 
   },
 
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    top:300,
+   // top:300,
     backgroundColor: 'white',
     borderRadius: 10,
   },
@@ -146,10 +146,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#4CAF50',
+    justifyContent: 'center',
   },
    topBar: {
        backgroundColor:'013220',
-       height: 50,
+      // height: 50,
        justifyContent: 'center',
        alignItems: 'center',
      },
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   popupOutputTemp:{
-    top: 380,
+   // top: 380,
     fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
