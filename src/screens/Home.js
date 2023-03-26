@@ -37,22 +37,25 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
         >
           Home</Text>
 
-          <Text style = {styles.popupOutputTemp}>
-            {chooseData}
-          </Text>
+         
 
 
 
       <View style={styles.addGardenIcon}>
        
+
+       <TouchableOpacity
+       onPress = {() => changeModalVisible(true)} 
+       style= {styles.buttonAdd}
+       >
         <Image source = {require('../images/plus_sign.png')}/>
+
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style = {styles.add}
-      onPress = {() => changeModalVisible(true)}
-      >
+      
         <Text style = {styles.addText}> Nothing growing yet </Text>
-      </TouchableOpacity>
+      
 
 
         
@@ -88,6 +91,15 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 
 const styles = StyleSheet.create({
 
+  buttonAdd:{
+    
+   // borderColor: '000000',
+   // borderWidth: 2,
+   // borderStyle: 'solid',
+   // borderRadius: 10,
+
+  },
+
   addGardenIcon:{
     top : 280,
     alignItems: 'center',
@@ -107,6 +119,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     fontSize: 20,
+    top: 300,
   },
 
   popup: {
