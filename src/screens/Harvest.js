@@ -1,9 +1,6 @@
 import {View, Text, Button, StyleSheet, Image, SafeAreaView, Pressable, Modal} from 'react-native';
 import React,{useState} from 'react';
-
-import {IStackScreenProps} from "../../src/library/StackScreenProps"
 import Icon from "react-native-vector-icons/MaterialIcons";
-import SelectBox from "react-native-multi-selectbox";
 import {FlatList} from "react-native-gesture-handler";
 import foods from "../consts/foods";
 
