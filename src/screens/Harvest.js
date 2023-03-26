@@ -4,9 +4,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import {FlatList} from "react-native-gesture-handler";
 import foods from "../consts/foods";
 
-const HarvestScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
-    const { navigation, route, nameProp} = props;
-
+const HarvestScreen= ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false); // state variable for modal visibility
 
     const LogCard = ({item}) =>{
@@ -36,8 +34,8 @@ const HarvestScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     return (
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
             <View style={styles.header}>
-                <Icon name = "arrow-back-ios" size={28} style={{ marginLeft: 10, marginVertical: 40 }} onPress={() => navigation.navigate('Plants')}/>
-                <Text style = {{fontSize: 20, fontWeight: 'bold', marginHorizontal: 30}}>Harvest Plants</Text>
+                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Plants')}/>
+                <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Harvest Plants</Text>
             </View>
             <FlatList
                 showsVerticalScrollIndicator={false}
@@ -69,6 +67,12 @@ const HarvestScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 }
 
 const styles = StyleSheet.create({
+    header: {
+        paddingVertical: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginHorizontal: 10,
+    },
     container: {
         flex: 1,
         backgroundColor: '#fff',

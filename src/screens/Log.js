@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     header: {
-        paddingVertical: 20,
+        paddingVertical: 50,
         flexDirection: 'row',
         alignItems: 'center',
         marginHorizontal: 10,

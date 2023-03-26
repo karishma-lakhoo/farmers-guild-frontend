@@ -49,7 +49,7 @@ const PlantsScreen = ({navigation}) => {
 
     const Card = ({food}) =>{
         return(
-            <TouchableHighlight underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => navigation.navigate('PlantDets')}>
+            <TouchableHighlight underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => navigation.navigate('PlantDetails')}>
                 <View style={styles.card}>
                     <View style={{alignItems:'center', top:-40}}>
                         <Image source={food.image} style={{height:120, width:120}}/>
