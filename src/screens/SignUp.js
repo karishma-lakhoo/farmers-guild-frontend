@@ -11,10 +11,8 @@ import {
 import React from 'react';
 import {useState} from 'react';
 
-import {IStackScreenProps} from "../../src/library/StackScreenProps"
-
-const SignUpScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
-    const { navigation, route, nameProp, value, setValue, placeholder, secureTextEntry, onPress, text} = props;
+const SignUpScreen= ({navigation}) => {
+    const { value, setValue} = useState();
 
     const {username, setUsername} = useState('');
     const {email, setEmail} = useState('');

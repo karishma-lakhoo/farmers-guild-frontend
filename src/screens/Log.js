@@ -4,8 +4,8 @@ import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SelectBox from 'react-native-multi-selectbox'
 import { xorBy } from 'lodash'
-import {IStackScreenProps} from "../../src/library/StackScreenProps"
 import foods from "../consts/foods";
+
 
 const GARDEN_OPTIONS = [
     {
@@ -37,11 +37,12 @@ const FILTER_OPTIONS = [
     },
 ]
 
-const LogScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+const LogScreen = ({navigation}) => {
+// const LogScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     const [selectedTeam1, setSelectedTeam1] = useState({})
     const [selectedTeam2, setSelectedTeam2] = useState({})
 
-    const { navigation, route, nameProp} = props;
+    // const { navigation, route, nameProp} = props;
     const LogCard = ({item}) =>{
         return (
             <View style={styles.LogCard}>

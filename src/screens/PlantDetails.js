@@ -1,8 +1,5 @@
 import {View, Text, Button, StyleSheet, SafeAreaView, ScrollView, Image} from 'react-native';
 import React from 'react';
-
-
-import {IStackScreenProps} from "../../src/library/StackScreenProps"
 import COLORS from "../consts/colors";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import log from "./Log";
@@ -10,10 +7,7 @@ import {SecondaryButton} from "../consts/button";
 import {tags as item} from "react-native-svg/src/xml";
 import plants from "./Plants";
 
-const PlantDetsScreen: React.FunctionComponent<IStackScreenProps> = (props,) => {
-    const { navigation, route, nameProp} = props;
-    const plant = route.params;
-
+const PlantDetailsScreen= ({navigation}) => {
 
     return (
         <SafeAreaView style={{backgroundColor: COLORS.white}}>
@@ -91,4 +85,4 @@ const style = StyleSheet.create({
     },
 });
 
-export default PlantDetsScreen;
+export default PlantDetailsScreen;

@@ -1,14 +1,11 @@
 import React, {useState} from 'react';
-import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity } from 'react-native';
 import { IStackScreenProps } from '../../src/library/StackScreenProps';
 import {Home_popup} from '../../src/components/Home_popup.js';
 //import {AddGarden_Popup} from '../../src/components/addGardenPopup.js';
 import {AddGardenPopup} from '../../src/components/addGardenPopup_Test.js';
 
-
-
-const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
-  const { navigation, route, nameProp } = props;
+const HomeScreen = ({navigation}) => {
   const[isModalVisible,setisModalVisible] = useState(false);
   
 
@@ -38,25 +35,20 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
         >
           Home</Text>
 
-         
+          <Text style = {styles.popupOutputTemp}>
+            {chooseData}
+          </Text>
 
 
+      <TouchableOpacity style = {styles.add}
+      onPress = {() => changeModalVisible(true)}
+      >
+        
 
-      <View style={styles.addGardenIcon}>
-       
-
-       <TouchableOpacity
-       onPress = {() => changeModalVisible(true)} 
-       style= {styles.buttonAdd}
-       >
-        <Image source = {require('../images/plus_sign.png')}/>
-
-        </TouchableOpacity>
-      </View>
-
-      
         <Text style = {styles.addText}> Nothing growing yet </Text>
-      
+        
+
+      </TouchableOpacity>
 
 
         
@@ -66,6 +58,12 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
         visible = {isModalVisible}
         nRequestClose = {() => changeModalVisible(false)}
         >
+
+        
+        
+
+  
+
         <Home_popup
         changeModalVisible = {changeModalVisible}
         setData = {setData}
@@ -94,20 +92,6 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 
 const styles = StyleSheet.create({
 
-  buttonAdd:{
-    
-   // borderColor: '000000',
-   // borderWidth: 2,
-   // borderStyle: 'solid',
-   // borderRadius: 10,
-
-  },
-
-  addGardenIcon:{
-    top : 280,
-    alignItems: 'center',
-  },
-
   add:{
     width: 120,
     height: 60,
@@ -122,7 +106,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     fontSize: 20,
-    top: 300,
   },
 
   popup: {

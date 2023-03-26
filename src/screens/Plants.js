@@ -11,16 +11,13 @@ import {
 } from 'react-native';
 import React from 'react';
 import COLORS from '../consts/colors'
-
-import {IStackScreenProps} from "../../src/library/StackScreenProps"
 import Icon from "react-native-vector-icons/MaterialIcons";
 import {FlatList, TextInput} from "react-native-gesture-handler";
 import categories from "../consts/categories";
 import foods from "../consts/foods";
 const {width} = Dimensions.get("screen");
 const cardWidth = width/2-20;
-const PlantsScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
-    const { navigation, route, nameProp} = props;
+const PlantsScreen = ({navigation}) => {
     const [selectedCategoryIndex,setSelectedCategoryIndex] = React.useState(0);
 
     const ListCategories = () => {

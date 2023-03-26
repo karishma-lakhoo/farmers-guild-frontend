@@ -1,11 +1,9 @@
 import { View, Text, Button, StyleSheet,TextInput, Pressable, ImageBackground } from 'react-native';
 import React from 'react';
 import {useState} from 'react';
-import {IStackScreenProps} from "../../src/library/StackScreenProps"
 
-const LoginScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
-    const { navigation, route, nameProp, value, setValue, placeholder, secureTextEntry, onPress, text} = props;
-
+const LoginScreen = ({navigation}) => {
+    const {value, setValue} = useState('');
     const {username, setUsername} = useState('');
     const {password, setPassword} = useState('');
 
