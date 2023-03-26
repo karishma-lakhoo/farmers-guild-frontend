@@ -5,6 +5,7 @@ import HomeScreen from "../screens/Home";
 import GardenScreen from "../screens/Garden";
 import LogScreen from "../screens/Log";
 import PlantsScreen from "../screens/Plants";
+import AddGardenScreen from "../screens/AddGarden";
 
 
 const routes: IRouteProps[] = [
@@ -31,6 +32,10 @@ const routes: IRouteProps[] = [
     {
         name: 'Plants',
         component: PlantsScreen,
+    },
+    {
+        name: 'AddGarden',
+        component: AddGardenScreen,
     }
 ];
 

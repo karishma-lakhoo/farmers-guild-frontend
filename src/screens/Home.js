@@ -2,12 +2,14 @@ import React, {useState} from 'react';
 import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity } from 'react-native';
 import { IStackScreenProps } from '../../src/library/StackScreenProps';
 import {Home_popup} from '../../src/components/Home_popup.js';
+import {AddGarden_Popup} from '../../src/components/addGardenPopup.js';
 
 
 
 const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   const { navigation, route, nameProp } = props;
   const[isModalVisible,setisModalVisible] = useState(false);
+  
 
   const[chooseData,setchooseData] = useState();
 
@@ -15,9 +17,18 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     setisModalVisible(bool);
   }
 
+
+  const[isAddGardenPopupVisible,setisAddGardenPopupVisible] = useState(false);
+
+  const changeAddGardenPopupVisible = (bool) => {
+    setisAddGardenPopupVisible(bool);
+  }
+
   const setData = (data) => {
     setchooseData(data);
   }
+
+    
 
   return (
     <SafeAreaView style={styles.container}>
@@ -58,8 +69,20 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
         <Home_popup
         changeModalVisible = {changeModalVisible}
         setData = {setData}
+        changeAddGardenPopupVisible = {changeAddGardenPopupVisible}
         />
         </Modal>
+
+        
+
+        <Modal 
+        transparent = {true} //addGardenButton
+        animationType = 'fade'
+        visible = {false} //changeAddGardenPopupVisible
+        nRequestClose = {() => changeAddGardenPopupVisible(false)}
+        >  
+        </Modal>
+        
 
       </View>
 
