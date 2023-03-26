@@ -56,16 +56,16 @@ const styles = StyleSheet.create({
         alignItems:'center',
         borderRadius: 25,
         top: 40,
-        marginVertical: 10,
+        marginVertical: 40,
     },
     container: {
         left: '10%',
         top: '10%',
         width: '80%',
-        height: '80%',
+        height: '70%',
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+      //  justifyContent: 'center',
         borderRadius: 50,
     },
 
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         paddingVertical: 10,
         width: '80%',
-        backgroundColor: '#808080',
+        backgroundColor: '#D3D3D3',
         marginVertical: 8,
         textAlign: 'center',
        
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#006400',
         margin: 10,
+      //  top: 10,
         marginVertical: 50,
         textAlign: 'center',
        

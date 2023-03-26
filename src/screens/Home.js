@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity,Image } from 'react-native';
 import { IStackScreenProps } from '../../src/library/StackScreenProps';
 import {Home_popup} from '../../src/components/Home_popup.js';
 //import {AddGarden_Popup} from '../../src/components/addGardenPopup.js';
@@ -35,20 +35,23 @@ const HomeScreen = ({navigation}) => {
         >
           Home</Text>
 
-          <Text style = {styles.popupOutputTemp}>
-            {chooseData}
-          </Text>
+        
 
 
-      <TouchableOpacity style = {styles.add}
+      
+
+      <TouchableOpacity
+      style = {styles.add}
       onPress = {() => changeModalVisible(true)}
       >
-        
-
-        <Text style = {styles.addText}> Nothing growing yet </Text>
-        
+      <Image source = {require('../images/plus_sign.png')}/>
 
       </TouchableOpacity>
+
+      <Text style = {styles.nothingyet}>
+        Nothing growing yet
+
+      </Text>
 
 
         
@@ -92,8 +95,16 @@ const HomeScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
 
+  nothingyet: {
+    fontWeight: 'bold',
+    fontSize: 22,
+    color: 'black',
+    top: 320,
+
+  },
+
   add:{
-    width: 120,
+    width: 60,
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',

@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     popup:{
         height: HEIGHT_popup,
         paddingTop: 20,
-        backgroundColor: 'white',
+        backgroundColor: '#D3D3D3',
         borderRadius: 50,
         width: WIDTH - 80,
         
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         margin: 5,
         fontSize: 20,
         fontWeight: 'bold',
-        color: 'black',
+        color: 'white',
       },
       buttonsView: {
         width: '100%',
@@ -103,25 +103,26 @@ const styles = StyleSheet.create({
       left: '25%',
       alignItems: 'center',
       backgroundColor: 'green',
-      borderRadius: 10,
+      borderRadius: 50,
 
       },
       addGardenButton:{
-        width: 120,
+        width: 180,
         height: 40,
         justifyContent: 'center',
   
-        top: 10,
-        left: '25%',
+        top: '12.5%',
+        left: '12.5%',
         alignItems: 'center',
         backgroundColor: 'green',
-        borderRadius: 10,
+        borderRadius: 50,
       },
       addGardenText: {
         margin: 5,
         fontSize: 20,
         fontWeight: 'bold',
-        color: 'black',
+        color: 'white',
+        
         
 
       },
