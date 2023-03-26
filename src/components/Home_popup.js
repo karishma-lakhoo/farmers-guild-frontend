@@ -9,9 +9,10 @@ const HEIGHT_popup = 200;
 
 const Home_popup = (props) => {
 
-    closeModal = (bool,data) => {
+    closeModal = (bool,data,bool2) => {
         props.changeModalVisible(bool);
         props.setData(data);
+        props.changeAddGardenPopupVisible(bool2);
     }
 
 
@@ -24,7 +25,7 @@ const Home_popup = (props) => {
             <View style = {styles.popup}>
 
             <TouchableOpacity style = {styles.addGardenButton}
-                onPress = {() => closeModal(false,'Add Garden')}
+                onPress = {() => closeModal(false,'Add Garden',true)}
                 >
                     <Text style = {styles.addGardenText}>
                         Add garden</Text>
@@ -37,7 +38,7 @@ const Home_popup = (props) => {
             <View styles = {styles.buttonsView}>
 
                 <TouchableOpacity style = {styles.touchableOpacity}
-                onPress = {() => closeModal(false,'Close')}
+                onPress = {() => closeModal(false,'Close',false)}
                 >
                     <Text
                     style = {styles.text}>
