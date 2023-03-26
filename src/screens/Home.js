@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity, Image } from 'react-native';
 import { IStackScreenProps } from '../../src/library/StackScreenProps';
 import {Home_popup} from '../../src/components/Home_popup.js';
-import {AddGarden_Popup} from '../../src/components/addGardenPopup.js';
+//import {AddGarden_Popup} from '../../src/components/addGardenPopup.js';
+import {AddGardenPopup} from '../../src/components/addGardenPopup_Test.js';
 
 
 
@@ -77,9 +78,11 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
         <Modal 
         transparent = {true} //addGardenButton
         animationType = 'fade'
-        visible = {false} //changeAddGardenPopupVisible
+        visible = {isAddGardenPopupVisible} //changeAddGardenPopupVisible
         nRequestClose = {() => changeAddGardenPopupVisible(false)}
         >  
+
+        <AddGardenPopup/>
         </Modal>
         
 
