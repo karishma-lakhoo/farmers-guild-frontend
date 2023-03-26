@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={'AddGarden'}>
+      <Stack.Navigator initialRouteName={'Home'}>
         {routes.map((r, i) => (
           <Stack.Screen
             key={i}
