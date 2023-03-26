@@ -10,6 +10,7 @@ import LoginScreen from "./src/screens/Login";
 import LogScreen from "./src/screens/Log";
 import SignUpScreen from "./src/screens/SignUp";
 import PlantsScreen from "./src/screens/Plants";
+import HarvestScreen from "./src/screens/Harvest";
 import React from "react";
 import PlantDetailsScreen from "./src/screens/PlantDetails";
 import BottomNavigator from "./src/navigation/BottomNavigator";
@@ -30,6 +31,8 @@ export default function App() {
               <Stack.Screen name="PlantDetails" component={PlantDetailsScreen}/>
               <Stack.Screen name="Plants" component={PlantsScreen}/>
               <Stack.Screen name="SignUp" component={SignUpScreen}/>
+              <Stack.Screen name="Harvest" component={HarvestScreen}/>
+              
           </Stack.Navigator>
       </NavigationContainer>
   );
