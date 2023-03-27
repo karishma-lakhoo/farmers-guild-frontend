@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity,Image } from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
 import { IStackScreenProps } from '../../src/library/StackScreenProps';
 import {Home_popup} from '../../src/components/Home_popup.js';
 //import {AddGarden_Popup} from '../../src/components/addGardenPopup.js';
 import {AddGardenPopup} from '../../src/components/addGardenPopup_Test.js';
+import gardens from '../consts/gardens.js';
 
 const HomeScreen = ({navigation}) => {
   const[isModalVisible,setisModalVisible] = useState(false);
@@ -26,15 +28,27 @@ const HomeScreen = ({navigation}) => {
     setchooseData(data);
   }
 
+  const GardenCard = ({gardens}) => {
+
+    return <View style = {styles.gardenCard}> 
+    <Text>{gardens.name}</Text>
+    </View>;
+  }
+
     
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBar}>
-        
+        <Text style={styles.header}>Your gardens</Text>
 
         
-
+        <FlatList 
+        showsVerticalScrollIndicator = {false} 
+        contentContainerStyle={{paddingBottom:80}}
+        data = {gardens} //add gardens file
+        renderItem = {({item}) => <GardenCard gardens={item}/>}
+        />
 
       
 
@@ -93,6 +107,27 @@ const HomeScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
 
+  gardenCard:{
+    height: 100,
+    elevation: 15,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    marginVertical: 10,
+    marginHorizontal: 10,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  header:{
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: 'black',
+    alignItems: 'center',
+    marginVertical: 50,
+    //justifyContent: 'center',
+  },
+
   nothingyet: {
     fontWeight: 'bold',
     fontSize: 22,
@@ -108,6 +143,7 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 150,
    // top:300,
     backgroundColor: 'white',
     borderRadius: 10,
@@ -146,12 +182,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#4CAF50',
-    justifyContent: 'center',
+    alignItems: 'center',
+   // justifyContent: 'center',
   },
    topBar: {
        backgroundColor:'013220',
       // height: 50,
-       justifyContent: 'center',
+    //   justifyContent: 'center',
        alignItems: 'center',
      },
   content: {
