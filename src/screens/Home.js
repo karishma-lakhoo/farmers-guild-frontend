@@ -60,10 +60,7 @@ const HomeScreen = ({navigation}) => {
 
       </TouchableOpacity>
 
-      <Text style = {styles.nothingyet}>
-        Nothing growing yet
-
-      </Text>
+      
 
 
         
@@ -108,9 +105,10 @@ const HomeScreen = ({navigation}) => {
 const styles = StyleSheet.create({
 
   gardenCard:{
-    height: 100,
+    height: 60,
+    width: 250,
     elevation: 15,
-    borderRadius: 10,
+    borderRadius: 50,
     backgroundColor: 'white',
     marginVertical: 10,
     marginHorizontal: 10,
@@ -129,12 +127,12 @@ const styles = StyleSheet.create({
   },
 
   nothingyet: {
-    fontWeight: 'bold',
-    fontSize: 22,
-    color: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 10,
+  //  fontWeight: 'bold',
+  //  fontSize: 22,
+  //  color: 'black',
+  //  alignItems: 'center',
+ //   justifyContent: 'center',
+ //   marginVertical: 10,
 
   },
 
@@ -143,9 +141,10 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 150,
+    marginTop: 50,
+    paddingBottom: 50,
    // top:300,
-    backgroundColor: 'white',
+    backgroundColor: '#4CAF50',
     borderRadius: 10,
   },
 
