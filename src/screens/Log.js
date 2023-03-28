@@ -1,11 +1,10 @@
-import { SafeAreaView, Text, Button, StyleSheet, View, Image } from 'react-native';
+import {SafeAreaView, Text, Button, StyleSheet, View, Image, Alert} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SelectBox from 'react-native-multi-selectbox'
 import { xorBy } from 'lodash'
 import foods from "../consts/foods";
-
 
 const GARDEN_OPTIONS = [
     {
@@ -38,24 +37,38 @@ const FILTER_OPTIONS = [
 ]
 
 const LogScreen = ({navigation}) => {
-// const LogScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+
     const [selectedTeam1, setSelectedTeam1] = useState({})
     const [selectedTeam2, setSelectedTeam2] = useState({})
+    const [data, setData] = useState([{title:"first title"}])
+
+    useEffect(() => {
+        fetch('https://localhost:8000/api/harvest_log/', {
+            method: "GET"
+        })
+
+            .then(resp => resp.json())
+            .then(data => {
+                console.log(data);
+                setData(data); // update the data state variable with the API response
+            })
+            .catch(error => console.log("error"))
+    }, []);
 
     // const { navigation, route, nameProp} = props;
     const LogCard = ({item}) =>{
         return (
             <View style={styles.LogCard}>
-            <Image source={item.image} style={{height: 60,width: 60 }}/>
+            {/*<Image source={item.image} style={{height: 60,width: 60 }}/>*/}
                 <View style={{
                     height: 100,
                     marginLeft: 20,
                     paddingVertical: 20,
                     flex: 1
                 }}>
-                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.name}</Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food}</Text>
                     <Text style={{ fontSize: 13, color: 'grey'}}>{item.weight}</Text>
-                    <Text style={{color: 'grey', fontSize: 13}}>{item.Date_harvested}</Text>
+                    <Text style={{color: 'grey', fontSize: 13}}>{item.datetime}</Text>
                 </View>
             </View>
         );
@@ -88,7 +101,7 @@ const LogScreen = ({navigation}) => {
             <FlatList
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle = {{paddingBottom: 80}}
-                data = {foods}
+                data = {data}
                 renderItem = {({item})=><LogCard item = {item}/>}
             />
         </SafeAreaView>
