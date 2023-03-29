@@ -33,7 +33,7 @@ const Harvest_popup: React.FunctionComponent<IStackScreenProps> = (props) => {
                 placeholder= {'Harvest amount'}
             />
             
-            <TouchableOpacity onPress={onHarvestPressed}  style={Btn.container}>
+            <TouchableOpacity onPress = {() => closeModal(false,'Close')}  style={Btn.container}>
                 <Text style={Btn.text}> Confirm harvest </Text>
             </TouchableOpacity>
 
