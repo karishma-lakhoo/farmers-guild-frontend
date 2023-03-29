@@ -68,11 +68,15 @@ const PlantsScreen = ({navigation}) => {
 
     return (
         <SafeAreaView style={{flex:1}}>
+            <View style={styles.head}>
+                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Harvest')}/>
+                <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Plant</Text>
+            </View>
             <View style={styles.header}>
                 <View>
                     <View style={{flexDirection: 'row'}}>
-                        <Text style={{fontSize: 28, marginTop: 30, marginLeft: 25}}>Hello,</Text>
-                        <Text style={{fontSize: 28, fontWeight:'bold', marginTop: 30, marginLeft: 10}}>SUVGAY</Text>
+                        <Text style={{fontSize: 28, marginTop: 5, marginLeft: 25}}>Hello,</Text>
+                        <Text style={{fontSize: 28, fontWeight:'bold', marginTop: 5, marginLeft: 10}}>SUVGAY</Text>
                     </View>
                     <Text style={{marginTop:5,marginLeft: 25, fontSize:22,color:COLORS.grey}}>What do you want to plant today?</Text>
                 </View>
@@ -99,6 +103,12 @@ const PlantsScreen = ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
+    head: {
+        paddingVertical: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginHorizontal: 10,
+    },
     container: {
         flex: 1,
         backgroundColor: '#fff',
