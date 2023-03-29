@@ -77,7 +77,6 @@ const LogScreen = ({navigation}) => {
     return (
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
             <View style={styles.header}>
-                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Harvest')}/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Harvest Log</Text>
             </View>
             <View style={styles.SelectBox}>
