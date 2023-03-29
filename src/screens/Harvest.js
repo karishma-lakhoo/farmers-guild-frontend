@@ -3,9 +3,24 @@ import React,{useState} from 'react';
 import Icon from "react-native-vector-icons/MaterialIcons";
 import {FlatList} from "react-native-gesture-handler";
 import foods from "../consts/foods";
+import {Harvest_popup} from "../components/HarvestPopup.js"
 
 const HarvestScreen= ({navigation}) => {
-    const [modalVisible, setModalVisible] = useState(false); // state variable for modal visibility
+
+    const[isHarvestPopupVisible,setisHarvestPopupVisible] = useState(false);
+
+    const[chooseData,setchooseData] = useState();
+
+  const changeHarvestPopupVisible = (bool) => {
+    setisHarvestPopupVisible(bool);
+  }
+
+  const setData = (data) => {
+    setchooseData(data);            //can be used to obtain info from popup
+  }
+
+
+   // const [modalVisible, setModalVisible] = useState(false); // state variable for modal visibility
 
     const LogCard = ({item}) =>{
         return (
@@ -23,7 +38,7 @@ const HarvestScreen= ({navigation}) => {
                 </View>
                 <View style={{marginRight: 20, marginHorizontal: 20}}>
                     <Text style={{fontWeight: 'bold', fontSize: 18}}>3</Text>
-                    <Pressable style={styles.actionBtn} onPress={() => setModalVisible(true)}>
+                    <Pressable style={styles.actionBtn} onPress={() => setisHarvestPopupVisible(true)}>
                         <Text style={{fontWeight: 'bold', fontSize: 18, marginHorizontal: 42, marginVertical: 37, color: 'white'}}>Harvest</Text>
                     </Pressable>
                 </View>
@@ -43,24 +58,25 @@ const HarvestScreen= ({navigation}) => {
                 data = {foods}
                 renderItem = {({item})=><LogCard item = {item}/>}
             />
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Confirm Harvest</Text>
-                        <Text style={styles.modalText}>Are you sure you want to harvest this plant?</Text>
-                        <View style={styles.modalActions}>
 
-                        </View>
-                    </View>
-                </View>
-            </Modal>
+
+
+
+        <Modal 
+        transparent = {true}
+        animationType = 'fade'
+        visible = {isHarvestPopupVisible} 
+        nRequestClose = {() => changeHarvestPopupVisible(false)}
+        >  
+
+        <Harvest_popup
+        changeHarvestPopupVisible = {changeHarvestPopupVisible}
+        setData = {setData}
+       // changeAddGardenPopupVisible = {changeAddGardenPopupVisible}
+      //  />
+        />
+
+        </Modal>
 
         </SafeAreaView>
     )
@@ -101,45 +117,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 10,
         borderBottomRightRadius: 10
     },
-    modalContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0,0,0,0.5)",
-    },
-    modalContent: {
-        backgroundColor: "white",
-        borderRadius: 10,
-        padding: 20,
-        height: 500,
-        width: 375,
-        alignItems: "center",
-    },
-    modalTitle: {
-        fontWeight: "bold",
-        fontSize: 18,
-        marginBottom: 10,
-    },
-    modalText: {
-        fontSize: 16,
-        marginBottom: 20,
-        textAlign: "center",
-    },
-    modalActions: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: "100%",
-    },
-    modalButtonCancel: {
-        backgroundColor: "#ccc",
-    },
-    modalButtonConfirm: {
-        backgroundColor: "#5DBB63",
-    },
-    modalButtonText: {
-        color: "white",
-        fontWeight: "bold",
-    },
+   
 });
 
 export default HarvestScreen;
