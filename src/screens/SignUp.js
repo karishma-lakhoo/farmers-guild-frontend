@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
             paddingHorizontal: 120,
             paddingVertical: 10,
             width: '80%',
-            placeholderTextColor: '#006400',
+          //  placeholderTextColor: '#006400',
             backgroundColor: '#808080',
             marginVertical: 5,
             marginHorizontal: 40,
