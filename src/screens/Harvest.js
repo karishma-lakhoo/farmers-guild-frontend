@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import {FlatList} from "react-native-gesture-handler";
 import foods from "../consts/foods";
 import {Harvest_popup} from "../components/HarvestPopup.js"
+import colors from "../consts/colors"
 
 const HarvestScreen= ({navigation}) => {
 
@@ -49,9 +50,12 @@ const HarvestScreen= ({navigation}) => {
     return (
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
             <View style={styles.header}>
-                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Plants')}/>
+                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Harvest Plants</Text>
             </View>
+            <Pressable onPress={() => navigation.navigate('Plants')}  style={Btn.container}>
+                <Text style={Btn.text}> Add Plants </Text>
+            </Pressable>
             <FlatList
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle = {{paddingBottom: 80}}
@@ -119,5 +123,21 @@ const styles = StyleSheet.create({
     },
    
 });
+const Btn = StyleSheet.create({
+    container : {
+        backgroundColor: colors.primary,
+        width: '100%',
+        padding: 15,
+        marginVertical: 15,
+        alignItems:'center',
+        borderRadius: 25,
+    },
+
+    text:{
+        fontWeight:'bold',
+        color:'white',
+    },
+});
+
 
 export default HarvestScreen;

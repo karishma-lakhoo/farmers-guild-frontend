@@ -82,9 +82,7 @@ const PlantsScreen = ({navigation}) => {
                     <Icon name="search" size={28}/>
                     <TextInput style={{flex:1, fontSize:18}} placeholder = "Search for Plant"/>
                 </View>
-                <View style={styles.sortBtn}>
-                    <Icon name="tune" size={28} color={COLORS.white}/>
-                </View>
+
             </View>
             <View>
                 <ListCategories/>

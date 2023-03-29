@@ -35,9 +35,7 @@ const PlantDetailsScreen= ({navigation}) => {
                             style={{fontSize: 25, fontWeight: 'bold', color: COLORS.white}}>
                             {item.name}
                         </Text>
-                        <View style={style.iconContainer}>
-                            <Icon name="favorite-border" color={COLORS.primary} size={25} />
-                        </View>
+
                     </View>
                     <Text style={style.detailsText}>
                         Lets Talk About SuvGay. This is the Gayest person you would know. He is mad in his head
@@ -46,7 +44,7 @@ const PlantDetailsScreen= ({navigation}) => {
                         help yourself before helping others.
                     </Text>
                     <View style={{marginTop: 40, marginBottom: 40}}>
-                        <SecondaryButton title="Plant It" onPress={() => navigation.navigate('Log')} />
+                        <SecondaryButton title="Plant It" onPress={() => navigation.navigate('Harvest')} />
                     </View>
                 </View>
             </ScrollView>
