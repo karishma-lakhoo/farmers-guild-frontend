@@ -43,7 +43,7 @@ const LogScreen = ({navigation}) => {
     const [data, setData] = useState([{title:"first title"}])
 
     useEffect(() => {
-        fetch('https://localhost:8000/api/harvest_log/', {
+        fetch('https://0ef1-102-219-180-122.eu.ngrok.io/api/harvest_log/', {
             method: "GET"
         })
 
@@ -67,7 +67,7 @@ const LogScreen = ({navigation}) => {
                     flex: 1
                 }}>
                     <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food}</Text>
-                    <Text style={{ fontSize: 13, color: 'grey'}}>{item.weight}</Text>
+                    <Text style={{ fontSize: 13, color: 'grey'}}>{item.weight} grams</Text>
                     <Text style={{color: 'grey', fontSize: 13}}>{item.datetime}</Text>
                 </View>
             </View>
