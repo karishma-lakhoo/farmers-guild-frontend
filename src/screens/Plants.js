@@ -74,10 +74,6 @@ const PlantsScreen = ({navigation}) => {
             </View>
             <View style={styles.header}>
                 <View>
-                    <View style={{flexDirection: 'row'}}>
-                        <Text style={{fontSize: 28, marginTop: 5, marginLeft: 25}}>Hello,</Text>
-                        <Text style={{fontSize: 28, fontWeight:'bold', marginTop: 5, marginLeft: 10}}>SUVGAY</Text>
-                    </View>
                     <Text style={{marginTop:5,marginLeft: 25, fontSize:22,color:COLORS.grey}}>What do you want to plant today?</Text>
                 </View>
             </View>
