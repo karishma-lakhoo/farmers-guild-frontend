@@ -36,12 +36,16 @@ const LoginScreen = ({navigation}) => {
                 secureTextEntry
                 placeholder= {'Password'}
             />
-            <Pressable onPress={onSignInPressed}  style={Btn.container}>
+            <Pressable onPress={() => navigation.navigate('Home')}  style={Btn.container}>
                 <Text style={Btn.text}> SIGN IN </Text>
             </Pressable>
 
             <Pressable onPress={onForgotPasswordPressed}  style={Btn2.container}>
                 <Text style={Btn2.text}> Forgot Password </Text>
+            </Pressable>
+
+            <Pressable onPress={() => navigation.navigate('SignUp')} style={Btn2.container}>
+                <Text style={Btn2.text}> Sign Up  </Text>
             </Pressable>
         </View>
     )

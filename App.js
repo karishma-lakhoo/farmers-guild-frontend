@@ -23,15 +23,15 @@ export default function App() {
       <NavigationContainer>
           <StatusBar backgroundColor={'#fff'} barStyle={'dark-content'} />
           <Stack.Navigator screenOptions={{headerShown: false}} initalRouteName={"Login"}>
-          <Stack.Screen name="Home" component={BottomNavigator}/>
               <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }}/>
+              <Stack.Screen name="Harvest" component={HarvestScreen}/>
+              <Stack.Screen name="Home" component={BottomNavigator}/>
               <Stack.Screen name="AddGarden" component={AddGardenScreen}/>
               <Stack.Screen name="Login" component={LoginScreen}/>
               <Stack.Screen name="Log" component={LogScreen}/>
               <Stack.Screen name="PlantDetails" component={PlantDetailsScreen}/>
               <Stack.Screen name="Plants" component={PlantsScreen}/>
               <Stack.Screen name="SignUp" component={SignUpScreen}/>
-              <Stack.Screen name="Harvest" component={HarvestScreen}/>
               
           </Stack.Navigator>
       </NavigationContainer>

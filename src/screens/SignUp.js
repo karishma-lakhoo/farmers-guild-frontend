@@ -55,7 +55,7 @@ const SignUpScreen= ({navigation}) => {
                 style={styles.input}
                 secureTextEntry
             />
-            <Pressable onPress={onSignInPressed}  style={Btn.container}>
+            <Pressable onPress={() => navigation.navigate('Login')}  style={Btn.container}>
                 <Text style={Btn.text}> REGISTER </Text>
             </Pressable>
 
@@ -64,7 +64,7 @@ const SignUpScreen= ({navigation}) => {
              <Text style={styles.link}> Privacy Policy</Text>
             </Text>
 
-            <Pressable onPress={onSignInPress}  style={Btn2.container}>
+            <Pressable onPress={() => navigation.navigate('Login')}  style={Btn2.container}>
                 <Text style={Btn2.text}> Have an Account? Sign in! </Text>
             </Pressable>
         </View>
