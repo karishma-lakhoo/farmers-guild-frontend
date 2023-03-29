@@ -5,7 +5,7 @@ import { createStackNavigator} from "@react-navigation/stack";
 import 'react-native-gesture-handler';
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import HomeScreen from "./src/screens/Home";
-import AddGardenScreen from "./src/screens/AddGarden";
+
 import LoginScreen from "./src/screens/Login";
 import LogScreen from "./src/screens/Log";
 import SignUpScreen from "./src/screens/SignUp";
@@ -31,7 +31,7 @@ export default function App() {
               
              
               <Stack.Screen name="Home" component={BottomNavigator}/>
-              <Stack.Screen name="AddGarden" component={AddGardenScreen}/>
+
               <Stack.Screen name="Login" component={LoginScreen}/>
               <Stack.Screen name="Log" component={LogScreen}/>
               <Stack.Screen name="PlantDetails" component={PlantDetailsScreen}/>
