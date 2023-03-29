@@ -1,8 +1,26 @@
-import { View, Text, Button, StyleSheet,TextInput, Pressable, ImageBackground } from 'react-native';
+import { View, Text, Button, StyleSheet,TextInput, Pressable, ImageBackground, Modal } from 'react-native';
 import React from 'react';
 import {useState} from 'react';
+import {Forgotpw_popup} from '../components/forgotpasswordPopup.js';
 
 const LoginScreen = ({navigation}) => {
+
+    const[isforgotpwPopupVisible,setisforgotpwPopupVisible] = useState(false);
+
+    const[chooseData,setchooseData] = useState();
+
+  const changeforgotpwPopupVisible = (bool) => {
+    setisforgotpwPopupVisible(bool);
+  }
+
+  const setData = (data) => {
+    setchooseData(data);            //can be used to obtain info from popup
+  }
+
+
+
+
+
     const {value, setValue} = useState('');
     const {username, setUsername} = useState('');
     const {password, setPassword} = useState('');
@@ -40,13 +58,33 @@ const LoginScreen = ({navigation}) => {
                 <Text style={Btn.text}> SIGN IN </Text>
             </Pressable>
 
-            <Pressable onPress={onForgotPasswordPressed}  style={Btn2.container}>
+            <Pressable 
+            onPress={() => setisforgotpwPopupVisible(true)} 
+            style={Btn2.container}
+            >
                 <Text style={Btn2.text}> Forgot Password </Text>
             </Pressable>
 
             <Pressable onPress={() => navigation.navigate('SignUp')} style={Btn2.container}>
                 <Text style={Btn2.text}> Sign Up  </Text>
             </Pressable>
+
+
+
+            <Modal 
+        transparent = {true}
+        animationType = 'fade'
+        visible = {isforgotpwPopupVisible} 
+        nRequestClose = {() => changeforgotpwPopupVisible(false)}
+        >  
+
+        <Forgotpw_popup
+        changeforgotpwPopupVisible = {changeforgotpwPopupVisible}
+        setData = {setData}
+       
+        />
+
+        </Modal>
         </View>
     )
 }
