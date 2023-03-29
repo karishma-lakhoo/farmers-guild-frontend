@@ -30,9 +30,9 @@ const HomeScreen = ({navigation}) => {
 
   const GardenCard = ({gardens}) => {
 
-    return <View style = {styles.gardenCard}> 
+    return <TouchableOpacity style = {styles.gardenCard} onPress={() => navigation.navigate('Harvest')}>
     <Text>{gardens.name}</Text>
-    </View>;
+    </TouchableOpacity>;
   }
 
     
