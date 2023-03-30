@@ -37,12 +37,9 @@ const HarvestScreen= ({navigation}) => {
                     <Text style={{ fontSize: 13, color: 'grey'}}>{item.weight}</Text>
                     <Text style={{color: 'grey', fontSize: 13}}>{item.Date_harvested}</Text>
                 </View>
-                <View style={{marginRight: 20, marginHorizontal: 20}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 18}}>3</Text>
                     <Pressable style={styles.actionBtn} onPress={() => setisHarvestPopupVisible(true)}>
-                        <Text style={{fontWeight: 'bold', fontSize: 18, marginHorizontal: 42, marginVertical: 37, color: 'white'}}>Harvest</Text>
+                        <Text style={styles.actionBtnText}>Harvest</Text>
                     </Pressable>
-                </View>
             </View>
         );
     };
@@ -111,16 +108,20 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     actionBtn: {
-        position: "absolute",
-        top: -38,
-        right: -30,
-        width: 150,
-        height: 100,
         backgroundColor: '#5DBB63',
-        marginBottom: 10,
         borderTopRightRadius: 10,
-        borderBottomRightRadius: 10
+        borderBottomRightRadius: 10,
+        height: 100,
+        width: 130,
+        marginRight:-10,
+        marginHorizontal: 20,
     },
+    actionBtnText:{
+        marginLeft: 32,
+        marginTop: 35,
+        fontWeight: "bold",
+        fontSize: 18
+    }
    
 });
 const Btn = StyleSheet.create({
