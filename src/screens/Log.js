@@ -6,6 +6,7 @@ import SelectBox from 'react-native-multi-selectbox'
 import { xorBy } from 'lodash'
 import foods from "../consts/foods";
 
+
 const GARDEN_OPTIONS = [
     {
         item: 'All Gardens',
@@ -43,7 +44,7 @@ const LogScreen = ({navigation}) => {
     const [data, setData] = useState([{title:"first title"}])
 
     useEffect(() => {
-        fetch('https://0ef1-102-219-180-122.eu.ngrok.io/api/harvest_log/', {
+        fetch('https://3048-102-219-180-122.in.ngrok.io//api/harvest_log/', {
             method: "GET"
         })
 
@@ -67,7 +68,7 @@ const LogScreen = ({navigation}) => {
                     flex: 1
                 }}>
                     <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food}</Text>
-                    <Text style={{ fontSize: 13, color: 'grey'}}>{item.weight} grams</Text>
+                    <Text style={{ fontSize: 13, color: 'grey'}}>{item.weight}</Text>
                     <Text style={{color: 'grey', fontSize: 13}}>{item.datetime}</Text>
                 </View>
             </View>
@@ -77,6 +78,7 @@ const LogScreen = ({navigation}) => {
     return (
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
             <View style={styles.header}>
+                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Plants')}/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Harvest Log</Text>
             </View>
             <View style={styles.SelectBox}>

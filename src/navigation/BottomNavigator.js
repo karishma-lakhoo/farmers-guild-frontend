@@ -16,7 +16,7 @@ const BottomNavigator = () => {
             elevation: 0,
         },
         headerShown: false, tabBarActiveTintColor: colors.primary }} >
-        <Tab.Screen name="HomeScreen" component={HomeScreen} options={{
+        <Tab.Screen name="Home" component={HomeScreen} options={{
             tabBarIcon: ({color}) => (
                 <Icon name="home-filled" color={color} size={28}/>
             ),

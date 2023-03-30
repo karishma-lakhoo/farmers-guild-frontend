@@ -9,7 +9,7 @@ import {
     Image,
     Dimensions, TouchableHighlight
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import COLORS from '../consts/colors'
 import Icon from "react-native-vector-icons/MaterialIcons";
 import {FlatList, TextInput} from "react-native-gesture-handler";
@@ -19,6 +19,21 @@ const {width} = Dimensions.get("screen");
 const cardWidth = width/2-20;
 const PlantsScreen = ({navigation}) => {
     const [selectedCategoryIndex,setSelectedCategoryIndex] = React.useState(0);
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        fetch('https://3048-102-219-180-122.in.ngrok.io//api/food/', {
+            method: "GET"
+        })
+
+            .then(resp => resp.json())
+            .then(data => {
+                console.log(data);
+                setData(data); // update the data state variable with the API response
+            })
+            .catch(error => console.log("error"))
+    }, []);
+
 
     const ListCategories = () => {
         return(
@@ -52,12 +67,13 @@ const PlantsScreen = ({navigation}) => {
             <TouchableHighlight underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => navigation.navigate('PlantDetails')}>
                 <View style={styles.card}>
                     <View style={{alignItems:'center', top:-40}}>
-                        <Image source={food.image} style={{height:120, width:120}}/>
+                        {/*<Image source={food.image} style={{height:120, width:120}}/>*/}
                     </View>
                     <View style={{marginHorizontal:20}}>
-                        <Text style={{fontSize:18, fontWeight:'bold'}}>{food.name}</Text>
+                        <Text style={{fontSize:16, fontWeight:'bold', marginTop:10}}>{food.food}</Text>
+                        <Text style={{fontSize:13, color:COLORS.grey}}>{food.supertype}</Text>
                     </View>
-                    <View style={styles.plantat}>
+                    <View style={styles.plantAt}>
                         <Icon name="add" size={20} color={COLORS.white}/>
                     </View>
                 </View>
@@ -90,7 +106,7 @@ const PlantsScreen = ({navigation}) => {
             <FlatList
             showsVerticalScrollIndicator={false}
             numColumns={2}
-            data={foods}
+            data={data}
             renderItem={({item})=><Card food={item}/>}
             />
 
@@ -161,7 +177,10 @@ const styles = StyleSheet.create({
         elevation: 13,
         backgroundColor: COLORS.white,
     },
-    plantat:{
+    plantAt:{
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
         height: 30,
         width: 30,
         borderRadius: 20,

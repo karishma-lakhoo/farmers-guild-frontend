@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity,Image } from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import { IStackScreenProps } from '../../src/library/StackScreenProps';
 import {Home_popup} from '../../src/components/Home_popup.js';
 //import {AddGarden_Popup} from '../../src/components/addGardenPopup.js';
 import {AddGardenPopup} from '../../src/components/addGardenPopup_Test.js';
@@ -35,7 +34,7 @@ const HomeScreen = ({navigation}) => {
     </TouchableOpacity>;
   }
 
-    
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -43,8 +42,8 @@ const HomeScreen = ({navigation}) => {
         <Text style={styles.header}>Your gardens</Text>
 
         
-        <FlatList 
-        showsVerticalScrollIndicator = {false} 
+        <FlatList
+        showsVerticalScrollIndicator = {false}
         contentContainerStyle={{paddingBottom:80}}
         data = {gardens} //add gardens file
         renderItem = {({item}) => <GardenCard gardens={item}/>}
@@ -60,7 +59,7 @@ const HomeScreen = ({navigation}) => {
 
       </TouchableOpacity>
 
-      
+
 
 
         
