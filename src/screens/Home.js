@@ -1,14 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity,Image } from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {Home_popup} from '../../src/components/Home_popup.js';
 import {AddGardenPopup} from '../../src/components/addGardenPopup_Test.js';
 import gardens from '../consts/gardens.js';
-
+import { MyContext} from "../../App";
 
 const HomeScreen = ({navigation}) => {
   const[isModalVisible,setisModalVisible] = useState(false);
   const [value, setValue] = useState([])
+  const { myState, setMyState } = useContext(MyContext);
 
   useEffect(() => {
     fetch('https://77ed-102-219-180-122.eu.ngrok.io/api/garden/', {
@@ -41,7 +42,10 @@ const HomeScreen = ({navigation}) => {
 
   const GardenCard = ({gardens}) => {
 
-    return <TouchableOpacity style = {styles.gardenCard} onPress={() => navigation.navigate('Harvest')}>
+    return <TouchableOpacity style = {styles.gardenCard} onPress={() => {
+      setMyState(gardens);
+      navigation.navigate('Harvest');
+    }}>
       <Text>{gardens.name}</Text>
     </TouchableOpacity>;
   }
