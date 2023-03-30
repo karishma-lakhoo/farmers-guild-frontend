@@ -9,7 +9,8 @@ import {
     Image,
     Dimensions, TouchableHighlight
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
+import { MyContext} from "../../App";
 import COLORS from '../consts/colors'
 import Icon from "react-native-vector-icons/MaterialIcons";
 import {FlatList, TextInput} from "react-native-gesture-handler";
@@ -20,9 +21,10 @@ const cardWidth = width/2-20;
 const PlantsScreen = ({navigation}) => {
     const [selectedCategoryIndex,setSelectedCategoryIndex] = React.useState(0);
     const [data, setData] = useState([])
+    const {myState, setMyState} = useContext(MyContext);
 
     useEffect(() => {
-        fetch('https://c315-102-219-180-122.eu.ngrok.io/api/food/', {
+        fetch('https://77ed-102-219-180-122.eu.ngrok.io/api/food/', {
             method: "GET"
         })
 
@@ -64,7 +66,10 @@ const PlantsScreen = ({navigation}) => {
 
     const Card = ({food}) =>{
         return(
-            <TouchableHighlight underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => navigation.navigate('PlantDetails')}>
+            <TouchableHighlight underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => {
+                setMyState(food.food);
+                navigation.navigate('PlantDetails')
+            }}>
                 <View style={styles.card}>
                     <View style={{alignItems:'center', top:-40}}>
                         {/*<Image source={food.image} style={{height:120, width:120}}/>*/}

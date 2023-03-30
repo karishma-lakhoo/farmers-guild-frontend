@@ -1,5 +1,5 @@
 import {View, Text, Button, StyleSheet, SafeAreaView, ScrollView, Image} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import COLORS from "../consts/colors";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import log from "./Log";
@@ -8,6 +8,21 @@ import {tags as item} from "react-native-svg/src/xml";
 import plants from "./Plants";
 
 const PlantDetailsScreen= ({navigation}) => {
+    const [data, setData] = useState([{}])
+
+    useEffect(() => {
+        fetch('https://c315-102-219-180-122.eu.ngrok.io/api/food/', {
+            method: "GET"
+        })
+
+            .then(resp => resp.json())
+            .then(data => {
+                console.log(data);
+                setData(data); // update the data state variable with the API response
+            })
+            .catch(error => console.log("error"))
+    }, []);
+
 
     return (
         <SafeAreaView style={{backgroundColor: COLORS.white}}>
@@ -37,6 +52,7 @@ const PlantDetailsScreen= ({navigation}) => {
                         </Text>
 
                     </View>
+                    {/*display all the plant information here*/}
                     <Text style={style.detailsText}>
                         Lets Talk About SuvGay. This is the Gayest person you would know. He is mad in his head
                         and talks at night in sleep with her gay people. Just to let you know if u see this guys just avoid him or he might
@@ -44,6 +60,7 @@ const PlantDetailsScreen= ({navigation}) => {
                         help yourself before helping others.
                     </Text>
                     <View style={{marginTop: 40, marginBottom: 40}}>
+                        {/*do a post request here*/}
                         <SecondaryButton title="Plant It" onPress={() => navigation.navigate('Harvest')} />
                     </View>
                 </View>

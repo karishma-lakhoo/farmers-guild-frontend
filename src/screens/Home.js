@@ -11,7 +11,7 @@ const HomeScreen = ({navigation}) => {
   const [value, setValue] = useState([])
 
   useEffect(() => {
-    fetch('https://c315-102-219-180-122.eu.ngrok.io/api/garden/', {
+    fetch('https://77ed-102-219-180-122.eu.ngrok.io/api/garden/', {
       method: "GET"
     })
 

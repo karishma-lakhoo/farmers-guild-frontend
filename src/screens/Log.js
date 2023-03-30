@@ -44,7 +44,7 @@ const LogScreen = ({navigation}) => {
     const [data, setData] = useState([{title:"first title"}])
 
     useEffect(() => {
-        fetch('https://c315-102-219-180-122.eu.ngrok.io/api/harvest_log/', {
+        fetch('https://77ed-102-219-180-122.eu.ngrok.io/api/harvest_log/', {
             method: "GET"
         })
 
