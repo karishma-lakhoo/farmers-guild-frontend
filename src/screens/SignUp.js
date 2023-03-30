@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {useState} from 'react';
+import COLORS from "../consts/colors";
 
 const SignUpScreen= ({navigation}) => {
     const { value, setValue} = useState();
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
             paddingVertical: 10,
             width: '80%',
           //  placeholderTextColor: '#006400',
-            backgroundColor: '#808080',
+            backgroundColor: COLORS.light,
             marginVertical: 5,
             marginHorizontal: 40,
 

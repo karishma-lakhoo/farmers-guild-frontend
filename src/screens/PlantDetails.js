@@ -1,17 +1,20 @@
 import {View, Text, Button, StyleSheet, SafeAreaView, ScrollView, Image} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import COLORS from "../consts/colors";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import log from "./Log";
 import {SecondaryButton} from "../consts/button";
 import {tags as item} from "react-native-svg/src/xml";
 import plants from "./Plants";
+import {MyContext} from "../../App";
 
 const PlantDetailsScreen= ({navigation}) => {
     const [data, setData] = useState([{}])
+    const { myState } = useContext(MyContext);
+
 
     useEffect(() => {
-        fetch('https://c315-102-219-180-122.eu.ngrok.io/api/food/', {
+        fetch('https://77ed-102-219-180-122.eu.ngrok.io/api/food/', {
             method: "GET"
         })
 
@@ -53,12 +56,24 @@ const PlantDetailsScreen= ({navigation}) => {
 
                     </View>
                     {/*display all the plant information here*/}
-                    <Text style={style.detailsText}>
-                        Lets Talk About SuvGay. This is the Gayest person you would know. He is mad in his head
-                        and talks at night in sleep with her gay people. Just to let you know if u see this guys just avoid him or he might
-                        end up giving u kisses. Keep your children away from him and yourself. As they say in planes
-                        help yourself before helping others.
-                    </Text>
+                    {/*<Text style={style.detailsText}>*/}
+                    {/*    Lets Talk About SuvGay. This is the Gayest person you would know. He is mad in his head*/}
+                    {/*    and talks at night in sleep with her gay people. Just to let you know if u see this guys just avoid him or he might*/}
+                    {/*    end up giving u kisses. Keep your children away from him and yourself. As they say in planes*/}
+                    {/*    help yourself before helping others.*/}
+                    {/*</Text>*/}
+                    <Text style={style.detailsText}>Name: {myState.food}</Text>
+                    <Text style={style.detailsText}>Sow: {myState.sow}</Text>
+                    <Text style={style.detailsText}>Plant Season: {myState.plant}</Text>
+                    <Text style={style.detailsText}>Harvest Season: {myState.harvest_info}</Text>
+                    <Text style={style.detailsText}>Sun: {myState.sun}</Text>
+                    <Text style={style.detailsText}>pH: {myState.ph}</Text>
+                    <Text style={style.detailsText}>Subtype: {myState.subtype}</Text>
+                    <Text style={style.detailsText}>Type: {myState.type}</Text>
+                    <Text style={style.detailsText}>Supertype: {myState.supertype}</Text>
+                    <Text style={style.detailsText}>Description: {myState.description}</Text>
+                    <Text style={style.detailsText}>Current state: {myState.food}</Text>
+                    <Text style={style.detailsText}>Current state: {myState.food}</Text>
                     <View style={{marginTop: 40, marginBottom: 40}}>
                         {/*do a post request here*/}
                         <SecondaryButton title="Plant It" onPress={() => navigation.navigate('Harvest')} />

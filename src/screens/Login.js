@@ -2,6 +2,7 @@ import { View, Text, Button, StyleSheet,TextInput, Pressable, ImageBackground, M
 import React, {useEffect} from 'react';
 import {useState} from 'react';
 import {Forgotpw_popup} from '../components/forgotpasswordPopup.js';
+import COLORS from "../consts/colors";
 
 const LoginScreen = ({navigation}) => {
 
@@ -9,25 +10,41 @@ const LoginScreen = ({navigation}) => {
 
     const[chooseData,setchooseData] = useState();
 
-  const changeforgotpwPopupVisible = (bool) => {
-    setisforgotpwPopupVisible(bool);
-  }
+    const changeforgotpwPopupVisible = (bool) => {
+        setisforgotpwPopupVisible(bool);
+    }
 
-  const setData = (data) => {
-    setchooseData(data);            //can be used to obtain info from popup
-  }
-
-
-
-
+    const setData = (data) => {
+        setchooseData(data);            //can be used to obtain info from popup
+    }
 
     const {value, setValue} = useState('');
     const {username, setUsername} = useState('');
     const {password, setPassword} = useState('');
 
-
     const onSignInPressed = () => {
-        console.warn("Sign in");
+        fetch('https://77ed-102-219-180-122.eu.ngrok.io/api/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    navigation.navigate('Home');
+                } else {
+                    alert('Invalid username or password.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            });
     };
 
     const onForgotPasswordPressed = () => {
@@ -39,29 +56,25 @@ const LoginScreen = ({navigation}) => {
             <Text  style={styles.title}> Welcome Back! </Text>
 
             <TextInput
-                value ={value}
-                onChangeText = {setValue}
+                onChangeText = {setUsername}
                 value = {username}
-                setValue = {setUsername}
                 style={styles.input}
                 placeholder= {'Username'}
             />
             <TextInput
-                value ={value}
-                onChangeText = {setValue}
+                onChangeText = {setPassword}
                 value = {username}
-                setValue = {setPassword}
                 style={styles.input}
                 secureTextEntry
                 placeholder= {'Password'}
             />
-            <Pressable onPress={() => navigation.navigate('Home')}  style={Btn.container}>
+            <Pressable onPress={() => onSignInPressed()}  style={Btn.container}>
                 <Text style={Btn.text}> SIGN IN </Text>
             </Pressable>
 
-            <Pressable 
-            onPress={() => setisforgotpwPopupVisible(true)} 
-            style={Btn2.container}
+            <Pressable
+                onPress={() => setisforgotpwPopupVisible(true)}
+                style={Btn2.container}
             >
                 <Text style={Btn2.text}> Forgot Password </Text>
             </Pressable>
@@ -72,20 +85,20 @@ const LoginScreen = ({navigation}) => {
 
 
 
-            <Modal 
-        transparent = {true}
-        animationType = 'fade'
-        visible = {isforgotpwPopupVisible} 
-        nRequestClose = {() => changeforgotpwPopupVisible(false)}
-        >  
+            <Modal
+                transparent = {true}
+                animationType = 'fade'
+                visible = {isforgotpwPopupVisible}
+                nRequestClose = {() => changeforgotpwPopupVisible(false)}
+            >
 
-        <Forgotpw_popup
-        changeforgotpwPopupVisible = {changeforgotpwPopupVisible}
-        setData = {setData}
-       
-        />
+                <Forgotpw_popup
+                    changeforgotpwPopupVisible = {changeforgotpwPopupVisible}
+                    setData = {setData}
 
-        </Modal>
+                />
+
+            </Modal>
         </View>
     )
 }
@@ -111,7 +124,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 120,
         paddingVertical: 10,
         width: '80%',
-        backgroundColor: '#808080',
+        backgroundColor: COLORS.light,
         marginVertical: 8,
         marginHorizontal: 40,
     },
@@ -126,11 +139,11 @@ const styles = StyleSheet.create({
     },
 
     header:{
-    height: '100%',
-    width: '100%',
-    alignItems: 'center',
-    flexDirection:'row',
-    justifyContent: 'center'
+        height: '100%',
+        width: '100%',
+        alignItems: 'center',
+        flexDirection:'row',
+        justifyContent: 'center'
 
     },
 });

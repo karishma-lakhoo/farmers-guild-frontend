@@ -1,16 +1,35 @@
 import {View, Text, Button, StyleSheet, Image, SafeAreaView, Pressable, Modal} from 'react-native';
-import React,{useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Icon from "react-native-vector-icons/MaterialIcons";
 import {FlatList} from "react-native-gesture-handler";
 import foods from "../consts/foods";
 import {Harvest_popup} from "../components/HarvestPopup.js"
 import colors from "../consts/colors"
+import { MyContext } from "../../App";
 
-const HarvestScreen= ({navigation}) => {
+//we need to get all the plants_in_garden for shellyrishma only
+
+const HarvestScreen = ({navigation}) => {
+    const { myState } = useContext(MyContext);
 
     const[isHarvestPopupVisible,setIsHarvestPopupVisible] = useState(false);
 
     const[chooseData,setChooseData] = useState();
+    const [value, setValue] = useState([])
+
+    useEffect(() => {
+        fetch('https://77ed-102-219-180-122.eu.ngrok.io/api/plants_in_garden/', {
+            method: "GET"
+        })
+
+            .then(resp => resp.json())
+            .then(value => {
+                console.log(value);
+                setValue(value); // update the data state variable with the API response
+            })
+            .catch(error => console.log("error"))
+    }, []);
+
 
   const changeHarvestPopupVisible = (bool) => {
     setIsHarvestPopupVisible(bool);
@@ -20,27 +39,24 @@ const HarvestScreen= ({navigation}) => {
     setChooseData(data);            //can be used to obtain info from popup
   }
 
-
    // const [modalVisible, setModalVisible] = useState(false); // state variable for modal visibility
 
     const LogCard = ({item}) =>{
         return (
             <View style={styles.LogCard}>
-                <Image source={item.image} style={{height: 60,width: 60 }}/>
+                {/*<Image source={item.image} style={{height: 60,width: 60 }}/>*/}
                 <View style={{
                     height: 100,
                     marginLeft: 20,
                     paddingVertical: 20,
                     flex: 1
                 }}>
-                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.name}</Text>
-                    <Text style={{ fontSize: 13, color: 'grey'}}>{item.weight}</Text>
-                    <Text style={{color: 'grey', fontSize: 13}}>{item.Date_harvested}</Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food}</Text>
+                    <Text style={{ fontSize: 13, color: 'grey'}}>{item.garden}</Text>
                 </View>
                 <View style={{marginRight: 20, marginHorizontal: 20}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 18}}>3</Text>
                     <Pressable style={styles.actionBtn} onPress={() => setIsHarvestPopupVisible(true)}>
-                        <Text style={{fontWeight: 'bold', fontSize: 18, marginHorizontal: 42, marginVertical: 37, color: 'white'}}>Harvest</Text>
+                        <Text style={styles.actionBtnText}>Harvest</Text>
                     </Pressable>
                 </View>
             </View>
@@ -59,7 +75,7 @@ const HarvestScreen= ({navigation}) => {
             <FlatList
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle = {{paddingBottom: 80}}
-                data = {foods}
+                data = {value}
                 renderItem = {({item})=><LogCard item = {item}/>}
             />
 
@@ -111,16 +127,23 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     actionBtn: {
-        position: "absolute",
-        top: -38,
-        right: -30,
-        width: 150,
         height: 100,
+        width: 130,
+        marginRight:-10,
+        marginHorizontal: 20,
         backgroundColor: '#5DBB63',
         marginBottom: 10,
         borderTopRightRadius: 10,
         borderBottomRightRadius: 10
     },
+    actionBtnText:{
+        marginLeft: 30,
+        marginTop: 38,
+        fontWeight: "bold",
+        fontSize: 18,
+        color: 'white',
+
+    }
    
 });
 const Btn = StyleSheet.create({

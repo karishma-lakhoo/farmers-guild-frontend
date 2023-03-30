@@ -67,7 +67,7 @@ const PlantsScreen = ({navigation}) => {
     const Card = ({food}) =>{
         return(
             <TouchableHighlight underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => {
-                setMyState(food.food);
+                setMyState(food);
                 navigation.navigate('PlantDetails')
             }}>
                 <View style={styles.card}>
