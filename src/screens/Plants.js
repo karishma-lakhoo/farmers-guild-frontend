@@ -24,7 +24,7 @@ const PlantsScreen = ({navigation}) => {
     const {myState, setMyState} = useContext(MyContext);
 
     useEffect(() => {
-        fetch('https://77ed-102-219-180-122.eu.ngrok.io/api/food/', {
+        fetch('https://7e0c-102-219-180-122.eu.ngrok.io/api/food/', {
             method: "GET"
         })
 

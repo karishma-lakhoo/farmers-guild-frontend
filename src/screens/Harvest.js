@@ -6,6 +6,7 @@ import foods from "../consts/foods";
 import {Harvest_popup} from "../components/HarvestPopup.js"
 import colors from "../consts/colors"
 import { MyContext } from "../../App";
+import axios from "axios";
 
 //we need to get all the plants_in_garden for shellyrishma only
 
@@ -18,7 +19,7 @@ const HarvestScreen = ({navigation}) => {
     const [value, setValue] = useState([])
 
     useEffect(() => {
-        fetch('https://77ed-102-219-180-122.eu.ngrok.io/api/plants_in_garden/', {
+        fetch('https://7e0c-102-219-180-122.eu.ngrok.io/api/plants_in_garden/', {
             method: "GET"
         })
 

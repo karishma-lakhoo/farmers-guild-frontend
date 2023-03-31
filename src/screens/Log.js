@@ -5,7 +5,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import SelectBox from 'react-native-multi-selectbox'
 import { xorBy } from 'lodash'
 import foods from "../consts/foods";
-
+import axios from 'axios';
+import { api_url } from "../consts/api_url";
 
 const GARDEN_OPTIONS = [
     {
@@ -36,7 +37,12 @@ const FILTER_OPTIONS = [
         id: 'ON',
     },
 ]
+const url = api_url + '/harvest_log/';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExODM1NjA3LCJpYXQiOjE2ODAyOTk2MDcsImp0aSI6ImMyZDQyYTdkNmI5MzRlNTZhNWQ1NzZiNWMwNTdhM2YzIiwidXNlcl9pZCI6IjliNzUxNDMzLTlhZWUtNDU5My04ZjJjLWU5M2MzM2Q2Yjg0NiJ9.5Sep2XrKNjMho1B9J4DNViMAjULnq_fuJs-IXPXrKB4'
 
+const headers = {
+    'Authorization': `Bearer ${token}`,
+};
 const LogScreen = ({navigation}) => {
 
     const [selectedTeam1, setSelectedTeam1] = useState({})
@@ -44,8 +50,9 @@ const LogScreen = ({navigation}) => {
     const [data, setData] = useState([{title:"first title"}])
 
     useEffect(() => {
-        fetch('https://77ed-102-219-180-122.eu.ngrok.io/api/harvest_log/', {
-            method: "GET"
+        fetch(url, {
+            method: "GET",
+            headers: headers
         })
 
             .then(resp => resp.json())

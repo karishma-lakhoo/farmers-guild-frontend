@@ -5,15 +5,21 @@ import {Home_popup} from '../../src/components/Home_popup.js';
 import {AddGardenPopup} from '../../src/components/addGardenPopup_Test.js';
 import gardens from '../consts/gardens.js';
 import { MyContext} from "../../App";
+import {api_url} from "../consts/api_url";
 
 const HomeScreen = ({navigation}) => {
   const[isModalVisible,setisModalVisible] = useState(false);
   const [value, setValue] = useState([])
   const { myState, setMyState } = useContext(MyContext);
 
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExODM1NjA3LCJpYXQiOjE2ODAyOTk2MDcsImp0aSI6ImMyZDQyYTdkNmI5MzRlNTZhNWQ1NzZiNWMwNTdhM2YzIiwidXNlcl9pZCI6IjliNzUxNDMzLTlhZWUtNDU5My04ZjJjLWU5M2MzM2Q2Yjg0NiJ9.5Sep2XrKNjMho1B9J4DNViMAjULnq_fuJs-IXPXrKB4'
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+  };
   useEffect(() => {
-    fetch('https://77ed-102-219-180-122.eu.ngrok.io/api/garden/', {
-      method: "GET"
+    fetch('https://7e0c-102-219-180-122.eu.ngrok.io/api/garden/', {
+      method: "GET",
+      headers: headers
     })
 
         .then(resp => resp.json())
