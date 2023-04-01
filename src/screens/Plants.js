@@ -16,25 +16,53 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import {FlatList, TextInput} from "react-native-gesture-handler";
 import categories from "../consts/categories";
 import foods from "../consts/foods";
+import {api_url} from "../consts/api_url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const {width} = Dimensions.get("screen");
 const cardWidth = width/2-20;
+const url = api_url + '/food/';
+
 const PlantsScreen = ({navigation}) => {
     const [selectedCategoryIndex,setSelectedCategoryIndex] = React.useState(0);
-    const [data, setData] = useState([])
     const {myState, setMyState} = useContext(MyContext);
+    const [data, setData] = useState([])
+    const [token, setToken] = useState('');
 
     useEffect(() => {
-        fetch('https://7e0c-102-219-180-122.eu.ngrok.io/api/food/', {
-            method: "GET"
-        })
+        const getToken = async () => {
+            try {
+                const value = await AsyncStorage.getItem('token');
+                if (value !== null) {
+                    setToken(value);
+                }
+            } catch (error) {
+                console.log('Error retrieving data:', error);
+            }
+        };
+        getToken();
+    }, []);
 
+    useEffect(() => {
+        if (!token) {
+            return;
+        }
+
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+        };
+
+        fetch(url, {
+            method: "GET",
+            headers: headers
+        })
             .then(resp => resp.json())
             .then(data => {
                 console.log(data);
                 setData(data); // update the data state variable with the API response
             })
             .catch(error => console.log("error"))
-    }, []);
+    }, [token]);
 
 
     const ListCategories = () => {
