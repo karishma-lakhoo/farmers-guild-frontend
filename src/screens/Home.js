@@ -6,34 +6,53 @@ import {AddGardenPopup} from '../../src/components/addGardenPopup_Test.js';
 import gardens from '../consts/gardens.js';
 import { MyContext} from "../../App";
 import {api_url} from "../consts/api_url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+const url = api_url + '/garden/';
 
 const HomeScreen = ({navigation}) => {
-  const[isModalVisible,setisModalVisible] = useState(false);
-  const [value, setValue] = useState([])
+  const[isModalVisible,setIsModalVisible] = useState(false);
+  const [info, setInfo] = useState([])
   const { myState, setMyState } = useContext(MyContext);
+  const[chooseData,setChooseData] = useState();
+  const [token, setToken] = useState('');
 
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExODM1NjA3LCJpYXQiOjE2ODAyOTk2MDcsImp0aSI6ImMyZDQyYTdkNmI5MzRlNTZhNWQ1NzZiNWMwNTdhM2YzIiwidXNlcl9pZCI6IjliNzUxNDMzLTlhZWUtNDU5My04ZjJjLWU5M2MzM2Q2Yjg0NiJ9.5Sep2XrKNjMho1B9J4DNViMAjULnq_fuJs-IXPXrKB4'
-  const headers = {
-    'Authorization': `Bearer ${token}`,
-  };
   useEffect(() => {
-    fetch('https://7e0c-102-219-180-122.eu.ngrok.io/api/garden/', {
+    const getToken = async () => {
+      try {
+        const value = await AsyncStorage.getItem('token');
+        if (value !== null) {
+          setToken(value);
+        }
+      } catch (error) {
+        console.log('Error retrieving data:', error);
+      }
+    };
+    getToken();
+  }, []);
+
+  useEffect(() => {
+    if (!token) {
+      return;
+    }
+
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+    };
+
+    fetch(url, {
       method: "GET",
       headers: headers
     })
-
         .then(resp => resp.json())
-        .then(value => {
-          console.log(value);
-          setValue(value); // update the data state variable with the API response
+        .then(info => {
+          console.log(info);
+          setInfo(info); // update the data state variable with the API response
         })
         .catch(error => console.log("error"))
-  }, []);
-
-  const[chooseData,setchooseData] = useState();
+  }, [token]);
 
   const changeModalVisible = (bool) => {
-    setisModalVisible(bool);
+    setIsModalVisible(bool);
   }
 
   const[isAddGardenPopupVisible,setisAddGardenPopupVisible] = useState(false);
@@ -43,7 +62,7 @@ const HomeScreen = ({navigation}) => {
   }
 
   const setData = (data) => {
-    setchooseData(data);
+    setChooseData(data);
   }
 
   const GardenCard = ({gardens}) => {
@@ -64,7 +83,7 @@ const HomeScreen = ({navigation}) => {
           <FlatList
               showsVerticalScrollIndicator = {false}
               contentContainerStyle={{paddingBottom:80}}
-              data = {value} //add gardens file
+              data = {info} //add gardens file
               renderItem = {({item}) => <GardenCard gardens={item}/>}
           />
 
