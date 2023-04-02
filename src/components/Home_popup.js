@@ -19,17 +19,14 @@ const Home_popup = (props) => {
     return (
         <TouchableOpacity
         disabled = {true}
-        style = {styles.container}
-        >
+        style = {styles.container}>
 
             <View style = {styles.popup}>
 
             <TouchableOpacity style = {styles.addGardenButton}
-                onPress = {() => closeModal(false,'Add Garden',true)}
-                >
+                onPress = {() => closeModal(false,'Add Garden',true)}>
                     <Text style = {styles.addGardenText}>
                         Add garden</Text>
-
 
                 </TouchableOpacity>
 
@@ -38,8 +35,7 @@ const Home_popup = (props) => {
             <View styles = {styles.buttonsView}>
 
                 <TouchableOpacity style = {styles.touchableOpacity}
-                onPress = {() => closeModal(false,'Close',false)}
-                >
+                onPress = {() => closeModal(false,'Close',false)}>
                     <Text
                     style = {styles.text}>
                     Close

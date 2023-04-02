@@ -1,19 +1,20 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity,Image } from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {Home_popup} from '../../src/components/Home_popup.js';
-import {AddGardenPopup} from '../../src/components/addGardenPopup_Test.js';
+import {Home_popup} from '../components/Home_popup';
+import {AddGardenPopup} from '../components/addGardenPopup_Test';
 import gardens from '../consts/gardens.js';
 import { MyContext} from "../../App";
 import {api_url} from "../consts/api_url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const url = api_url + '/garden/';
 
+
+const url = api_url + '/garden/';
 const HomeScreen = ({navigation}) => {
   const[isModalVisible,setIsModalVisible] = useState(false);
-  const [info, setInfo] = useState([])
   const { myState, setMyState } = useContext(MyContext);
   const[chooseData,setChooseData] = useState();
+  const [info, setInfo] = useState([])
   const [token, setToken] = useState('');
 
   useEffect(() => {
@@ -22,6 +23,7 @@ const HomeScreen = ({navigation}) => {
         const value = await AsyncStorage.getItem('token');
         if (value !== null) {
           setToken(value);
+
         }
       } catch (error) {
         console.log('Error retrieving data:', error);
@@ -38,6 +40,7 @@ const HomeScreen = ({navigation}) => {
     const headers = {
       'Authorization': `Bearer ${token}`,
     };
+    console.log(token)
 
     fetch(url, {
       method: "GET",
@@ -89,8 +92,7 @@ const HomeScreen = ({navigation}) => {
 
           <TouchableOpacity
               style = {styles.add}
-              onPress = {() => changeModalVisible(true)}
-          >
+              onPress = {() => changeModalVisible(true)}>
             <Image source = {require('../images/plus_sign.png')}/>
 
           </TouchableOpacity>
@@ -98,8 +100,7 @@ const HomeScreen = ({navigation}) => {
               transparent = {true} //addGardenButton
               animationType = 'fade'
               visible = {isModalVisible}
-              nRequestClose = {() => changeModalVisible(false)}
-          >
+              nRequestClose = {() => changeModalVisible(false)}>
             <Home_popup
                 changeModalVisible = {changeModalVisible}
                 setData = {setData}

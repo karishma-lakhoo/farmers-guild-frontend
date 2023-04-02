@@ -1,41 +1,63 @@
 import { View, Text, Button, StyleSheet,TextInput, Pressable, ImageBackground, TouchableOpacity } from 'react-native';
 import React, {useState} from 'react';
 
-import {IStackScreenProps} from "../../src/library/StackScreenProps"
+import {api_url} from "../consts/api_url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+const url = api_url + '/garden/';
+const AddGardenPopup = (navigation) => {
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [gardenName, setGardenName] = useState('');
 
-const AddGardenPopup: React.FunctionComponent<IStackScreenProps> = (props) => {
-    const { navigation, route, nameProp,value, setValue, placeholder, secureTextEntry, onPress, text} = props;
+    const onAddGardenPressed = async (gardenName) => {
+        console.log(gardenName)
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const headers = {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            };
+            const body = JSON.stringify({ name: gardenName });
+            console.log(body)
+            const response = await fetch(api_url + '/garden/', {
+                method: 'POST',
+                headers: headers,
+                body: body,
+            });
 
-    const {garden_name, set_garden_name} = useState('');
-
-    const onAddGardenPressed = () => {
-   //     console.warn("Enter a garden name");
+            if (response.status === 201) {
+                // The garden was added successfully, so close the modal
+                setIsModalVisible(false);
+            } else {
+                // There was an error adding the garden, so display an error message
+                console.error('Error adding garden:', response.status);
+            }
+        } catch (error) {
+            // There was an error retrieving the token, so display an error message
+            console.error('Error retrieving token:', error);
+        }
     };
 
-   
+
+
 
     return (
         <View style={styles.container}>
             <Text  style={styles.title}> Enter garden name below </Text>
 
             <TextInput
-                value ={value}
-                onChangeText = {setValue}
-                value = {garden_name}
-                setValue = {set_garden_name}
+                onChangeText={text => setGardenName(text)}
+                value={gardenName}
                 style={styles.input}
-                placeholder= {'Garden Name'}
-            />
-            
-            <TouchableOpacity onPress={onAddGardenPressed}  style={Btn.container}>
+                placeholder= {'Garden Name'}/>
+
+
+            <TouchableOpacity onPress={() => onAddGardenPressed(gardenName)} style={Btn.container}>
                 <Text style={Btn.text}> Add Garden </Text>
             </TouchableOpacity>
 
             <TouchableOpacity style = {styles.touchableOpacity}
-                onPress = {() => closeModal(false,'Close',false)}
-                >
-                    <Text
-                    style = {styles.text}>
+                onPress = {() => closeModal(false,'Close',false)}>
+                    <Text style = {styles.text}>
                     Close
                     </Text>
 
