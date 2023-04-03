@@ -5,8 +5,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import SelectBox from 'react-native-multi-selectbox'
 import { xorBy } from 'lodash'
 import foods from "../consts/foods";
-import axios from 'axios';
 import { api_url } from "../consts/api_url";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GARDEN_OPTIONS = [
     {
@@ -38,18 +38,38 @@ const FILTER_OPTIONS = [
     },
 ]
 const url = api_url + '/harvest_log/';
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExODM1NjA3LCJpYXQiOjE2ODAyOTk2MDcsImp0aSI6ImMyZDQyYTdkNmI5MzRlNTZhNWQ1NzZiNWMwNTdhM2YzIiwidXNlcl9pZCI6IjliNzUxNDMzLTlhZWUtNDU5My04ZjJjLWU5M2MzM2Q2Yjg0NiJ9.5Sep2XrKNjMho1B9J4DNViMAjULnq_fuJs-IXPXrKB4'
 
-const headers = {
-    'Authorization': `Bearer ${token}`,
-};
 const LogScreen = ({navigation}) => {
 
     const [selectedTeam1, setSelectedTeam1] = useState({})
     const [selectedTeam2, setSelectedTeam2] = useState({})
-    const [data, setData] = useState([{title:"first title"}])
+    const [data, setData] = useState([{}])
+    const [token, setToken] = useState('');
 
     useEffect(() => {
+        const getToken = async () => {
+            try {
+                const value = await AsyncStorage.getItem('token');
+                if (value !== null) {
+                    setToken(value);
+                }
+            } catch (error) {
+                console.log('Error retrieving data:', error);
+            }
+        };
+        getToken();
+    }, []);
+
+    useEffect(() => {
+        if (!token) {
+            return;
+        }
+
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+        };
+
+
         fetch(url, {
             method: "GET",
             headers: headers
@@ -61,7 +81,7 @@ const LogScreen = ({navigation}) => {
                 setData(data); // update the data state variable with the API response
             })
             .catch(error => console.log("error"))
-    }, []);
+    }, [token]);
 
     // const { navigation, route, nameProp} = props;
     const LogCard = ({item}) =>{
@@ -75,7 +95,7 @@ const LogScreen = ({navigation}) => {
                     flex: 1
                 }}>
                     <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food}</Text>
-                    <Text style={{ fontSize: 13, color: 'grey'}}>{item.weight}</Text>
+                    <Text style={{ fontSize: 13, color: 'grey'}}>{item.weight + " g"}</Text>
                     <Text style={{color: 'grey', fontSize: 13}}>{item.datetime}</Text>
                 </View>
             </View>
@@ -85,8 +105,7 @@ const LogScreen = ({navigation}) => {
     return (
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
             <View style={styles.header}>
-                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Plants')}/>
-                <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Harvest Log</Text>
+                <Text style = {{fontSize: 20, fontWeight: 'bold', marginLeft:20}}>Harvest Log</Text>
             </View>
             <View style={styles.SelectBox}>
                 <SelectBox

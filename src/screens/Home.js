@@ -111,8 +111,7 @@ const HomeScreen = ({navigation}) => {
               transparent = {true} //addGardenButton
               animationType = 'fade'
               visible = {isAddGardenPopupVisible} //changeAddGardenPopupVisible
-              nRequestClose = {() => changeAddGardenPopupVisible(false)}
-          >
+              nRequestClose = {() => changeAddGardenPopupVisible(false)}>
 
             <AddGardenPopup/>
           </Modal>

@@ -20,8 +20,6 @@ const LoginScreen = ({navigation}) => {
     const setData = (data) => {
         setchooseData(data);            //can be used to obtain info from popup
     }
-
-    const {value, setValue} = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -34,8 +32,8 @@ const LoginScreen = ({navigation}) => {
         setPassword(text);
     };
     const onSignInPressed = () => {
-        console.log(username);
-        console.log(password);
+        // console.log(username);
+        // console.log(password);
         fetch(api_url + '/token/', {
             method: 'POST',
             headers: {
@@ -57,6 +55,7 @@ const LoginScreen = ({navigation}) => {
             })
             .then((data) => {
                 AsyncStorage.setItem('token', data.access)
+
                     .then(() => {
                         navigation.navigate('Home');
                     })
@@ -69,11 +68,11 @@ const LoginScreen = ({navigation}) => {
                 console.error('Error:', error);
                 alert(error.message);
             });
+
     };
-
-
     const onForgotPasswordPressed = () => {
         console.warn("Forgot Password");
+
     };
 
     return (
