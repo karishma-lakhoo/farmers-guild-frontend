@@ -65,6 +65,7 @@ const HarvestScreen = ({navigation}) => {
     setChooseData(data);            //can be used to obtain info from popup
   }
 
+
    // const [modalVisible, setModalVisible] = useState(false); // state variable for modal visibility
 
     const LogCard = ({item}) =>{
@@ -80,8 +81,11 @@ const HarvestScreen = ({navigation}) => {
                     <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food}</Text>
                     <Text style={{ fontSize: 13, color: 'grey'}}>{item.garden}</Text>
                 </View>
-                <View style={{marginRight: 20, marginHorizontal: 20}}>
-                    <Pressable style={styles.actionBtn} onPress={() => setIsHarvestPopupVisible(true)}>
+                <View style={{position: 'absolute', top: 0, right: 0}}>
+                    <Pressable
+                        style={styles.actionBtn}
+                        onPress={() => setIsHarvestPopupVisible(true)}
+                    >
                         <Text style={styles.actionBtnText}>Harvest</Text>
                     </Pressable>
                 </View>
@@ -139,34 +143,42 @@ const styles = StyleSheet.create({
     },
     LogCard: {
         height: 100,
-        elevation: 15,
         borderRadius: 10,
         backgroundColor: 'white',
         marginVertical: 10,
         marginHorizontal: 20,
         paddingHorizontal: 10,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.15,
+        shadowRadius: 4,
+        elevation: 8, // This is for Android
     },
     actionBtn: {
         height: 100,
         width: 130,
-        marginRight:-10,
-        marginHorizontal: 20,
         backgroundColor: '#5DBB63',
         marginBottom: 10,
         borderTopRightRadius: 10,
-        borderBottomRightRadius: 10
+        borderBottomRightRadius: 10,
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        marginRight: 0,
+        paddingRight: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1,
     },
     actionBtnText:{
-        marginLeft: 30,
-        marginTop: 38,
+        marginLeft: 10,
         fontWeight: "bold",
         fontSize: 18,
         color: 'white',
+    },
 
-    }
-   
 });
 const Btn = StyleSheet.create({
     container : {
