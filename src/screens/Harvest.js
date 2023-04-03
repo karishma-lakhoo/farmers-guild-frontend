@@ -7,32 +7,57 @@ import {Harvest_popup} from "../components/HarvestPopup.js"
 import colors from "../consts/colors"
 import { MyContext } from "../../App";
 import axios from "axios";
+import { api_url } from "../consts/api_url";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//we need to get all the plants_in_garden for shellyrishma only
-
+//we need to get all the plants_in_garden for shellyrishma only - have to change views to allow for filters
+const url = api_url + '/plants_in_garden/';
 const HarvestScreen = ({navigation}) => {
     const { myState } = useContext(MyContext);
 
     const[isHarvestPopupVisible,setIsHarvestPopupVisible] = useState(false);
 
     const[chooseData,setChooseData] = useState();
-    const [value, setValue] = useState([])
+    const [info, setInfo] = useState([])
+    const [token, setToken] = useState('');
 
     useEffect(() => {
-        fetch('https://7e0c-102-219-180-122.eu.ngrok.io/api/plants_in_garden/', {
-            method: "GET"
-        })
-
-            .then(resp => resp.json())
-            .then(value => {
-                console.log(value);
-                setValue(value); // update the data state variable with the API response
-            })
-            .catch(error => console.log("error"))
+        const getToken = async () => {
+            try {
+                const value = await AsyncStorage.getItem('token');
+                if (value !== null) {
+                    setToken(value);
+                }
+            } catch (error) {
+                console.log('Error retrieving data:', error);
+            }
+        };
+        getToken();
     }, []);
 
+    useEffect(() => {
+        if (!token) {
+            return;
+        }
 
-  const changeHarvestPopupVisible = (bool) => {
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+        };
+
+        fetch(url, {
+            method: "GET",
+            headers: headers
+        })
+            .then(resp => resp.json())
+            .then(info => {
+                console.log(info);
+                setInfo(info); // update the data state variable with the API response
+            })
+            .catch(error => console.log("error"))
+    }, [token]);
+
+
+    const changeHarvestPopupVisible = (bool) => {
     setIsHarvestPopupVisible(bool);
   }
 
@@ -76,7 +101,7 @@ const HarvestScreen = ({navigation}) => {
             <FlatList
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle = {{paddingBottom: 80}}
-                data = {value}
+                data = {info}
                 renderItem = {({item})=><LogCard item = {item}/>}
             />
 
@@ -87,15 +112,11 @@ const HarvestScreen = ({navigation}) => {
         transparent = {true}
         animationType = 'fade'
         visible = {isHarvestPopupVisible} 
-        nRequestClose = {() => changeHarvestPopupVisible(false)}
-        >  
+        nRequestClose = {() => changeHarvestPopupVisible(false)}>
 
         <Harvest_popup
         changeHarvestPopupVisible = {changeHarvestPopupVisible}
-        setData = {setData}
-       // changeAddGardenPopupVisible = {changeAddGardenPopupVisible}
-      //  />
-        />
+        setData = {setData}/>
 
         </Modal>
 
