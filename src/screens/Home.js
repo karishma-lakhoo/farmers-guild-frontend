@@ -68,6 +68,27 @@ const HomeScreen = ({navigation}) => {
     setChooseData(data);
   }
 
+  const fetchGardens = async () => {
+    if (!token) {
+      return;
+    }
+
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: headers,
+      });
+      const data = await response.json();
+      setInfo(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const GardenCard = ({gardens}) => {
 
     return <TouchableOpacity style = {styles.gardenCard} onPress={() => {
@@ -105,6 +126,7 @@ const HomeScreen = ({navigation}) => {
                 changeModalVisible = {changeModalVisible}
                 setData = {setData}
                 changeAddGardenPopupVisible = {changeAddGardenPopupVisible}
+                fetchGardens={fetchGardens}
             />
           </Modal>
           <Modal
