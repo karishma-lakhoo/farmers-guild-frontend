@@ -8,7 +8,8 @@ const url = api_url + '/plants_in_garden/';
 const HarvestWeightScreen = ({navigation}) => {
     const [harvestWeight, setHarvestWeight] = useState('');
     const { myState } = useContext(MyContext);
-    const onAddHarvest = async (harvestFood, harvestWeightInput, ) => {
+
+    const onAddHarvest = async (harvestWeight, ) => {
         try {
             const token = await AsyncStorage.getItem('token');
             const headers = {
@@ -17,7 +18,7 @@ const HarvestWeightScreen = ({navigation}) => {
             };
             const body = JSON.stringify({
                 food: myState.food.id,
-                weight: harvestWeightInput,
+                weight: harvestWeight,
                 garden: myState.garden.id,});
             console.log(body)
             const response = await fetch(api_url + '/harvest_log/', {
@@ -42,6 +43,7 @@ const HarvestWeightScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
             <Text  style={styles.title}> Enter amount in grams </Text>
+            {/*<Text  style={styles.title}> hasfas </Text>*/}
 
             <TextInput
                 value = {harvestWeight}
@@ -52,7 +54,7 @@ const HarvestWeightScreen = ({navigation}) => {
             <TouchableOpacity
                 onPress = {() => {
                     navigation.navigate('Harvest');
-                    // onAddHarvest(myState.food, harvestWeight);
+                    onAddHarvest(harvestWeight);
                     console.log(myState.food.id)
                     // console.log(harvestWeight)
                     // console.log(myState.garden.id)
