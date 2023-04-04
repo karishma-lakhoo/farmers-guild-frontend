@@ -79,7 +79,8 @@ const HarvestScreen = ({navigation}) => {
                     paddingVertical: 20,
                     flex: 1
                 }}>
-                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food.food}</Text>
+                    {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>{item.id}</Text>*/}
+                    {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food.id}</Text>*/}
                     <Text style={{ fontSize: 13, color: 'grey'}}>{item.garden.name}</Text>
                 </View>
                 <View style={{position: 'absolute', top: 0, right: 0}}>

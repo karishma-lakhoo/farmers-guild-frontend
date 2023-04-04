@@ -8,10 +8,30 @@ import {tags as item} from "react-native-svg/src/xml";
 import plants from "./Plants";
 import {MyContext} from "../../App";
 
+
 const PlantDetailsScreen= ({navigation}) => {
     const [data, setData] = useState([{}])
     const { myState } = useContext(MyContext);
 
+
+    const onPlantPressed = () => {
+        fetch('https://7e0c-102-219-180-122.eu.ngrok.io/api/plants_in_garden/', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "food": myState.id,
+                "garden": myState.garden,
+            })
+        })
+            .then(resp => resp.json())
+            .then(data => {
+                console.log(data);
+                setData(data); // update the data state variable with the API response
+            })
+            .catch(error => console.log("error"))
+    }
 
     useEffect(() => {
         fetch('https://7e0c-102-219-180-122.eu.ngrok.io/api/food/', {
@@ -76,7 +96,11 @@ const PlantDetailsScreen= ({navigation}) => {
                     <Text style={style.detailsText}>Current state: {myState.food}</Text>
                     <View style={{marginTop: 40, marginBottom: 40}}>
                         {/*do a post request here*/}
-                        <SecondaryButton title="Plant It" onPress={() => navigation.navigate('Harvest')} />
+                        <SecondaryButton title="Plant It" onPress={() => {
+                            onPlantPressed();
+                            navigation.navigate('Harvest');
+                        }
+                            } />
                     </View>
                 </View>
             </ScrollView>

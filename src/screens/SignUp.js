@@ -5,81 +5,123 @@ import {
     StyleSheet,
     TextInput,
     Pressable,
-     useWindowDimensions,
-     Scrollview,
+    useWindowDimensions,
+    ScrollView,
 } from 'react-native';
-import React from 'react';
-import {useState} from 'react';
-import COLORS from "../consts/colors";
+import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {api_url} from "../consts/api_url";
+import { api_url } from '../consts/api_url';
+import COLORS from '../consts/colors';
 
-const SignUpScreen= ({navigation}) => {
-    const { value, setValue} = useState();
-
-
+const SignUpScreen = ({ navigation }) => {
     const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordRepeat, setPasswordRepeat] = useState('');
+    const [email, setEmail] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
 
-    const onSignInPressed = () => {
-        console.warn("Create Account");
+    const handleUsernameChange = (text) => {
+        setUsername(text);
     };
 
-    const onSignInPress = () => {
-        console.warn("onSignInPress");
+    const handlePasswordChange = (text) => {
+        setPassword(text);
+    };
+
+    const handleEmailChange = (text) => {
+        setEmail(text);
+    };
+
+    const handleFirstNameChange = (text) => {
+        setFirstName(text);
+    };
+
+    const handleLastNameChange = (text) => {
+        setLastName(text);
+    };
+
+    const onSignUpPressed = () => {
+        fetch(api_url + '/user/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+                email: email,
+                first_name: firstName,
+                last_name: lastName,
+            }),
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json();
+                } else if (response.status === 400) {
+                    throw new Error('Invalid username or password');
+                } else {
+                    throw new Error('An error occurred');
+                    console.log(response.status);
+                }
+            })
+            .then((data) => {
+                AsyncStorage.setItem('token', data.access);
+                AsyncStorage.setItem('username', username)
+                    .then(() => {
+                        navigation.navigate('Home');
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please try again later.');
+                    });
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert(error.message);
+            });
     };
 
     return (
         <View style={styles.container}>
             <Text  style={styles.title}> Create Account </Text>
             <TextInput
-                onChangeText = {setValue}
-                placeholder= {'Username'}
-                value = {username}
-                setValue = {setUsername}
+                onChangeText={handleUsernameChange}
+                value={username}
                 style={styles.input}
-            />
+                placeholder="Username"/>
             <TextInput
-                onChangeText = {setValue}
-                placeholder= {'Email'}
-                value = {username}
-                setValue = {setPassword}
+                onChangeText={handleEmailChange}
+                value={email}
                 style={styles.input}
-            />
+                placeholder="Email"/>
             <TextInput
-                onChangeText = {setValue}
-                placeholder= {'Password'}
-                value = {username}
-                setValue = {setPassword}
+                onChangeText={handlePasswordChange}
+                value={password}
                 style={styles.input}
-                secureTextEntry
-            />
+                placeholder="Password"
+                secureTextEntry={true}/>
             <TextInput
-                onChangeText = {setValue}
-                placeholder= {'First Name'}
-                value = {username}
-                setValue = {setPassword}
+                onChangeText={handleFirstNameChange}
+                value={firstName}
                 style={styles.input}
-                secureTextEntry
-            />
+                placeholder="First Name"/>
             <TextInput
-                onChangeText = {setValue}
-                placeholder= {'Last Name'}
-                value = {username}
-                setValue = {setPassword}
+                onChangeText={handleLastNameChange}
+                value={lastName}
                 style={styles.input}
-                secureTextEntry
-            />
+                placeholder="Last Name"/>
 
-            <Pressable onPress={() => navigation.navigate('Login')}  style={Btn.container}>
+            <Pressable
+                onPress={() => {
+                    navigation.navigate('Login');
+                    onSignUpPressed();
+                }}  style={Btn.container}>
                 <Text style={Btn.text}> REGISTER </Text>
             </Pressable>
 
             <Text style={styles.text}>
-             By registering, you confirm our <Text style={styles.link}>Terms of Use</Text> and
-             <Text style={styles.link}> Privacy Policy</Text>
+                By registering, you confirm our <Text style={styles.link}>Terms of Use</Text> and
+                <Text style={styles.link}> Privacy Policy</Text>
             </Text>
 
             <Pressable onPress={() => navigation.navigate('Login')}  style={Btn2.container}>
@@ -88,7 +130,6 @@ const SignUpScreen= ({navigation}) => {
         </View>
     )
 }
-
 const styles = StyleSheet.create({
     root: {
         alignItems: 'center',
@@ -103,8 +144,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         color: COLORS.primary,
-        marginVertical: 120,
-        marginHorizontal : 100,
+        marginVertical: 100,
+        marginHorizontal : 130,
     },
 
     text: {
@@ -118,18 +159,18 @@ const styles = StyleSheet.create({
 
     },
 
-        input : {
-            borderRadius: 100,
-            paddingHorizontal: 120,
-            paddingVertical: 10,
-            width: '100%',
-          //  placeholderTextColor: '#006400',
-            backgroundColor: COLORS.light,
-            marginVertical: 5,
-            marginHorizontal: 10,
+    input : {
+        borderRadius: 100,
+        paddingHorizontal: 120,
+        paddingVertical: 10,
+        width: '90%',
+        //  placeholderTextColor: '#006400',
+        backgroundColor: COLORS.light,
+        marginVertical: 5,
+        marginHorizontal: 10,
 
 
-        },
+    },
 });
 
 const Btn = StyleSheet.create({

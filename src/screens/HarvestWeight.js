@@ -16,8 +16,9 @@ const HarvestWeightScreen = ({navigation}) => {
                 'Content-Type': 'application/json',
             };
             const body = JSON.stringify({
-                food: harvestFood,
-                weight: harvestWeightInput,});
+                food: myState.food.id,
+                weight: harvestWeightInput,
+                garden: myState.garden.id,});
             console.log(body)
             const response = await fetch(api_url + '/harvest_log/', {
                 method: 'POST',
@@ -51,10 +52,10 @@ const HarvestWeightScreen = ({navigation}) => {
             <TouchableOpacity
                 onPress = {() => {
                     navigation.navigate('Harvest');
-                    onAddHarvest(myState.food, harvestWeight);
-                    console.log(myState.food)
-                    console.log(harvestWeight)
-                    console.log(myState.garden)
+                    // onAddHarvest(myState.food, harvestWeight);
+                    console.log(myState.food.id)
+                    // console.log(harvestWeight)
+                    // console.log(myState.garden.id)
                     }}
                 style={Btn.container}>
                 <Text style={Btn.text}> Confirm harvest </Text>
@@ -114,8 +115,6 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         color:'white',
     },
-
-
 });
 
 const Btn = StyleSheet.create({
