@@ -55,6 +55,7 @@ const LogScreen = ({navigation}) => {
                 }
             } catch (error) {
                 console.log('Error retrieving data:', error);
+                console.log()
             }
         };
         getToken();
@@ -94,13 +95,27 @@ const LogScreen = ({navigation}) => {
                     paddingVertical: 20,
                     flex: 1
                 }}>
-                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item?.plants_in_garden?.food?.food}</Text>
-                    {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>{item.plants_in_garden.food.food}</Text>*/}
-                    {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>{item?.plants_in_garden.food.id}</Text>*/}
-                    <Text style={{fontWeight: 'grey', fontSize: 16}}>{item?.garden}</Text>
-                    <Text style={{ fontSize: 13, color: 'grey'}}>{item?.weight + " g"}</Text>
-                    <Text style={{color: 'grey', fontSize: 13}}>{item?.datetime}</Text>
+                    { data &&
+                        <>
+                            <Text style={{fontWeight: 'bold', fontSize: 16}}>
+                                {item?.plants_in_garden?.food?.food ?? "No food found"}
+                            </Text>
+                            {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
+                            {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
+                            {/*</Text>*/}
+                            <Text style={{fontWeight: 'grey', fontSize: 16}}>
+                                {item?.garden ?? "No garden found"}
+                            </Text>
+                            <Text style={{ fontSize: 13, color: 'grey'}}>
+                                {item?.weight ? item.weight + " g" : "No weight found"}
+                            </Text>
+                            <Text style={{color: 'grey', fontSize: 13}}>
+                                {item?.datetime ?? "No datetime found"}
+                            </Text>
+                        </>
+                    }
                 </View>
+
             </View>
         );
     };

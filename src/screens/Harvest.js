@@ -79,9 +79,23 @@ const HarvestScreen = ({navigation}) => {
                     paddingVertical: 20,
                     flex: 1
                 }}>
+                    { info &&
+                        <>
+                            <Text style={{fontWeight: 'bold', fontSize: 16}}>
+                                {item?.food?.food ?? "No food found"}
+                            </Text>
+                            {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
+                            {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
+                            {/*</Text>*/}
+                            <Text style={{fontWeight: 'grey', fontSize: 13}}>
+                                {item?.garden?.name ?? "No garden found"}
+                            </Text>
+                        </>
+                    }
+
                     {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>{item.id}</Text>*/}
                     {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food.id}</Text>*/}
-                    <Text style={{ fontSize: 13, color: 'grey'}}>{item.garden.name}</Text>
+                    {/*<Text style={{ fontSize: 13, color: 'grey'}}>{item.garden.name}</Text>*/}
                 </View>
                 <View style={{position: 'absolute', top: 0, right: 0}}>
                     <Pressable
