@@ -98,13 +98,13 @@ const LogScreen = ({navigation}) => {
                     { data &&
                         <>
                             <Text style={{fontWeight: 'bold', fontSize: 16}}>
-                                {item?.plants_in_garden?.food?.food ?? "No food found"}
+                                {item?.plants_in_garden?.food_detail?.food ?? "No food found"}
                             </Text>
                             {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
                             {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
                             {/*</Text>*/}
                             <Text style={{fontWeight: 'grey', fontSize: 16}}>
-                                {item?.garden ?? "No garden found"}
+                                {item?.plants_in_garden?.garden_detail?.name ?? "No garden found"}
                             </Text>
                             <Text style={{ fontSize: 13, color: 'grey'}}>
                                 {item?.weight ? item.weight + " g" : "No weight found"}

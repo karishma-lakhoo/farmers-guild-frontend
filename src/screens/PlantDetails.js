@@ -7,45 +7,47 @@ import {SecondaryButton} from "../consts/button";
 import {tags as item} from "react-native-svg/src/xml";
 import plants from "./Plants";
 import {MyContext} from "../../App";
+import {api_url} from "../consts/api_url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+const url = api_url + '/plants_in_garden/';
+
 
 
 const PlantDetailsScreen= ({navigation}) => {
     const [data, setData] = useState([{}])
     const { myState } = useContext(MyContext);
+    console.log(myState.id)
+    // console.log(myState.garden)
 
+    const onAddPlant = async (harvestWeight) => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const headers = {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            };
+            const body = JSON.stringify({
+                food: myState.id,
+                garden: myState.garden.id,});
+            console.log(body)
+            const response = await fetch(api_url + '/harvest_log/', {
+                method: 'POST',
+                headers: headers,
+                body: body,
+            });
 
-    const onPlantPressed = () => {
-        fetch('https://7e0c-102-219-180-122.eu.ngrok.io/api/plants_in_garden/', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "food": myState.id,
-                "garden": myState.garden,
-            })
-        })
-            .then(resp => resp.json())
-            .then(data => {
-                console.log(data);
-                setData(data); // update the data state variable with the API response
-            })
-            .catch(error => console.log("error"))
-    }
-
-    useEffect(() => {
-        fetch('https://7e0c-102-219-180-122.eu.ngrok.io/api/food/', {
-            method: "GET"
-        })
-
-            .then(resp => resp.json())
-            .then(data => {
-                console.log(data);
-                setData(data); // update the data state variable with the API response
-            })
-            .catch(error => console.log("error"))
-    }, []);
-
+            if (response.status === 201) {
+                // The garden was added successfully, so close the modal
+                console.log('yey')
+            } else {
+                // There was an error adding the garden, so display an error message
+                console.error('Error adding food:', response.status);
+            }
+        } catch (error) {
+            // There was an error retrieving the token, so display an error message
+            console.error('Error retrieving food:', error);
+        }
+    };
 
     return (
         <SafeAreaView style={{backgroundColor: COLORS.white}}>

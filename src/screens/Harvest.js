@@ -82,13 +82,13 @@ const HarvestScreen = ({navigation}) => {
                     { info &&
                         <>
                             <Text style={{fontWeight: 'bold', fontSize: 16}}>
-                                {item?.food?.food ?? "No food found"}
+                                {item?.food_detail?.food ?? "No food found"}
                             </Text>
                             {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
                             {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
                             {/*</Text>*/}
                             <Text style={{fontWeight: 'grey', fontSize: 13}}>
-                                {item?.garden?.name ?? "No garden found"}
+                                {item?.garden_detail?.name ?? "No garden found"}
                             </Text>
                         </>
                     }

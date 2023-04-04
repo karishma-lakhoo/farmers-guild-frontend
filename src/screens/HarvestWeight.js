@@ -9,7 +9,7 @@ const HarvestWeightScreen = ({navigation}) => {
     const [harvestWeight, setHarvestWeight] = useState('');
     const { myState } = useContext(MyContext);
 
-    const onAddHarvest = async (harvestWeight, ) => {
+    const onAddHarvest = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
             const headers = {
@@ -18,7 +18,6 @@ const HarvestWeightScreen = ({navigation}) => {
             };
             const body = JSON.stringify({
                 food: myState.food.id,
-                weight: harvestWeight,
                 garden: myState.garden.id,});
             console.log(body)
             const response = await fetch(api_url + '/harvest_log/', {
