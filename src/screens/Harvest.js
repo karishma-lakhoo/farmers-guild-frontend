@@ -93,8 +93,8 @@ const HarvestScreen = ({navigation}) => {
                         </>
                     }
 
-                    {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>{item.id}</Text>*/}
-                    {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food.id}</Text>*/}
+                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.id}</Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food.id}</Text>
                     {/*<Text style={{ fontSize: 13, color: 'grey'}}>{item.garden.name}</Text>*/}
                 </View>
                 <View style={{position: 'absolute', top: 0, right: 0}}>
@@ -195,8 +195,9 @@ const styles = StyleSheet.create({
 const Btn = StyleSheet.create({
     container : {
         backgroundColor: colors.primary,
-        width: '100%',
+        width: '90%',
         padding: 15,
+        marginLeft: 20,
         marginVertical: 15,
         alignItems:'center',
         borderRadius: 25,

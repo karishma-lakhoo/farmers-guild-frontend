@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {api_url} from "../consts/api_url";
+import COLORS from "../consts/colors";
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT_popup = 200;
@@ -95,28 +96,35 @@ const styles = StyleSheet.create({
         // backgroundColor: 'brown',
     },
     popup: {
-        height: HEIGHT_popup,
+        height: HEIGHT_popup + 80,
         paddingTop: 20,
         backgroundColor: '#D3D3D3',
         borderRadius: 50,
         paddingLeft: 30,
-        width: WIDTH - 80,
+        width: WIDTH -80,
     },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
+    input : {
+        borderRadius: 100,
+        paddingVertical: 10,
+        width: '80%',
+        backgroundColor: '#fff',
+        marginVertical: 25,
+        marginHorizontal: 15,
+        textAlign: 'center',
+
     },
     submitButton: {
-        backgroundColor: '#008CBA',
+        backgroundColor: COLORS.primary,
         borderRadius: 10,
         padding: 10,
-        margin: 10,
+        marginRight: 30,
+        justifyContent: 'center',
     },
     submitButtonText: {
         color: 'white',
         textAlign: 'center',
+        fontSize: 20,
+        fontWeight: 'bold',
     },
     text: {
         margin: 5,
@@ -128,11 +136,11 @@ const styles = StyleSheet.create({
         width: 120,
         height: 40,
         justifyContent: 'center',
-        top: 70,
+        marginVertical: 25,
         left: '25%',
         alignItems: 'center',
-        backgroundColor: 'green',
-        borderRadius: 50,
+        backgroundColor: COLORS.primary,
+        borderRadius: 10,
     },
 });
 

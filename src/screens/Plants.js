@@ -9,8 +9,7 @@ import {
     Image,
     Dimensions, TouchableHighlight
 } from 'react-native';
-import React, {useEffect, useState, useContext} from 'react';
-import { MyContext} from "../../App";
+import React, {useContext, useEffect, useState} from 'react';
 import COLORS from '../consts/colors'
 import Icon from "react-native-vector-icons/MaterialIcons";
 import {FlatList, TextInput} from "react-native-gesture-handler";
@@ -18,6 +17,7 @@ import categories from "../consts/categories";
 import foods from "../consts/foods";
 import {api_url} from "../consts/api_url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {MyContext} from "../../App";
 
 const {width} = Dimensions.get("screen");
 const cardWidth = width/2-20;
