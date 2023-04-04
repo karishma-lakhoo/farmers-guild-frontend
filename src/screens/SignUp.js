@@ -11,14 +11,17 @@ import {
 import React from 'react';
 import {useState} from 'react';
 import COLORS from "../consts/colors";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {api_url} from "../consts/api_url";
 
 const SignUpScreen= ({navigation}) => {
     const { value, setValue} = useState();
 
-    const {username, setUsername} = useState('');
-    const {email, setEmail} = useState('');
-    const {password, setPassword} = useState('');
-    const {passwordRepeat, setPasswordRepeat} = useState('');
+
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordRepeat, setPasswordRepeat] = useState('');
 
     const onSignInPressed = () => {
         console.warn("Create Account");
@@ -32,7 +35,6 @@ const SignUpScreen= ({navigation}) => {
         <View style={styles.container}>
             <Text  style={styles.title}> Create Account </Text>
             <TextInput
-                value ={value}
                 onChangeText = {setValue}
                 placeholder= {'Username'}
                 value = {username}
@@ -40,7 +42,6 @@ const SignUpScreen= ({navigation}) => {
                 style={styles.input}
             />
             <TextInput
-                value ={value}
                 onChangeText = {setValue}
                 placeholder= {'Email'}
                 value = {username}
@@ -48,7 +49,6 @@ const SignUpScreen= ({navigation}) => {
                 style={styles.input}
             />
             <TextInput
-                value ={value}
                 onChangeText = {setValue}
                 placeholder= {'Password'}
                 value = {username}
@@ -56,6 +56,23 @@ const SignUpScreen= ({navigation}) => {
                 style={styles.input}
                 secureTextEntry
             />
+            <TextInput
+                onChangeText = {setValue}
+                placeholder= {'First Name'}
+                value = {username}
+                setValue = {setPassword}
+                style={styles.input}
+                secureTextEntry
+            />
+            <TextInput
+                onChangeText = {setValue}
+                placeholder= {'Last Name'}
+                value = {username}
+                setValue = {setPassword}
+                style={styles.input}
+                secureTextEntry
+            />
+
             <Pressable onPress={() => navigation.navigate('Login')}  style={Btn.container}>
                 <Text style={Btn.text}> REGISTER </Text>
             </Pressable>
@@ -85,7 +102,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         alignItems: 'center',
         justifyContent: 'center',
-        color: '#006400',
+        color: COLORS.primary,
         marginVertical: 120,
         marginHorizontal : 100,
     },
@@ -105,11 +122,11 @@ const styles = StyleSheet.create({
             borderRadius: 100,
             paddingHorizontal: 120,
             paddingVertical: 10,
-            width: '80%',
+            width: '100%',
           //  placeholderTextColor: '#006400',
             backgroundColor: COLORS.light,
             marginVertical: 5,
-            marginHorizontal: 40,
+            marginHorizontal: 10,
 
 
         },
@@ -117,7 +134,7 @@ const styles = StyleSheet.create({
 
 const Btn = StyleSheet.create({
     container : {
-        backgroundColor: '#006400',
+        backgroundColor: COLORS.primary,
         width: '100%',
         padding: 15,
         marginVertical: 35,
@@ -133,7 +150,7 @@ const Btn = StyleSheet.create({
 
 const Btn2 = StyleSheet.create({
     container : {
-        width: '100%',
+        width: '90%',
         padding: 15,
         marginVertical: 5,
         alignItems:'center',

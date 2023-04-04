@@ -1,55 +1,52 @@
 import { View, Text, Button, StyleSheet,TextInput, Pressable, ImageBackground, TouchableOpacity } from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
+import {api_url} from "../consts/api_url";
 
-import {IStackScreenProps} from "../../src/library/StackScreenProps"
+const url = api_url + '/garden/';
+const Harvest_popup = (navigation) => {
+    const [value, setValue] = useState('');
+    const [harvestName, setHarvestName] = useState('');
+    // const { HarvestFood } = myState.food
+    const [token, setToken] = useState('');
 
-const Harvest_popup: React.FunctionComponent<IStackScreenProps> = (props) => {
-    const { navigation, route, nameProp,value, setValue, placeholder, secureTextEntry, onPress, text} = props;
 
-    const {Harvest_name, set_Harvest_name} = useState('');
 
     const onHarvestPressed = () => {
-   //     console.warn("Enter a garden name");
+        console.log(harvestName);
+        //     console.warn("Enter a garden name");
+
     };
 
 
-    closeModal = (bool,data) => {
-        props.changeHarvestPopupVisible(bool);
-        props.setData(data);
+    const closeModal = (bool,data) => {
+        value.changeHarvestPopupVisible(bool);
+        value.setData(data);
       //  props.changeAddGardenPopupVisible(bool2);
     }
-   
+
 
     return (
         <View style={styles.container}>
             <Text  style={styles.title}> Enter amount in grams </Text>
 
             <TextInput
-                value ={value}
-                onChangeText = {setValue}
-                value = {Harvest_name}
-                setValue = {set_Harvest_name}
+                value = {harvestName}
+                onChangeText = {setHarvestName}
                 style={styles.input}
-                placeholder= {'Harvest amount'}
-            />
-            
-            <TouchableOpacity onPress = {() => closeModal(false,'Close')}  style={Btn.container}>
+                placeholder= {'Harvest amount'}/>
+
+            <TouchableOpacity onPress = {() => {
+                closeModal(false,'Close');
+                onHarvestPressed()}}  style={Btn.container}>
                 <Text style={Btn.text}> Confirm harvest </Text>
             </TouchableOpacity>
 
             <TouchableOpacity style = {styles.touchableOpacity}
-                onPress = {() => closeModal(false,'Close')}
-                >
-                    <Text
-                    style = {styles.text}>
+                onPress = {() => closeModal(false,'Close')}>
+                    <Text style = {styles.text}>
                     Close
                     </Text>
-
-
                 </TouchableOpacity>
-
-
-            
         </View>
     )
 }
@@ -82,7 +79,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         marginVertical: 25,
         textAlign: 'center',
-       
+
     },
 
     title:{
@@ -93,14 +90,14 @@ const styles = StyleSheet.create({
       //  top: 10,
         marginVertical: 50,
         textAlign: 'center',
-       
+
     },
     text:{
         fontWeight:'bold',
         color:'white',
     },
 
-    
+
 });
 
 const Btn = StyleSheet.create({

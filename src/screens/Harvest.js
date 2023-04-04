@@ -13,13 +13,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //we need to get all the plants_in_garden for shellyrishma only - have to change views to allow for filters
 const url = api_url + '/plants_in_garden/';
 const HarvestScreen = ({navigation}) => {
-    const { myState } = useContext(MyContext);
-
     const[isHarvestPopupVisible,setIsHarvestPopupVisible] = useState(false);
-
+    const [harvestName, setHarvestName] = useState('');
     const[chooseData,setChooseData] = useState();
     const [info, setInfo] = useState([])
     const [token, setToken] = useState('');
+    const {myState, setMyState} = useContext(MyContext);
+
 
     useEffect(() => {
         const getToken = async () => {
@@ -57,35 +57,36 @@ const HarvestScreen = ({navigation}) => {
     }, [token]);
 
 
-    const changeHarvestPopupVisible = (bool) => {
-    setIsHarvestPopupVisible(bool);
-  }
+    const changeHarvestPopupVisible = (bool, plant) => {
+        setIsHarvestPopupVisible(bool);
+        console.log(plant)
 
-  const setData = (data) => {
-    setChooseData(data);            //can be used to obtain info from popup
-  }
+    }
+
+    const setData = (data) => {
+        setChooseData(data);            //can be used to obtain info from popup
+    }
 
 
-   // const [modalVisible, setModalVisible] = useState(false); // state variable for modal visibility
+    // const [modalVisible, setModalVisible] = useState(false); // state variable for modal visibility
 
     const LogCard = ({item}) =>{
         return (
             <View style={styles.LogCard}>
-                {/*<Image source={item.image} style={{height: 60,width: 60 }}/>*/}
                 <View style={{
                     height: 100,
                     marginLeft: 20,
                     paddingVertical: 20,
                     flex: 1
                 }}>
-                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food}</Text>
-                    <Text style={{ fontSize: 13, color: 'grey'}}>{item.garden}</Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food.food}</Text>
+                    <Text style={{ fontSize: 13, color: 'grey'}}>{item.garden.name}</Text>
                 </View>
                 <View style={{position: 'absolute', top: 0, right: 0}}>
                     <Pressable
                         style={styles.actionBtn}
-                        onPress={() => setIsHarvestPopupVisible(true)}
-                    >
+                        onPress={() => {navigation.navigate('HarvestWeight'); setMyState(item);}
+                            }>
                         <Text style={styles.actionBtnText}>Harvest</Text>
                     </Pressable>
                 </View>
@@ -106,23 +107,19 @@ const HarvestScreen = ({navigation}) => {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle = {{paddingBottom: 80}}
                 data = {info}
-                renderItem = {({item})=><LogCard item = {item}/>}
-            />
+                renderItem = {({item}) => <LogCard item = {item}/>}/>
 
+            <Modal
+                transparent = {true}
+                animationType = 'fade'
+                visible = {isHarvestPopupVisible}
+                nRequestClose = {() => changeHarvestPopupVisible(false, null)}>
 
+                <Harvest_popup
+                    changeHarvestPopupVisible = {changeHarvestPopupVisible}
+                    setData = {setData}/>
 
-
-        <Modal 
-        transparent = {true}
-        animationType = 'fade'
-        visible = {isHarvestPopupVisible} 
-        nRequestClose = {() => changeHarvestPopupVisible(false)}>
-
-        <Harvest_popup
-        changeHarvestPopupVisible = {changeHarvestPopupVisible}
-        setData = {setData}/>
-
-        </Modal>
+            </Modal>
 
         </SafeAreaView>
     )

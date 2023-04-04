@@ -12,6 +12,7 @@ import React, { createContext, useState} from "react";
 import PlantDetailsScreen from "./src/screens/PlantDetails";
 import BottomNavigator from "./src/navigation/BottomNavigator";
 import SplashScreen from "./src/screens/SplashScreen";
+import HarvestWeightScreen from "./src/screens/HarvestWeight";
 const Stack = createStackNavigator();
 
 export const MyContext = createContext();
@@ -28,6 +29,7 @@ export default function App() {
                     <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }}/>
                     <Stack.Screen name="Log" component={LogScreen}/>
                     <Stack.Screen name="PlantDetails" component={PlantDetailsScreen}/>
+                    <Stack.Screen name="HarvestWeight" component={HarvestWeightScreen}/>
                     <Stack.Screen name="Plants" component={PlantsScreen}/>
                     <Stack.Screen name="SignUp" component={SignUpScreen}/>
                     <Stack.Screen name="Harvest" component={HarvestScreen}/>

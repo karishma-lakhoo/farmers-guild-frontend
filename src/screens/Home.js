@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const url = api_url + '/garden/';
 const HomeScreen = ({navigation}) => {
+  const { myUser } = useContext(MyContext);
   const[isModalVisible,setIsModalVisible] = useState(false);
   const { myState, setMyState } = useContext(MyContext);
   const[chooseData,setChooseData] = useState();
@@ -94,6 +95,7 @@ const HomeScreen = ({navigation}) => {
     return <TouchableOpacity style = {styles.gardenCard} onPress={() => {
       setMyState(gardens);
       navigation.navigate('Harvest');
+
     }}>
       <Text>{gardens.name}</Text>
     </TouchableOpacity>;
@@ -113,7 +115,9 @@ const HomeScreen = ({navigation}) => {
 
           <TouchableOpacity
               style = {styles.add}
-              onPress = {() => changeModalVisible(true)}>
+              onPress = {() => {
+                changeModalVisible(true);
+                console.log(myUser)}}>
             <Image source = {require('../images/plus_sign.png')}/>
 
           </TouchableOpacity>

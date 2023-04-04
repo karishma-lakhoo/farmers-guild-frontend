@@ -74,14 +74,12 @@ const Home_popup = (props) => {
                 />
                 <TouchableOpacity
                     style={styles.submitButton}
-                    onPress={handlePressSubmit}
-                >
+                    onPress={handlePressSubmit}>
                     <Text style={styles.submitButtonText}>Add Garden</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.touchableOpacity}
-                    onPress={() => closeModal(false, "Close", false)}
-                >
+                    onPress={() => closeModal(false, "Close", false)}>
                     <Text style={styles.text}>Close</Text>
                 </TouchableOpacity>
             </View>

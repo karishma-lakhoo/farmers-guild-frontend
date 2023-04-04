@@ -94,7 +94,7 @@ const LogScreen = ({navigation}) => {
                     paddingVertical: 20,
                     flex: 1
                 }}>
-                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food}</Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.plants_in_garden.food.food}</Text>
                     <Text style={{ fontSize: 13, color: 'grey'}}>{item.weight + " g"}</Text>
                     <Text style={{color: 'grey', fontSize: 13}}>{item.datetime}</Text>
                 </View>

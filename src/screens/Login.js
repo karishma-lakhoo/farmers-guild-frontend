@@ -1,5 +1,5 @@
 import { View, Text, Button, StyleSheet,TextInput, Pressable, ImageBackground, Modal } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {useState} from 'react';
 import {Forgotpw_popup} from '../components/forgotpasswordPopup.js';
 import COLORS from "../consts/colors";
@@ -8,11 +8,8 @@ import {api_url} from "../consts/api_url";
 
 
 const LoginScreen = ({navigation}) => {
-
     const[isForgotPwPopupVisible,setIsForgotPwPopupVisible] = useState(false);
-
     const[chooseData,setchooseData] = useState();
-
     const changeforgotpwPopupVisible = (bool) => {
         setIsForgotPwPopupVisible(bool);
     }
@@ -54,8 +51,8 @@ const LoginScreen = ({navigation}) => {
                 }
             })
             .then((data) => {
-                AsyncStorage.setItem('token', data.access)
-
+                AsyncStorage.setItem('token', data.access);
+                AsyncStorage.setItem('username', username)
                     .then(() => {
                         navigation.navigate('Home');
                     })
@@ -68,7 +65,6 @@ const LoginScreen = ({navigation}) => {
                 console.error('Error:', error);
                 alert(error.message);
             });
-
     };
     const onForgotPasswordPressed = () => {
         console.warn("Forgot Password");
@@ -99,7 +95,7 @@ const LoginScreen = ({navigation}) => {
             <Pressable
                 onPress={() => setIsForgotPwPopupVisible(true)}
                 style={Btn2.container}>
-                <Text style={Btn2.text}> Forgot Password </Text>
+                {/*<Text style={Btn2.text}> Forgot Password </Text>*/}
             </Pressable>
 
             <Pressable onPress={() => navigation.navigate('SignUp')} style={Btn2.container}>
@@ -152,7 +148,7 @@ const styles = StyleSheet.create({
     title:{
         fontSize : 29,
         fontWeight: 'bold',
-        color: '#006400',
+        color: COLORS.primary,
         margin: 10,
         marginVertical: 50,
         fontStyle:'normal',
@@ -170,7 +166,7 @@ const styles = StyleSheet.create({
 
 const Btn = StyleSheet.create({
     container : {
-        backgroundColor: '#006400',
+        backgroundColor: COLORS.primary,
         width: '100%',
         padding: 15,
         marginVertical: 15,
