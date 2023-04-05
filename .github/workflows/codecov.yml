@@ -1,6 +1,10 @@
 name: Running Code Coverage
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   build:
@@ -19,8 +23,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm install
-      - name: Run tests
-        run: npm run test
-      - uses: codecov/codecov-action@v1
+      - name: Run tests and generate coverage reports
+        run: npm test --coverage
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v2.1.0
         with:
           token: ${{ d47a5005-ee1e-4543-8b99-05b4a6f57421 }}
+          directory: .github/workflows/codecov.yml
