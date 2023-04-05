@@ -15,11 +15,24 @@ const url = api_url + '/plants_in_garden/';
 const HarvestScreen = ({navigation}) => {
     const[isHarvestPopupVisible,setIsHarvestPopupVisible] = useState(false);
     const [harvestName, setHarvestName] = useState('');
-    const[chooseData,setChooseData] = useState();
+    const [chooseData,setChooseData] = useState();
     const [info, setInfo] = useState([])
     const [token, setToken] = useState('');
     const {myState, setMyState} = useContext(MyContext);
 
+    const fetchData = () => {
+        const headers = {
+            Authorization: `Bearer ${token}`,
+        };
+        axios
+            .get(url, {headers})
+            .then((response) => {
+                setInfo(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     useEffect(() => {
         const getToken = async () => {
@@ -39,22 +52,49 @@ const HarvestScreen = ({navigation}) => {
         if (!token) {
             return;
         }
-
-        const headers = {
-            'Authorization': `Bearer ${token}`,
-        };
-
-        fetch(url, {
-            method: "GET",
-            headers: headers
-        })
-            .then(resp => resp.json())
-            .then(info => {
-                console.log(info);
-                setInfo(info); // update the data state variable with the API response
-            })
-            .catch(error => console.log("error"))
+        fetchData();
     }, [token]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            fetchData();
+        });
+        return unsubscribe;
+    }, [navigation]);
+    // useEffect(() => {
+    //     const getToken = async () => {
+    //         try {
+    //             const value = await AsyncStorage.getItem('token');
+    //             if (value !== null) {
+    //                 setToken(value);
+    //             }
+    //         } catch (error) {
+    //             console.log('Error retrieving data:', error);
+    //         }
+    //     };
+    //     getToken();
+    // }, []);
+    //
+    // useEffect(() => {
+    //     if (!token) {
+    //         return;
+    //     }
+    //
+    //     const headers = {
+    //         'Authorization': `Bearer ${token}`,
+    //     };
+    //
+    //     fetch(url, {
+    //         method: "GET",
+    //         headers: headers
+    //     })
+    //         .then(resp => resp.json())
+    //         .then(info => {
+    //             console.log(info);
+    //             setInfo(info); // update the data state variable with the API response
+    //         })
+    //         .catch(error => console.log("error"))
+    // }, [token]);
 
 
     const changeHarvestPopupVisible = (bool, plant) => {
