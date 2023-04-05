@@ -12,13 +12,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //we need to get all the plants_in_garden for shellyrishma only - have to change views to allow for filters
 const url = api_url + '/plants_in_garden/';
-const HarvestScreen = ({navigation}) => {
+const HarvestScreen = ({navigation,route}) => {
     const[isHarvestPopupVisible,setIsHarvestPopupVisible] = useState(false);
     const [harvestName, setHarvestName] = useState('');
     const [chooseData,setChooseData] = useState();
     const [info, setInfo] = useState([])
     const [token, setToken] = useState('');
     const {myState, setMyState} = useContext(MyContext);
+    const gardenName = route.params?.gardenName;
+
 
     const fetchData = () => {
         const headers = {
@@ -55,46 +57,14 @@ const HarvestScreen = ({navigation}) => {
         fetchData();
     }, [token]);
 
+    const filteredInfo = info.filter(item => item.garden_detail.name === gardenName);
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             fetchData();
         });
         return unsubscribe;
     }, [navigation]);
-    // useEffect(() => {
-    //     const getToken = async () => {
-    //         try {
-    //             const value = await AsyncStorage.getItem('token');
-    //             if (value !== null) {
-    //                 setToken(value);
-    //             }
-    //         } catch (error) {
-    //             console.log('Error retrieving data:', error);
-    //         }
-    //     };
-    //     getToken();
-    // }, []);
-    //
-    // useEffect(() => {
-    //     if (!token) {
-    //         return;
-    //     }
-    //
-    //     const headers = {
-    //         'Authorization': `Bearer ${token}`,
-    //     };
-    //
-    //     fetch(url, {
-    //         method: "GET",
-    //         headers: headers
-    //     })
-    //         .then(resp => resp.json())
-    //         .then(info => {
-    //             console.log(info);
-    //             setInfo(info); // update the data state variable with the API response
-    //         })
-    //         .catch(error => console.log("error"))
-    // }, [token]);
+
 
 
     const changeHarvestPopupVisible = (bool, plant) => {
@@ -160,9 +130,10 @@ const HarvestScreen = ({navigation}) => {
             </Pressable>
             <FlatList
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle = {{paddingBottom: 80}}
-                data = {info}
-                renderItem = {({item}) => <LogCard item = {item}/>}/>
+                contentContainerStyle={{ paddingBottom: 80 }}
+                data={filteredInfo}
+                renderItem={({ item }) => <LogCard item={item} />}
+            />
 
             <Modal
                 transparent = {true}
@@ -225,7 +196,8 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
     actionBtnText:{
-        marginLeft: 10,
+        marginBottom: 3,
+        marginLeft: 18,
         fontWeight: "bold",
         fontSize: 18,
         color: 'white',

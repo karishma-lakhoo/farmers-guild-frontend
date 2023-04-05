@@ -13,6 +13,7 @@ const url = api_url + '/garden/';
 const HomeScreen = ({navigation}) => {
   const { myUser } = useContext(MyContext);
   const[isModalVisible,setIsModalVisible] = useState(false);
+  const { myState, setMyState } = useContext(MyContext);
   const[chooseData,setChooseData] = useState();
   const [info, setInfo] = useState([])
   const [token, setToken] = useState('');
@@ -99,19 +100,17 @@ const HomeScreen = ({navigation}) => {
 
   const GardenCard = ({gardens}) => {
 
-    return <TouchableOpacity style = {styles.gardenCard} onPress={() => {
-      saveGardenId(gardens.id); //save garden id to async storage
-      console.log("is my garden saving")
-      console.log(gardens.id);
-      console.log(gardens.name);
-      console.log("is my garden saving")
+    const navigateToHarvest = () => {
+      saveGardenId(gardens.id);
+      setMyState(gardens);
+      navigation.navigate('Harvest', { gardenName: gardens.name });
+    };
 
-      navigation.navigate('Harvest');
-
-
-    }}>
-      <Text>{gardens.name}</Text>
-    </TouchableOpacity>;
+    return (
+        <TouchableOpacity style={styles.gardenCard} onPress={navigateToHarvest}>
+          <Text>{gardens.name}</Text>
+        </TouchableOpacity>
+    );
   }
 
   return (
@@ -130,7 +129,6 @@ const HomeScreen = ({navigation}) => {
               style = {styles.add}
               onPress = {() => {
                 changeModalVisible(true);
-                console.log('hellooososo')
                 console.log(myUser)}}>
             <Image source = {require('../images/plus_sign.png')}/>
 
@@ -167,8 +165,8 @@ const styles = StyleSheet.create({
 
   gardenCard:{
     height: 60,
-    width: 250,
-    elevation: 15,
+    width: 300,
+    elevation: 9,
     borderRadius: 50,
     backgroundColor: 'white',
     marginVertical: 10,

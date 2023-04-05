@@ -28,6 +28,8 @@ const PlantsScreen = ({navigation}) => {
     const {myState, setMyState} = useContext(MyContext);
     const [data, setData] = useState([])
     const [token, setToken] = useState('');
+    const [searchText, setSearchText] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
         const getToken = async () => {
@@ -69,22 +71,22 @@ const PlantsScreen = ({navigation}) => {
         return(
             <ScrollView horizontal showHorizontalScrollIndicator={false} contentContainerStyle={styles.categoriesListContainer}>
                 {categories.map((category,index) => (
-                    <TouchableOpacity key={index} activeOpacity={0.8} onPress={() =>setSelectedCategoryIndex(index)} >
+                    <TouchableOpacity key={index} activeOpacity={0.8} onPress={() =>{handleSearch2(category.name); setSelectedCategoryIndex(index);}} >
                         <View style ={{
                             backgroundColor:
-                                selectedCategoryIndex == index
+                                selectedCategoryIndex === index
                                     ? COLORS.primary
                                     :COLORS.secondary,
                             ...styles.categoryBtn
                         }}>
                             <View style={styles.categoryBtnImgCon}>
-                                <Image source={category.image} style={{height:35,width:35,resizeMode:'cover'}}/>
+                                <Image source={category.image} style={{height:27,width:27,resizeMode:'cover'}}/>
                             </View>
                             <Text style={{
                                 fontSize:10,
                                 fontWeight:'bold',
                                 marginLeft:10,
-                                color:selectedCategoryIndex == index? COLORS.white:COLORS.primary}}>{category.name}</Text>
+                                color:selectedCategoryIndex === index? COLORS.white:COLORS.primary}}>{category.name}</Text>
                         </View>
                     </TouchableOpacity>
                 ))}
@@ -105,6 +107,7 @@ const PlantsScreen = ({navigation}) => {
                     <View style={{marginHorizontal:20}}>
                         <Text style={{fontSize:16, fontWeight:'bold', marginTop:10}}>{food.food}</Text>
                         <Text style={{fontSize:13, color:COLORS.grey}}>{food.supertype}</Text>
+
                     </View>
                     <View style={styles.plantAt}>
                         <Icon name="add" size={20} color={COLORS.white}/>
@@ -114,6 +117,25 @@ const PlantsScreen = ({navigation}) => {
 
         )
     }
+
+    const handleSearch = text => {
+        setSearchText(text);
+        const filtered = data.filter(
+            item =>
+                item.food.toLowerCase().includes(text.toLowerCase()) ||
+                item.supertype.toLowerCase().includes(text.toLowerCase())
+        );
+        setFilteredData(filtered);
+    };
+
+    const handleSearch2 = text => {
+        setSearchText(text);
+        const filtered = data.filter(
+            item =>
+                item.supertype.toLowerCase().includes(text.toLowerCase())
+        );
+        setFilteredData(filtered);
+    };
 
     return (
         <SafeAreaView style={{flex:1}}>
@@ -128,19 +150,26 @@ const PlantsScreen = ({navigation}) => {
             </View>
             <View style={{marginTop:40,flexDirection:'row',paddingHorizontal:20}}>
                 <View style={styles.inputContainer}>
-                    <Icon name="search" size={28}/>
-                    <TextInput style={{flex:1, fontSize:18}} placeholder = "Search for Plant"/>
+                    <Icon name="search" size={28} style={{width: 28}} />
+                    <TextInput
+                        style={{flex: null, width: '100%', fontSize: 18}}
+                        placeholder="Search for Plant"
+                        onChangeText={text => handleSearch(text)}
+                        value={searchText}
+                    />
                 </View>
-
             </View>
             <View>
-                <ListCategories/>
+                <ListCategories
+                    value = {searchText}
+                />
             </View>
             <FlatList
-            showsVerticalScrollIndicator={false}
-            numColumns={2}
-            data={data}
-            renderItem={({item})=><Card food={item}/>}
+                showsVerticalScrollIndicator={false}
+                numColumns={2}
+                data={searchText !== '' ? filteredData : data}
+                keyExtractor={item => item.id.toString()}
+                renderItem={({item}) => <Card food={item} />}
             />
 
         </SafeAreaView>

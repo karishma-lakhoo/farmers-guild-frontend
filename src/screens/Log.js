@@ -103,7 +103,7 @@ const LogScreen = ({navigation}) => {
                             {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
                             {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
                             {/*</Text>*/}
-                            <Text style={{fontWeight: 'grey', fontSize: 16}}>
+                            <Text style={{color: 'grey', fontSize: 14}}>
                                 {item?.plants_in_garden?.garden_detail?.name ?? "No garden found"}
                             </Text>
                             <Text style={{ fontSize: 13, color: 'grey'}}>
