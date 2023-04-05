@@ -1,4 +1,4 @@
-name: Your farmer-guild
+name:  farmer-guild
 
 on: [push, pull_request]
 
