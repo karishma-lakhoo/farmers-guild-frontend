@@ -29,4 +29,4 @@ jobs:
         uses: codecov/codecov-action@v2.1.0
         with:
           token: ${{ d47a5005-ee1e-4543-8b99-05b4a6f57421 }}
-          directory: .github/workflows/codecov.yml
+          directory: .github/workflows
