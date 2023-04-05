@@ -1,28 +1,26 @@
-name: Codecov
+name: Your farmer-guild
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
+on: [push, pull_request]
 
 jobs:
-  codecov:
+  run:
     runs-on: ubuntu-latest
+    env:
+      OS: ubuntu-latest
+      PYTHON: '3.10'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
         with:
-          node-version: '14'
-      - name: Install dependencies
-        run: npm install
-      - name: Run tests with coverage
-        run: npm test -- --coverage
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2.1.0
+          fetch-depth: '2'
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      - name: Generate Report
+        run: |
+          pip install coverage
+          coverage run -m unittest
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: unittests
-          directory: ./coverage
