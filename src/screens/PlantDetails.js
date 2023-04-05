@@ -12,13 +12,30 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const url = api_url + '/plants_in_garden/';
 
 
-
 const PlantDetailsScreen= ({navigation}) => {
     const [data, setData] = useState([{}])
-    const { myState } = useContext(MyContext);
-    console.log(myState.id)
-    // console.log(myState.garden)
+    const {myState} = useContext(MyContext);
+    const [gardenId, setGardenId] = useState('');
 
+    console.log("adsfasdf")
+    console.log(myState.id)
+    console.log("12345")
+    useEffect(() => {
+        getGardenId();
+    }, []);
+
+    const getGardenId = async () => {
+        try {
+            const value = await AsyncStorage.getItem('gardenId');
+            if (value !== null) {
+                setGardenId(value);
+            }
+        } catch (error) {
+            console.log('Error retrieving garden name:', error);
+        }
+    };
+
+    console.log(gardenId)
     const onAddPlant = async (harvestWeight) => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -28,9 +45,10 @@ const PlantDetailsScreen= ({navigation}) => {
             };
             const body = JSON.stringify({
                 food: myState.id,
-                garden: myState.garden.id,});
+                garden: gardenId,
+            });
             console.log(body)
-            const response = await fetch(api_url + '/harvest_log/', {
+            const response = await fetch(api_url + '/plants_in_garden/', {
                 method: 'POST',
                 headers: headers,
                 body: body,
@@ -52,7 +70,7 @@ const PlantDetailsScreen= ({navigation}) => {
     return (
         <SafeAreaView style={{backgroundColor: COLORS.white}}>
             <View style={style.header}>
-                <Icon name="arrow-back-ios" size={28} onPress={() => navigation.navigate('Plants')} />
+                <Icon name="arrow-back-ios" size={28} onPress={() => navigation.navigate('Plants')}/>
                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>Details</Text>
             </View>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -99,10 +117,10 @@ const PlantDetailsScreen= ({navigation}) => {
                     <View style={{marginTop: 40, marginBottom: 40}}>
                         {/*do a post request here*/}
                         <SecondaryButton title="Plant It" onPress={() => {
-                            onPlantPressed();
+                            onAddPlant();
                             navigation.navigate('Harvest');
                         }
-                            } />
+                        }/>
                     </View>
                 </View>
             </ScrollView>

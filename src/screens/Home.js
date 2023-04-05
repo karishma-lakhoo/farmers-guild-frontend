@@ -13,7 +13,6 @@ const url = api_url + '/garden/';
 const HomeScreen = ({navigation}) => {
   const { myUser } = useContext(MyContext);
   const[isModalVisible,setIsModalVisible] = useState(false);
-  const { myState, setMyState } = useContext(MyContext);
   const[chooseData,setChooseData] = useState();
   const [info, setInfo] = useState([])
   const [token, setToken] = useState('');
@@ -90,11 +89,25 @@ const HomeScreen = ({navigation}) => {
     }
   };
 
+  const saveGardenId = async (gardenId) => {
+    try {
+      await AsyncStorage.setItem('gardenId', gardenId.toString());
+    } catch (error) {
+      console.log('Error saving garden id:', error);
+    }
+  };
+
   const GardenCard = ({gardens}) => {
 
     return <TouchableOpacity style = {styles.gardenCard} onPress={() => {
-      setMyState(gardens);
+      saveGardenId(gardens.id); //save garden id to async storage
+      console.log("is my garden saving")
+      console.log(gardens.id);
+      console.log(gardens.name);
+      console.log("is my garden saving")
+
       navigation.navigate('Harvest');
+
 
     }}>
       <Text>{gardens.name}</Text>
@@ -117,6 +130,7 @@ const HomeScreen = ({navigation}) => {
               style = {styles.add}
               onPress = {() => {
                 changeModalVisible(true);
+                console.log('hellooososo')
                 console.log(myUser)}}>
             <Image source = {require('../images/plus_sign.png')}/>
 
