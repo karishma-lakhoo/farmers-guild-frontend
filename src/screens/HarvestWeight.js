@@ -8,8 +8,9 @@ const url = api_url + '/plants_in_garden/';
 const HarvestWeightScreen = ({navigation}) => {
     const [harvestWeight, setHarvestWeight] = useState('');
     const { myState } = useContext(MyContext);
+    console.log(myState.food)
 
-    const onAddHarvest = async () => {
+    const onAddHarvest = async (harvestWeight, ) => {
         try {
             const token = await AsyncStorage.getItem('token');
             const headers = {
@@ -17,8 +18,9 @@ const HarvestWeightScreen = ({navigation}) => {
                 'Content-Type': 'application/json',
             };
             const body = JSON.stringify({
-                food: myState.food.id,
-                garden: myState.garden.id,});
+                food: myState.food,
+                weight: harvestWeight,
+                garden: myState.garden,});
             console.log(body)
             const response = await fetch(api_url + '/harvest_log/', {
                 method: 'POST',
@@ -57,7 +59,7 @@ const HarvestWeightScreen = ({navigation}) => {
                     console.log(myState.food.id)
                     // console.log(harvestWeight)
                     // console.log(myState.garden.id)
-                    }}
+                }}
                 style={Btn.container}>
                 <Text style={Btn.text}> Confirm harvest </Text>
             </TouchableOpacity>
