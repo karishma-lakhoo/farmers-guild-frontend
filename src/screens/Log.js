@@ -123,7 +123,7 @@ const LogScreen = ({navigation}) => {
     return (
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
             <View style={styles.header}>
-                <Text style = {{fontSize: 20, fontWeight: 'bold', marginLeft:20}}>Harvest Log</Text>
+                <Text style = {{fontSize: 25, fontWeight: 'bold', marginLeft:20}}>Harvest Log</Text>
             </View>
             <View style={styles.SelectBox}>
                 <SelectBox
@@ -131,8 +131,7 @@ const LogScreen = ({navigation}) => {
                     options={GARDEN_OPTIONS}
                     value={selectedTeam1}
                     onChange={onChange1()}
-                    hideInputFilter={false}
-                />
+                    hideInputFilter={false}/>
                 </View>
                 <View style={styles.SelectBox}>
                     <SelectBox
@@ -140,8 +139,7 @@ const LogScreen = ({navigation}) => {
                         options={FILTER_OPTIONS}
                         value={selectedTeam2}
                         onChange={onChange2()}
-                        hideInputFilter={false}
-                    />
+                        hideInputFilter={false}/>
                 </View>
             <FlatList
                 showsVerticalScrollIndicator={false}
@@ -174,19 +172,24 @@ const styles = StyleSheet.create({
     },
     LogCard: {
         height: 100,
-        elevation: 15,
         borderRadius: 10,
         backgroundColor: 'white',
         marginVertical: 10,
         marginHorizontal: 20,
         paddingHorizontal: 10,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.07,
+        shadowRadius: 4,
+        elevation: 8, // This is for Android
     },
     SelectBox: {
         marginLeft: 30,
         marginRight: 30,
         marginBottom: 30,
+        marginTop:-10,
     }
 });
 

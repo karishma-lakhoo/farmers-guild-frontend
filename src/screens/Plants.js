@@ -236,8 +236,12 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         marginTop: 50,
         borderRadius: 15,
-        elevation: 13,
         backgroundColor: COLORS.white,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.07,
+        shadowRadius: 4,
+        elevation: 8, // This is for Android
     },
     plantAt:{
         position: 'absolute',

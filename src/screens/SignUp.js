@@ -13,12 +13,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api_url } from '../consts/api_url';
 import COLORS from '../consts/colors';
 
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExODM1NjA3LCJpYXQiOjE2ODAyOTk2MDcsImp0aSI6ImMyZDQyYTdkNmI5MzRlNTZhNWQ1NzZiNWMwNTdhM2YzIiwidXNlcl9pZCI6IjliNzUxNDMzLTlhZWUtNDU5My04ZjJjLWU5M2MzM2Q2Yjg0NiJ9.5Sep2XrKNjMho1B9J4DNViMAjULnq_fuJs-IXPXrKB4'
+
+const headers = {
+    'Authorization': `Bearer ${token}`,
+};
+
 const SignUpScreen = ({ navigation }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    console.log(username)
+    console.log(password)
+    console.log(email)
+    console.log(firstName)
+    console.log(lastName)
 
     const handleUsernameChange = (text) => {
         setUsername(text);
@@ -66,20 +77,31 @@ const SignUpScreen = ({ navigation }) => {
             })
             .then((data) => {
                 AsyncStorage.setItem('token', data.access);
-                AsyncStorage.setItem('username', username)
-                    .then(() => {
-                        navigation.navigate('Home');
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                        alert('An error occurred. Please try again later.');
-                    });
+                AsyncStorage.setItem('username', username);
+                return Promise.all([
+                    AsyncStorage.setItem('token', data.access),
+                    AsyncStorage.setItem('username', username),
+                ]);
+            })
+            .then(() => {
+                navigation.navigate('Home');
             })
             .catch((error) => {
                 console.error('Error:', error);
                 alert(error.message);
-            });
+            })
+            .finally(() => {
+                setUsername('');
+                setPassword('');
+                setEmail('');
+                setFirstName('');
+                setLastName('');
+            })
     };
+
+    const onSignUpPressed1 = () => {
+        alert("user created")
+    }
 
     return (
         <View style={styles.container}>
@@ -114,7 +136,7 @@ const SignUpScreen = ({ navigation }) => {
             <Pressable
                 onPress={() => {
                     navigation.navigate('Login');
-                    onSignUpPressed();
+                    onSignUpPressed1();
                 }}  style={Btn.container}>
                 <Text style={Btn.text}> REGISTER </Text>
             </Pressable>

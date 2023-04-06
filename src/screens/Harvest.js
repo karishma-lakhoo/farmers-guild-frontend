@@ -91,13 +91,13 @@ const HarvestScreen = ({navigation,route}) => {
                 }}>
                     { info &&
                         <>
-                            <Text style={{fontWeight: 'bold', fontSize: 16}}>
+                            <Text style={{fontWeight: 'bold', fontSize: 15, marginTop:10 ,marginLeft:-15}}>
                                 {item?.food_detail?.food ?? "No food found"}
                             </Text>
                             {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
                             {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
                             {/*</Text>*/}
-                            <Text style={{fontWeight: 'grey', fontSize: 13}}>
+                            <Text style={{fontWeight: 'grey', fontSize: 13, marginLeft:-15}}>
                                 {item?.garden_detail?.name ?? "No garden found"}
                             </Text>
                         </>
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.15,
+        shadowOpacity: 0.07,
         shadowRadius: 4,
         elevation: 8, // This is for Android
     },

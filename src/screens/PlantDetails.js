@@ -89,10 +89,8 @@ const PlantDetailsScreen= ({navigation}) => {
                             justifyContent: 'space-between',
                             alignItems: 'center',
                         }}>
-                        <Text
-                            style={{fontSize: 25, fontWeight: 'bold', color: COLORS.white}}>
-                            {item.name}
-                        </Text>
+                        <Text style={{marginTop: 10, lineHeight: 40, fontWeight:"bold" ,fontSize: 40, color: COLORS.white,}}>{myState.food}</Text>
+
 
                     </View>
                     {/*display all the plant information here*/}
@@ -102,7 +100,7 @@ const PlantDetailsScreen= ({navigation}) => {
                     {/*    end up giving u kisses. Keep your children away from him and yourself. As they say in planes*/}
                     {/*    help yourself before helping others.*/}
                     {/*</Text>*/}
-                    <Text style={style.detailsText}>Name: {myState.food}</Text>
+                    {/*<Text style={style.detailsText}>Name: {myState.food}</Text>*/}
                     <Text style={style.detailsText}>Sow: {myState.sow}</Text>
                     <Text style={style.detailsText}>Plant Season: {myState.plant}</Text>
                     <Text style={style.detailsText}>Harvest Season: {myState.harvest_info}</Text>
@@ -138,6 +136,7 @@ const style = StyleSheet.create({
     details: {
         paddingHorizontal: 20,
         paddingTop: 40,
+        marginTop:-150,
         paddingBottom: 60,
         backgroundColor: COLORS.primary,
         borderTopRightRadius: 40,
