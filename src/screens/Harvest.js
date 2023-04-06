@@ -3,6 +3,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import Icon from "react-native-vector-icons/MaterialIcons";
 import {FlatList} from "react-native-gesture-handler";
 import foods from "../consts/foods";
+import {Harvest_popup} from "../components/HarvestPopup.js"
 import colors from "../consts/colors"
 import { MyContext } from "../../App";
 import axios from "axios";
@@ -139,6 +140,8 @@ const HarvestScreen = ({navigation,route}) => {
                 animationType = 'fade'
                 visible = {isHarvestPopupVisible}
                 nRequestClose = {() => changeHarvestPopupVisible(false, null)}>
+
+
             </Modal>
 
         </SafeAreaView>

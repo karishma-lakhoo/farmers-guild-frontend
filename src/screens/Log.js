@@ -13,18 +13,6 @@ const GARDEN_OPTIONS = [
         item: 'All Gardens',
         id: 'AG',
     },
-    {
-        item: 'Shellyrishma',
-        id: 'SRM',
-    },
-    {
-        item: 'Garden 1',
-        id: 'G1',
-    },
-    {
-        item: 'Garden 2',
-        id: 'G2',
-    },
 ]
 
 const FILTER_OPTIONS = [
@@ -37,11 +25,12 @@ const FILTER_OPTIONS = [
         id: 'ON',
     },
 ]
+const defaultValue = FILTER_OPTIONS[0]
 const url = api_url + '/harvest_log/';
 
 const LogScreen = ({navigation}) => {
-
-    const [selectedTeam1, setSelectedTeam1] = useState({})
+    const [gardenOptions, setGardenOptions] = useState(GARDEN_OPTIONS);
+    const [selectedTeam1, setSelectedTeam1] = useState(GARDEN_OPTIONS[0]);
     const [selectedTeam2, setSelectedTeam2] = useState({})
     const [data, setData] = useState([{}])
     const [token, setToken] = useState('');
@@ -78,11 +67,28 @@ const LogScreen = ({navigation}) => {
 
             .then(resp => resp.json())
             .then(data => {
+                // const gardenNames = data.gardens.map(garden => ({
+                //     item: garden.name,
+                //     id: food_detail.id,
+                // }));
+                console.log("thithithti")
                 console.log(data);
+                // console.log(gardenNames)
+                // setGardenOptions([...GARDEN_OPTIONS, ...gardenNames]);
                 setData(data); // update the data state variable with the API response
             })
             .catch(error => console.log("error"))
     }, [token]);
+    const gardenNames = [];
+    for (let i = 0; i < data.length; i++) {
+        const gardenDetail = data[i]?.plants_in_garden?.garden_detail;
+        const gardenName = gardenDetail?.name?.toLowerCase();
+        if (gardenName && !gardenNames.includes(gardenName)) {
+            gardenNames.push(gardenName);
+            GARDEN_OPTIONS.push({ item: gardenDetail.name, id: gardenDetail?.id });
+        }
+    }
+    const gardenOptions2 = [...GARDEN_OPTIONS]
 
 
 
@@ -136,7 +142,7 @@ const LogScreen = ({navigation}) => {
             <View style={styles.SelectBox}>
                 <SelectBox
                     label="Select garden"
-                    options={GARDEN_OPTIONS}
+                    options={gardenOptions2}
                     value={selectedTeam1}
                     onChange={onChange1()}
                     hideInputFilter={false}/>
@@ -145,7 +151,7 @@ const LogScreen = ({navigation}) => {
                     <SelectBox
                         label="Time"
                         options={FILTER_OPTIONS}
-                        value={selectedTeam2}
+                        value={defaultValue}
                         onChange={onChange2()}
                         hideInputFilter={false}/>
                 </View>
