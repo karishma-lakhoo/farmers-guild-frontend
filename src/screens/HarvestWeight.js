@@ -54,7 +54,7 @@ const HarvestWeightScreen = ({navigation}) => {
 
             <TouchableOpacity
                 onPress = {() => {
-                    navigation.navigate('Harvest');
+                    navigation.navigate('Log');
                     onAddHarvest(harvestWeight);
                     console.log(myState.food.id)
                     // console.log(harvestWeight)
@@ -65,7 +65,7 @@ const HarvestWeightScreen = ({navigation}) => {
             </TouchableOpacity>
 
             <TouchableOpacity style = {styles.touchableOpacity}
-                              onPress = {() => navigation.navigate('Harvest')}>
+                              onPress = {() => navigation.navigate('Home')}>
                 <Text style = {styles.text}>
                     Close
                 </Text>
@@ -126,7 +126,7 @@ const Btn = StyleSheet.create({
         width: '80%',
         padding: 15,
         alignItems:'center',
-        borderRadius: 25,
+        borderRadius: 25
     },
 
     text:{

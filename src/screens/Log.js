@@ -84,16 +84,23 @@ const LogScreen = ({navigation}) => {
             .catch(error => console.log("error"))
     }, [token]);
 
-    // const { navigation, route, nameProp} = props;
+
+
     const LogCard = ({item}) =>{
+
+        const date = new Date(item.datetime);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        const formattedDate = `${day}-${month}-${year}`;
         return (
             <View style={styles.LogCard}>
             {/*<Image source={item.image} style={{height: 60,width: 60 }}/>*/}
                 <View style={{
                     height: 100,
                     marginLeft: 20,
-                    paddingVertical: 20,
-                    flex: 1
+                    paddingVertical: 12,
+                    flex: 1,
                 }}>
                     { data &&
                         <>
@@ -110,7 +117,7 @@ const LogScreen = ({navigation}) => {
                                 {item?.weight ? item.weight + " g" : "No weight found"}
                             </Text>
                             <Text style={{color: 'grey', fontSize: 13}}>
-                                {item?.datetime ?? "No datetime found"}
+                                {formattedDate}
                             </Text>
                         </>
                     }
@@ -123,7 +130,8 @@ const LogScreen = ({navigation}) => {
     return (
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
             <View style={styles.header}>
-                <Text style = {{fontSize: 25, fontWeight: 'bold', marginLeft:20}}>Harvest Log</Text>
+                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
+                <Text style = {{fontSize: 25, fontWeight: 'bold', marginLeft:5}}>Harvest Log</Text>
             </View>
             <View style={styles.SelectBox}>
                 <SelectBox

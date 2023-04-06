@@ -52,6 +52,7 @@ const PlantsScreen = ({navigation}) => {
 
         const headers = {
             'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
         };
 
         fetch(url, {
