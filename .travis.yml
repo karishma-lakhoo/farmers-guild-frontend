@@ -1,14 +1,22 @@
 language: node_js
 node_js:
   - "14"
+
 cache:
   directories:
     - node_modules
     - ~/.npm
+
 install:
   - npm install
+
 before_script:
   - npm config set progress false
+
 script:
-  - npm install
   - npm run test
+  - npm run coverage
+
+after_success:
+  - cat coverage/lcov.info | npx coveralls
+
