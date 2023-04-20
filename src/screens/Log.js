@@ -71,7 +71,7 @@ const LogScreen = ({navigation}) => {
                 //     item: garden.name,
                 //     id: food_detail.id,
                 // }));
-                console.log("thithithti")
+                // console.log("thithithti")
                 console.log(data);
                 // console.log(gardenNames)
                 // setGardenOptions([...GARDEN_OPTIONS, ...gardenNames]);
@@ -111,13 +111,13 @@ const LogScreen = ({navigation}) => {
                     { data &&
                         <>
                             <Text style={{fontWeight: 'bold', fontSize: 16}}>
-                                {item?.plants_in_garden?.food_detail?.food ?? "No food found"}
+                                {item?.food_detail?.food ?? "No food found"}
                             </Text>
                             {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
                             {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
                             {/*</Text>*/}
                             <Text style={{color: 'grey', fontSize: 14}}>
-                                {item?.plants_in_garden?.garden_detail?.name ?? "No garden found"}
+                                {item?.garden_detail?.name ?? "No garden found"}
                             </Text>
                             <Text style={{ fontSize: 13, color: 'grey'}}>
                                 {item?.weight ? item.weight + " g" : "No weight found"}

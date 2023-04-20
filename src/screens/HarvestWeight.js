@@ -8,7 +8,12 @@ const url = api_url + '/plants_in_garden/';
 const HarvestWeightScreen = ({navigation}) => {
     const [harvestWeight, setHarvestWeight] = useState('');
     const { myState } = useContext(MyContext);
-    console.log(myState.food)
+    console.log("test user")
+    console.log("test user")
+    console.log(myState.garden_detail.user)
+    console.log("test user")
+    console.log("test user")
+    console.log("test user")
 
     const onAddHarvest = async (harvestWeight, ) => {
         try {
@@ -20,8 +25,16 @@ const HarvestWeightScreen = ({navigation}) => {
             const body = JSON.stringify({
                 food: myState.food,
                 weight: harvestWeight,
-                garden: myState.garden,});
+                garden: myState.garden,
+                user: myState.user});
+            console.log("asdf")
+            console.log("asdf")
+            console.log("asdf")
             console.log(body)
+            console.log("a123")
+            console.log("a123")
+            console.log("a123")
+
             const response = await fetch(api_url + '/harvest_log/', {
                 method: 'POST',
                 headers: headers,
@@ -56,7 +69,6 @@ const HarvestWeightScreen = ({navigation}) => {
                 onPress = {() => {
                     navigation.navigate('Log');
                     onAddHarvest(harvestWeight);
-                    console.log(myState.food.id)
                     // console.log(harvestWeight)
                     // console.log(myState.garden.id)
                 }}
