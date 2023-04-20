@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run tests with coverage
-        run: npm test -- --coverage
+        run: npm test -- --coverage --watchAll | echo "q"
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
