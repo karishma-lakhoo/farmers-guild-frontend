@@ -1,31 +1,28 @@
-name: Codecov CI
+name: Codecov
 
 on:
   push:
     branches:
-      - experimental
+      - main
+  pull_request:
 
 jobs:
-  build:
+  codecov:
     runs-on: ubuntu-latest
-    environment: Codecov
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Use Node.js 18.15.0
-        uses: actions/setup-node@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: 18.15.0
-
-      - name: Install Dependencies
-        run: npm install --legacy-peer-deps
-
-      - name: Run tests and collect coverage
-        run: npm test -- --coverage --watchAll | echo "q"
-
+          node-version: '14'
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests with coverage
+        run: npm test -- --coverage
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unittests
+          directory: ./coverage
