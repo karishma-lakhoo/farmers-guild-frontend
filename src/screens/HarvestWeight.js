@@ -8,7 +8,6 @@ const url = api_url + '/plants_in_garden/';
 const HarvestWeightScreen = ({navigation}) => {
     const [harvestWeight, setHarvestWeight] = useState('');
     const { myState } = useContext(MyContext);
-    console.log(myState.food)
 
     const onAddHarvest = async (harvestWeight, ) => {
         try {
@@ -20,8 +19,9 @@ const HarvestWeightScreen = ({navigation}) => {
             const body = JSON.stringify({
                 food: myState.food,
                 weight: harvestWeight,
-                garden: myState.garden,});
-            console.log(body)
+                garden: myState.garden});
+
+
             const response = await fetch(api_url + '/harvest_log/', {
                 method: 'POST',
                 headers: headers,
@@ -54,9 +54,8 @@ const HarvestWeightScreen = ({navigation}) => {
 
             <TouchableOpacity
                 onPress = {() => {
-                    navigation.navigate('Harvest');
+                    navigation.navigate('Log');
                     onAddHarvest(harvestWeight);
-                    console.log(myState.food.id)
                     // console.log(harvestWeight)
                     // console.log(myState.garden.id)
                 }}
@@ -65,7 +64,7 @@ const HarvestWeightScreen = ({navigation}) => {
             </TouchableOpacity>
 
             <TouchableOpacity style = {styles.touchableOpacity}
-                              onPress = {() => navigation.navigate('Harvest')}>
+                              onPress = {() => navigation.navigate('Home')}>
                 <Text style = {styles.text}>
                     Close
                 </Text>
@@ -126,7 +125,7 @@ const Btn = StyleSheet.create({
         width: '80%',
         padding: 15,
         alignItems:'center',
-        borderRadius: 25,
+        borderRadius: 25
     },
 
     text:{

@@ -13,18 +13,6 @@ const GARDEN_OPTIONS = [
         item: 'All Gardens',
         id: 'AG',
     },
-    {
-        item: 'Shellyrishma',
-        id: 'SRM',
-    },
-    {
-        item: 'Garden 1',
-        id: 'G1',
-    },
-    {
-        item: 'Garden 2',
-        id: 'G2',
-    },
 ]
 
 const FILTER_OPTIONS = [
@@ -37,11 +25,12 @@ const FILTER_OPTIONS = [
         id: 'ON',
     },
 ]
+const defaultValue = FILTER_OPTIONS[0]
 const url = api_url + '/harvest_log/';
 
 const LogScreen = ({navigation}) => {
-
-    const [selectedTeam1, setSelectedTeam1] = useState({})
+    const [gardenOptions, setGardenOptions] = useState(GARDEN_OPTIONS);
+    const [selectedTeam1, setSelectedTeam1] = useState(GARDEN_OPTIONS[0]);
     const [selectedTeam2, setSelectedTeam2] = useState({})
     const [data, setData] = useState([{}])
     const [token, setToken] = useState('');
@@ -78,39 +67,63 @@ const LogScreen = ({navigation}) => {
 
             .then(resp => resp.json())
             .then(data => {
+                // const gardenNames = data.gardens.map(garden => ({
+                //     item: garden.name,
+                //     id: food_detail.id,
+                // }));
+                // console.log("thithithti")
                 console.log(data);
+                // console.log(gardenNames)
+                // setGardenOptions([...GARDEN_OPTIONS, ...gardenNames]);
                 setData(data); // update the data state variable with the API response
             })
             .catch(error => console.log("error"))
     }, [token]);
+    const gardenNames = [];
+    for (let i = 0; i < data.length; i++) {
+        const gardenDetail = data[i]?.plants_in_garden?.garden_detail;
+        const gardenName = gardenDetail?.name?.toLowerCase();
+        if (gardenName && !gardenNames.includes(gardenName)) {
+            gardenNames.push(gardenName);
+            GARDEN_OPTIONS.push({ item: gardenDetail.name, id: gardenDetail?.id });
+        }
+    }
+    const gardenOptions2 = [...GARDEN_OPTIONS]
 
-    // const { navigation, route, nameProp} = props;
+
+
     const LogCard = ({item}) =>{
+
+        const date = new Date(item.datetime);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        const formattedDate = `${day}-${month}-${year}`;
         return (
             <View style={styles.LogCard}>
             {/*<Image source={item.image} style={{height: 60,width: 60 }}/>*/}
                 <View style={{
                     height: 100,
                     marginLeft: 20,
-                    paddingVertical: 20,
-                    flex: 1
+                    paddingVertical: 12,
+                    flex: 1,
                 }}>
                     { data &&
                         <>
                             <Text style={{fontWeight: 'bold', fontSize: 16}}>
-                                {item?.plants_in_garden?.food_detail?.food ?? "No food found"}
+                                {item?.food_detail?.food ?? "No food found"}
                             </Text>
                             {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
                             {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
                             {/*</Text>*/}
                             <Text style={{color: 'grey', fontSize: 14}}>
-                                {item?.plants_in_garden?.garden_detail?.name ?? "No garden found"}
+                                {item?.garden_detail?.name ?? "No garden found"}
                             </Text>
                             <Text style={{ fontSize: 13, color: 'grey'}}>
                                 {item?.weight ? item.weight + " g" : "No weight found"}
                             </Text>
                             <Text style={{color: 'grey', fontSize: 13}}>
-                                {item?.datetime ?? "No datetime found"}
+                                {formattedDate}
                             </Text>
                         </>
                     }
@@ -123,25 +136,24 @@ const LogScreen = ({navigation}) => {
     return (
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
             <View style={styles.header}>
-                <Text style = {{fontSize: 20, fontWeight: 'bold', marginLeft:20}}>Harvest Log</Text>
+                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
+                <Text style = {{fontSize: 25, fontWeight: 'bold', marginLeft:5}}>Harvest Log</Text>
             </View>
             <View style={styles.SelectBox}>
                 <SelectBox
                     label="Select garden"
-                    options={GARDEN_OPTIONS}
+                    options={gardenOptions2}
                     value={selectedTeam1}
                     onChange={onChange1()}
-                    hideInputFilter={false}
-                />
+                    hideInputFilter={false}/>
                 </View>
                 <View style={styles.SelectBox}>
                     <SelectBox
                         label="Time"
                         options={FILTER_OPTIONS}
-                        value={selectedTeam2}
+                        value={defaultValue}
                         onChange={onChange2()}
-                        hideInputFilter={false}
-                    />
+                        hideInputFilter={false}/>
                 </View>
             <FlatList
                 showsVerticalScrollIndicator={false}
@@ -174,19 +186,24 @@ const styles = StyleSheet.create({
     },
     LogCard: {
         height: 100,
-        elevation: 15,
         borderRadius: 10,
         backgroundColor: 'white',
         marginVertical: 10,
         marginHorizontal: 20,
         paddingHorizontal: 10,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.07,
+        shadowRadius: 4,
+        elevation: 8, // This is for Android
     },
     SelectBox: {
         marginLeft: 30,
         marginRight: 30,
         marginBottom: 30,
+        marginTop:-10,
     }
 });
 

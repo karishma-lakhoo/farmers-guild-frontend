@@ -1,4 +1,4 @@
-import {View, Text, Button, StyleSheet, SafeAreaView, ScrollView, Image} from 'react-native';
+import {View, Text, Button, StyleSheet, SafeAreaView, ScrollView, Image, Dimensions} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import COLORS from "../consts/colors";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -10,6 +10,7 @@ import {MyContext} from "../../App";
 import {api_url} from "../consts/api_url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const url = api_url + '/plants_in_garden/';
+const { width, height } = Dimensions.get('window');
 
 
 const PlantDetailsScreen= ({navigation}) => {
@@ -89,10 +90,8 @@ const PlantDetailsScreen= ({navigation}) => {
                             justifyContent: 'space-between',
                             alignItems: 'center',
                         }}>
-                        <Text
-                            style={{fontSize: 25, fontWeight: 'bold', color: COLORS.white}}>
-                            {item.name}
-                        </Text>
+                        <Text style={{marginTop: 10, lineHeight: 40, fontWeight:"bold" ,fontSize: 40, color: COLORS.white,}}>{myState.food}</Text>
+
 
                     </View>
                     {/*display all the plant information here*/}
@@ -102,7 +101,7 @@ const PlantDetailsScreen= ({navigation}) => {
                     {/*    end up giving u kisses. Keep your children away from him and yourself. As they say in planes*/}
                     {/*    help yourself before helping others.*/}
                     {/*</Text>*/}
-                    <Text style={style.detailsText}>Name: {myState.food}</Text>
+                    {/*<Text style={style.detailsText}>Name: {myState.food}</Text>*/}
                     <Text style={style.detailsText}>Sow: {myState.sow}</Text>
                     <Text style={style.detailsText}>Plant Season: {myState.plant}</Text>
                     <Text style={style.detailsText}>Harvest Season: {myState.harvest_info}</Text>
@@ -118,7 +117,7 @@ const PlantDetailsScreen= ({navigation}) => {
                         {/*do a post request here*/}
                         <SecondaryButton title="Plant It" onPress={() => {
                             onAddPlant();
-                            navigation.navigate('Harvest');
+                            navigation.navigate('Home');
                         }
                         }/>
                     </View>
@@ -130,18 +129,18 @@ const PlantDetailsScreen= ({navigation}) => {
 
 const style = StyleSheet.create({
     header: {
-        paddingVertical: 20,
+        paddingVertical: height * 0.03,
         flexDirection: 'row',
         alignItems: 'center',
-        marginHorizontal: 20,
+        marginHorizontal: width * 0.05,
     },
     details: {
-        paddingHorizontal: 20,
-        paddingTop: 40,
-        paddingBottom: 60,
+        paddingHorizontal: width * 0.05,
+        paddingTop: height * 0.02,
+        paddingBottom: height * 0.15,
         backgroundColor: COLORS.primary,
-        borderTopRightRadius: 40,
-        borderTopLeftRadius: 40,
+        borderTopRightRadius: width * 0.1,
+        borderTopLeftRadius: width * 0.1,
     },
     iconContainer: {
         backgroundColor: COLORS.white,
