@@ -172,7 +172,6 @@ const PlantsScreen = ({navigation}) => {
                 keyExtractor={item => item.id.toString()}
                 renderItem={({item}) => <Card food={item} />}
             />
-
         </SafeAreaView>
     )
 }
