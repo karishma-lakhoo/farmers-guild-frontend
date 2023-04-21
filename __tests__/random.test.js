@@ -1,6 +1,7 @@
+import {describe, it, expect} from '@jest/globals';
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import PlantDetailsScreen from './PlantDetailsScreen';
+import PlantDetailsScreen from '../src/screens/PlantDetails';
 
 describe('<PlantDetailsScreen />', () => {
     const mockNavigation = {

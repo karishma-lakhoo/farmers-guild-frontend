@@ -19,12 +19,12 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run tests with coverage
-        run: npm test -- --coverage --watchAll --testPathPattern=__tests__/*.{test,spec}.js __tests__/random.test.js | echo "q"
+        run: npm test -- --coverage --watchAll --testPathPattern='__tests__/*.{test,spec}.js|__tests__/hello.test.js'
 
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: unittests, randomtests
+          flags: unittests, randomtests, hellotest
           directory: ./coverage
