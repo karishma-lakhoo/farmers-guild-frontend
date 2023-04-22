@@ -6,10 +6,10 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import COLORS from "../consts/colors";
 import {api_url} from "../consts/api_url";
 import foods from "../consts/foods";
-import supertypes from "../consts/supertypes";
+
 
 const data = foods
-const data1 = supertypes
+console.log(foods[0].options)
 
 const DropdownBar = ({ data, label }) => {
     const [value, setValue] = useState(null);
@@ -71,7 +71,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
             </View>
             <View>
                 <DropdownBar data={data} label = "Select class" />
-                <DropdownBar data={data1} label = "supertype" />
+                <DropdownBar data={data[0].options} label = "supertype" />
             </View>
         </SafeAreaView>
     );

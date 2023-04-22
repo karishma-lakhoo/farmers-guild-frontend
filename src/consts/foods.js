@@ -2,26 +2,52 @@ const foods = [
     {
         id: '1',
         name: 'Supertype',
-        subtype: 'Fruit',
-        weight: '150g',
-        Date_harvested: '02/06/2022',
-        image: require ('../images/Apple.png')
+        options:[
+            {
+                id: "1",
+                name: "Fruit"
+            },
+            {
+                id: "2",
+                name: "Vegetables"
+            },
+            {
+                id: "3",
+                name: "Herbs"
+            },
+            {
+                id: "4",
+                name: "Flower"
+            }
+            ]
     },
     {
         id: '2',
         name: 'Type',
         subtype: 'Fruit',
-        weight: '150g',
-        Date_harvested: '02/06/2022',
-        image: require ('../images/Mango.png')
+        options:[
+            {
+                id: "1",
+                name: "blahhh"
+            },
+            {
+                id: "2",
+                name: "bloop"
+            },
+            {
+                id: "3",
+                name: "Herbadkws"
+            },
+            {
+                id: "4",
+                name: "Fladwodwkower"
+            }
+        ]
     },
     {
         id: '3',
         name: 'Subtype',
         subtype: 'Fruit',
-        weight: '150g',
-        Date_harvested: '02/06/2022',
-        image: require ('../images/Banana.png')
     }
 ];
 
