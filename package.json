@@ -43,8 +43,5 @@
     "react-native-testing-library": "^6.0.0",
     "react-test-renderer": "^18.2.0"
   },
-  "jest": {
-    "preset": "react-native"
-  },
   "private": true
 }
