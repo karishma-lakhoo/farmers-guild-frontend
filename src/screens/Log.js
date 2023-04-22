@@ -26,7 +26,7 @@ const FILTER_OPTIONS = [
     },
 ]
 const defaultValue = FILTER_OPTIONS[0]
-const url = api_url + '/harvest_log/';
+const url = api_url + '/harvest_log/';   //testing
 
 const LogScreen = ({navigation}) => {
     const [gardenOptions, setGardenOptions] = useState(GARDEN_OPTIONS);
