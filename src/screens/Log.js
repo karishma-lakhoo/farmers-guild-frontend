@@ -75,7 +75,7 @@ const LogScreen = ({navigation}) => {
                 console.log(data);
                 // console.log(gardenNames)
                 // setGardenOptions([...GARDEN_OPTIONS, ...gardenNames]);
-                setData(data); // update the data state variable with the API response
+                setData(data.results); // update the data state variable with the API response
             })
             .catch(error => console.log("error"))
     }, [token]);
