@@ -47,6 +47,8 @@ const DropdownBar = ({ data, label }) => {
                 onBlur={() => setIsFocus(false)}
                 onChange={(item) => {
                     setValue(item.value);
+                    console.log("selected")
+                    console.log(item.id)
                     setIsFocus(false);
                 }}
                 renderLeftIcon={() => (
