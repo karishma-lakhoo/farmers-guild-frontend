@@ -11,7 +11,7 @@ import { api_url } from "../consts/api_url";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //we need to get all the plants_in_garden for shellyrishma only - have to change views to allow for filters
-const url = api_url + '/plants_in_garden/';
+const url = api_url + '/plants_in_garden/';  //testing from plants_in_garden/ to plantsingarden
 const HarvestScreen = ({navigation,route}) => {
     const[isHarvestPopupVisible,setIsHarvestPopupVisible] = useState(false);
     const [harvestName, setHarvestName] = useState('');
@@ -34,7 +34,7 @@ const HarvestScreen = ({navigation,route}) => {
             .catch((error) => {
                 console.log(error);
             });
-    };
+    };  
 
     useEffect(() => {
         const getToken = async () => {
@@ -97,7 +97,7 @@ const HarvestScreen = ({navigation,route}) => {
                             {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
                             {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
                             {/*</Text>*/}
-                            <Text style={{fontWeight: 'grey', fontSize: 13, marginLeft:-15}}>
+                            <Text style={{fontWeight: 'bold', fontSize: 13, marginLeft:-15}}>  {/*changed fontweight from grey to bold*/}
                                 {item?.garden_detail?.name ?? "No garden found"}
                             </Text>
                         </>
