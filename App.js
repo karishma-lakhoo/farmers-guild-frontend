@@ -13,6 +13,8 @@ import PlantDetailsScreen from "./src/screens/PlantDetails";
 import BottomNavigator from "./src/navigation/BottomNavigator";
 import SplashScreen from "./src/screens/SplashScreen";
 import HarvestWeightScreen from "./src/screens/HarvestWeight";
+import AnalyticsScreen from "./src/screens/Analytics";
+import Analytics_FilterScreen from "./src/screens/Analytics_filter";
 const Stack = createStackNavigator();
 
 export const MyContext = createContext();
@@ -24,6 +26,7 @@ export default function App() {
             <NavigationContainer>
                 <StatusBar backgroundColor={'#fff'} barStyle={'dark-content'} />
                 <Stack.Navigator screenOptions={{headerShown: false}} initalRouteName={"Login"}>
+
                     <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }}/>
                     <Stack.Screen name="Login" component={LoginScreen}/>
                     <Stack.Screen name="Home" component={BottomNavigator}/>
@@ -33,6 +36,9 @@ export default function App() {
                     <Stack.Screen name="Plants" component={PlantsScreen}/>
                     <Stack.Screen name="SignUp" component={SignUpScreen}/>
                     <Stack.Screen name="Harvest" component={HarvestScreen}/>
+                    <Stack.Screen name="Analytics" component={AnalyticsScreen}/>
+                    <Stack.Screen name="Analytics_filter" component={Analytics_FilterScreen}/>
+
                 </Stack.Navigator>
             </NavigationContainer>
         </MyContext.Provider>
