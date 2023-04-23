@@ -1,9 +1,12 @@
-const supertypes_pie = [{
-    "Vegetable": 0,
-    "Fruit": 0,
-    "Herb": 0,
-    "Flower": 0
-}]
+const supertypes_pie = [
+    {"Vegetable": 0,},
+    {"Fruit": 0,},
+    {"Herb": 0,},
+    {"Flower": 0},
+]
+
+export default supertypes_pie;
+
 const all_relationships = [{
     'Fruit': {
         'Nut': ['Almond'],
