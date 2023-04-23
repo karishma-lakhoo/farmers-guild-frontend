@@ -302,4 +302,4 @@ export const foodSubCategories = {
         { key: 88, value: 'Turnip' },
         { key: 89, value: 'Zucchini' }
     ]
-    }
+}
