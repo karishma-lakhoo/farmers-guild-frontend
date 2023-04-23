@@ -37,14 +37,6 @@ const all_relationships = [{
         'Vegetable': ['Chive', 'Onion', 'Onion', 'Leek', 'Onion'],
     }
 }]
-const super_to_type = [{
-    "Fruit": ["Nut", "Pome Fruit", "Berry", "Vine Fruit", "Citrus", "False Fruit", "Stone Fruit"],
-    "Flower": ["Flower"],
-    "Vegetable": ["Nightshade", "Legume", "Cruciferous", "Cucurbit", "Root", "Stalk", "Allium", "Leaf"],
-    "Herb": ["Soft Herb", "Woody Herb", "Hard Herb"],
-    "Seed": ["Seed"]
-}
-]
 
 const type_to_sub = [{
     "Nut": ["Almond"],

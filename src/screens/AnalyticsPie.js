@@ -1,10 +1,15 @@
-import {View, Text, Button, StyleSheet, Image, SafeAreaView, Pressable, Modal} from 'react-native';
+import {View, Text, Button, StyleSheet, Image, SafeAreaView, Pressable, Modal, ScrollView} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import Icon from "react-native-vector-icons/MaterialIcons";
 import dummy_data from "../consts/dummy_data";
 import {VictoryPie, VictoryLegend, VictoryLabel } from "victory-native";
 import {generateColorScale} from "../consts/pie_chart_colours"
 import supertypes_pie from "../consts/supertypes_pie";
+import subtypes_pie from "../consts/subtypes_pie";
+import super_to_type_pie from "../consts/super_to_type_pie";
+console.log("tests_subsub")
+// console.log(super_to_type_pie[0]["Fruit"])
+import types_pie from "../consts/types_pie";
 // const data = [
 //     { x: 'Apples', y: 35 },
 //     { x: 'Bananas', y: 40 },
@@ -13,17 +18,7 @@ import supertypes_pie from "../consts/supertypes_pie";
 //     { x: 'Oranges', y: 25 },
 // ];
 // this is for all supertypes, types and subtypes
-const iterations = dummy_data.length
-console.log(dummy_data[0].supertype_count)
-console.log(dummy_data[0].supertype_count.Flower)
-if (typeof dummy_data[8] !== 'undefined') {
-    console.log("month test")
-    console.log(dummy_data.length)
-};
-
-
-
-function generateOutput(data, supertypeCountName, initialValues) {
+function generateOutputAll(data, supertypeCountName, initialValues) {
     const supertypeCount = {};
 
     // Set initial values
@@ -40,7 +35,8 @@ function generateOutput(data, supertypeCountName, initialValues) {
             }
         });
     });
-
+    console.log("hehehe")
+    console.log(supertypeCount)
     // Format output
     const output = [];
     Object.entries(supertypeCount).forEach(([type, count]) => {
@@ -48,19 +44,66 @@ function generateOutput(data, supertypeCountName, initialValues) {
     });
     return output;
 }
+function generateOutput2(data, countName1, countName2, initialValues) {
+    const supertypeCount = {};
+    // Set initial values
+    initialValues.forEach(item => {
+        console.log(item)
+        const key = Object.keys(item)[0];
+        supertypeCount[key] = item[key];
+    });
+    console.log("dictionary")
+    console.log(supertypeCount)
+    if(countName1 === "supertype_count"){
+        // Sum up supertype counts
+        data.forEach(item => {
+            for (const [key, value] of Object.entries(item["type_count"])) {
+                for (let thing of supertypeCount[countName2]) {
+                    if (key in thing) {
+                        thing[key] += value;
+                    }
+                }
+
+            }
+        });
+    }
+    if(countName1 === "type_count"){
+        // Sum up supertype counts
+        data.forEach(item => {
+            for (const [key, value] of Object.entries(item["subtype_count"])) {
+                for (let thing of supertypeCount[countName2]) {
+                    if (key in thing) {
+                        thing[key] += value;
+                    }
+                }
+
+            }
+        });
+    }
+
+
+    // Format output
+    const output = [];
+    for (let i =0; i < supertypeCount[countName2].length; i++){
+        Object.entries(supertypeCount[countName2][i]).forEach(([type, count]) => {
+            output.push({ x: type, y: count });
+        });
+    }
+    return output;
+}
+
+
 
 console.log("generated");
-console.log(generateOutput(dummy_data, "supertype_count", supertypes_pie));
+const test1 = "supertype_count";
+const test2 = "Fruit";
+console.log(generateOutput2(dummy_data, test1, test2, super_to_type_pie));
 console.log("generated");
 
-// const ddata = dummy_data[0].supertype_count
-// console.log("ddata")
-// console.log(ddata)
-// const formattedData = Object.entries(ddata).map(([key, value], index) => ({
-//     x: key,
-//     y: value,
-// }));
-const formattedData = generateOutput(dummy_data, "supertype_count", supertypes_pie)
+
+// if it is ALL
+const formattedData = generateOutputAll(dummy_data, "subtype_count", subtypes_pie)
+console.log("formatted data")
 console.log(formattedData)
 
 // console.log(formattedData);
@@ -84,10 +127,16 @@ const AnalyticsPieScreen = ({navigation}) => {
                 y="y"
                 colorScale={colorScale}
                 labels={() => null}/>
-            <VictoryLegend
-                data={percentageData}
-                colorScale={colorScale}
-            />
+            <ScrollView>
+                <View style={{ flexDirection: 'row' }}>
+                    <VictoryLegend
+                        orientation="vertical"
+                        gutter={20}
+                        colorScale={colorScale}
+                        data={percentageData}
+                    />
+                </View>
+            </ScrollView>
         </View>
     );
 };
