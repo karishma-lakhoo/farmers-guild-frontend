@@ -26,7 +26,7 @@ export default function App() {
             <NavigationContainer>
                 <StatusBar backgroundColor={'#fff'} barStyle={'dark-content'} />
                 <Stack.Navigator screenOptions={{headerShown: false}} initalRouteName={"Login"}>
-
+                    <Stack.Screen name="Analytics_filter" component={Analytics_FilterScreen}/>
                     <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }}/>
                     <Stack.Screen name="Login" component={LoginScreen}/>
                     <Stack.Screen name="Home" component={BottomNavigator}/>
@@ -37,7 +37,7 @@ export default function App() {
                     <Stack.Screen name="SignUp" component={SignUpScreen}/>
                     <Stack.Screen name="Harvest" component={HarvestScreen}/>
                     <Stack.Screen name="Analytics" component={AnalyticsScreen}/>
-                    <Stack.Screen name="Analytics_filter" component={Analytics_FilterScreen}/>
+
 
                 </Stack.Navigator>
             </NavigationContainer>

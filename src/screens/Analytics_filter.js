@@ -1,77 +1,40 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View , SafeAreaView} from 'react-native';
-import { Dropdown } from 'react-native-element-dropdown';
-import AntDesign from '@expo/vector-icons/AntDesign';
 import Icon from "react-native-vector-icons/MaterialIcons";
 import COLORS from "../consts/colors";
 import {api_url} from "../consts/api_url";
-import foods from "../consts/foods";
-import supertypes from "../consts/supertypes";
+import {foods, foodSubCategories} from "../consts/foods";
+import {SelectList} from 'react-native-dropdown-select-list'
 
-const data = foods
-const data1 = supertypes
-
-const DropdownBar = ({ data, label }) => {
-    const [value, setValue] = useState(null);
-    const [isFocus, setIsFocus] = useState(false);
-
-    const renderLabel = () => {
-        if (value || isFocus) {
-            return (
-                <Text style={[styles.label, isFocus && { color: "green" }]}>
-                    {label}
-                </Text>
-            );
-        }
-        return null;
-    };
-
-    return (
-        <View style={styles.container}>
-            {renderLabel()}
-            <Dropdown
-                style={[styles.dropdown, isFocus && { borderColor: COLORS.primary }]}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                iconStyle={styles.iconStyle}
-                data={data}
-                search
-                maxHeight={300}
-                labelField="name"
-                valueField="id"
-                placeholder={!isFocus ? 'Select item' : '...'}
-                searchPlaceholder="Search..."
-                value={value}
-                onFocus={() => setIsFocus(true)}
-                onBlur={() => setIsFocus(false)}
-                onChange={(item) => {
-                    setValue(item.value);
-                    setIsFocus(false);
-                }}
-                renderLeftIcon={() => (
-                    <AntDesign
-                        style={styles.icon}
-                        color={isFocus ? "green" : 'black'}
-                        name="Safety"
-                        size={20}
-                    />
-                )}
-            />
-        </View>
-    );
-};
 
 const Analytics_FilterScreen = ({ navigation }) => {
+
+    const [category, setCategory] = React.useState("");
+    const [subCategory, setSubCategory] = React.useState("");
+
+    const categories = foods
+    const subCategories = foodSubCategories
+
     return (
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
             <View style={styles.header}>
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.goBack()}/>
-                <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Generate Graph</Text>
+                <Text style = {{fontSize: 20, fontWeight: 'bold'}}>New Screen Title</Text>
             </View>
-            <View>
-                <DropdownBar data={data} label = "Select class" />
-                <DropdownBar data={data1} label = "supertype" />
+            <View style={{paddingHorizontal: 10, paddingTop: 20}}>
+                <SelectList
+                    setSelected={setCategory}
+                    data={categories}
+                    placeholder={"Select Category"}
+                    // defaultOption={{key: 'SUP', value: 'SuperType'}}
+                />
+
+                <SelectList
+                    setSelected={setSubCategory}
+                    data={subCategories[category]}
+                    placeholder={"Select SubCategory"}
+                    // defaultOption={{key: '1', value: 'Fruits'}}
+                />
             </View>
         </SafeAreaView>
     );
