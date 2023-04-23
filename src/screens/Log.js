@@ -159,7 +159,7 @@ const LogScreen = ({navigation}) => {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle = {{paddingBottom: 80}}
                 data = {data}
-                renderItem = {({item})=><LogCard item = {item}/>}
+                renderItem = {({item})=> <LogCard item = {item}/>}
             />
         </SafeAreaView>
     )
