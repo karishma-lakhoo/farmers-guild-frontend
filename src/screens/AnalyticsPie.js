@@ -7,7 +7,7 @@ import {generateColorScale} from "../consts/pie_chart_colours"
 import supertypes_pie from "../consts/supertypes_pie";
 import subtypes_pie from "../consts/subtypes_pie";
 import super_to_type_pie from "../consts/super_to_type_pie";
-console.log("tests_subsub")
+import type_to_sub from "../consts/type_to_sub";
 // console.log(super_to_type_pie[0]["Fruit"])
 import types_pie from "../consts/types_pie";
 // const data = [
@@ -46,10 +46,12 @@ function generateOutputAll(data, supertypeCountName, initialValues) {
 }
 function generateOutput2(data, countName1, countName2, initialValues) {
     const supertypeCount = {};
+
+    console.log(initialValues)
     // Set initial values
     initialValues.forEach(item => {
         console.log(item)
-        const key = Object.keys(item)[0];
+        const key = countName2;
         supertypeCount[key] = item[key];
     });
     console.log("dictionary")
@@ -80,8 +82,6 @@ function generateOutput2(data, countName1, countName2, initialValues) {
             }
         });
     }
-
-
     // Format output
     const output = [];
     for (let i =0; i < supertypeCount[countName2].length; i++){
@@ -95,14 +95,14 @@ function generateOutput2(data, countName1, countName2, initialValues) {
 
 
 console.log("generated");
-const test1 = "supertype_count";
-const test2 = "Fruit";
-console.log(generateOutput2(dummy_data, test1, test2, super_to_type_pie));
+const test1 = "type_count";
+const test2 = "Citrus";
+console.log(generateOutput2(dummy_data, test1, test2, type_to_sub));
 console.log("generated");
 
 
 // if it is ALL
-const formattedData = generateOutputAll(dummy_data, "subtype_count", subtypes_pie)
+const formattedData = generateOutput2(dummy_data, test1, test2, type_to_sub)
 console.log("formatted data")
 console.log(formattedData)
 

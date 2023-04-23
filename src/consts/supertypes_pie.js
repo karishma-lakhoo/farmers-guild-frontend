@@ -37,25 +37,3 @@ const all_relationships = [{
         'Vegetable': ['Chive', 'Onion', 'Onion', 'Leek', 'Onion'],
     }
 }]
-
-const type_to_sub = [{
-    "Nut": ["Almond"],
-    "Pome Fruit": ["Apple"],
-    "Flower": ["Artichoke", "Edible Flower", "Nasturtium"],
-    "Nightshade": ["Aubergine", "Chilli", "Pepper", "Tomato"],
-    "Legume": ["Bean", "Pea"],
-    "Cruciferous": ["Broccoli", "Cabbage", "Cauliflower", "Kale"],
-    "Cucurbit": ["Squash", "Cucumber", "Pumpkin", "Zucchini"],
-    "Root": ["Beetroot", "Carrot", "Jerusalem Artichoke", "Ginger", "Radish", "Sweet Potato", "Turnip"],
-    "Berry": ["Blackberry", "Blueberry", "Gooseberry", "Kei Apple", "Strawberry"],
-    "Vine Fruit": ["Granadilla", "Grape"],
-    "Citrus": ["Grapefruit", "Lemon", "Naartjie", "Orange", "Lime"],
-    "Allium": ["Chive", "Leek", "Onion"],
-    "Leaf": ["Lettuce", "Mustard Leaf", "Sorrel", "Spinach"],
-    "Soft Herb": ["Basil", "Coriander", "Fennel", "Lemon Balm", "Mint", "Parsley"],
-    "Woody Herb": ["Curry Leaf", "Oregano", "Rosemary", "Sage"],
-    "Hard Herb": ["Lemon Verbena", "Marjoram", "Thyme"],
-    "False Fruit": ["Fig"],
-    "Stone Fruit": ["Peach", "Plum"],
-    "Seed": ["Sunflower Seed"]
-}]
