@@ -1,37 +1,37 @@
 export const foods = [
     {
-        key: 'SUP',
+        key: 'supertype_count',
         value: 'Supertype',
     },
     {
-        key: 'TYP',
+        key: 'type_count',
         value: 'Type',
     },
     {
-        key: 'SUB',
+        key: 'subtype_count',
         value: 'Subtype'
     }
 ];
 
 export const foodSubCategories = {
-    'SUP': [
+    'supertype_count': [
         {
             key: '1',
-            value: 'Fruits'
+            value: 'Fruit'
         },
         {
             key: '2',
-            value: 'Vegetables'
+            value: 'Vegetable'
         },
         {
             key: '3',
-            value: 'Herbs'
+            value: 'Herb'
         },
         {
             key: '4',
-            value: 'Flowers'
+            value: 'Flower'
         }],
-    'TYP': [
+    'type_count': [
         {
             key: '5',
             value: 'Nut'
@@ -112,7 +112,7 @@ export const foodSubCategories = {
             key: 24,
             value: 'Seed'
         }],
-    'SUB': [
+    'subtype_count': [
         {
             key: 25,
             value: 'Almond'
