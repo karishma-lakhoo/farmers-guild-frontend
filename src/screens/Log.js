@@ -34,7 +34,7 @@ const LogScreen = ({navigation}) => {
     const [selectedTeam2, setSelectedTeam2] = useState({})
     const [data, setData] = useState([{}])
     const [token, setToken] = useState('');
-
+    const [pageNumber, setPageNumber] = useState(1); // initialize page number as 1
     useEffect(() => {
         const getToken = async () => {
             try {
@@ -44,7 +44,6 @@ const LogScreen = ({navigation}) => {
                 }
             } catch (error) {
                 console.log('Error retrieving data:', error);
-                console.log()
             }
         };
         getToken();
@@ -59,37 +58,31 @@ const LogScreen = ({navigation}) => {
             'Authorization': `Bearer ${token}`,
         };
 
-
-        fetch(url, {
+        fetch(`${url}?page=${pageNumber}`, { // append the page number to the API URL
             method: "GET",
             headers: headers
         })
-
             .then(resp => resp.json())
-            .then(data => {
-                // const gardenNames = data.gardens.map(garden => ({
-                //     item: garden.name,
-                //     id: food_detail.id,
-                // }));
-                // console.log("thithithti")
-                console.log(data);
-                // console.log(gardenNames)
-                // setGardenOptions([...GARDEN_OPTIONS, ...gardenNames]);
-                setData(data.results); // update the data state variable with the API response
+            .then(response => {
+                const nextPage = response.next; // get the URL for the next page
+                const newData = response.results;
+                setData(prevData => [...prevData, ...newData]); // concatenate the new data to the existing data
+                console.log(newData)
+                if (nextPage !== null) { // if there's a next page, increment the page number and call the API again
+                    setPageNumber(prevPageNumber => prevPageNumber + 1);
+                }
             })
-            .catch(error => console.log("error"))
-    }, [token]);
-
-    
-    const gardenNames = [];
-    for (let i = 0; i < data.length; i++) {
-        const gardenDetail = data[i]?.plants_in_garden?.garden_detail;
-        const gardenName = gardenDetail?.name?.toLowerCase();
-        if (gardenName && !gardenNames.includes(gardenName)) {
-            gardenNames.push(gardenName);
-            GARDEN_OPTIONS.push({ item: gardenDetail.name, id: gardenDetail?.id });
-        }
-    }
+            .catch(error => console.log(error));
+    }, [token, pageNumber]);
+    // const gardenNames = [];
+    // for (let i = 0; i < data.length; i++) {
+    //     const gardenDetail = data[i]?.plants_in_garden?.garden_detail;
+    //     const gardenName = gardenDetail?.name?.toLowerCase();
+    //     if (gardenName && !gardenNames.includes(gardenName)) {
+    //         gardenNames.push(gardenName);
+    //         GARDEN_OPTIONS.push({ item: gardenDetail.name, id: gardenDetail?.id });
+    //     }
+    // }
     const gardenOptions2 = [...GARDEN_OPTIONS]
 
 
