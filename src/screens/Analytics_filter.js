@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View , SafeAreaView, Button} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView, Button, Pressable} from 'react-native';
 import Icon from "react-native-vector-icons/MaterialIcons";
 import COLORS from "../consts/colors";
 import {api_url} from "../consts/api_url";
@@ -19,19 +19,19 @@ const Analytics_FilterScreen = ({ navigation }) => {
 
     const categories = foods
     const graphs = [
-        {key: "LI", value: "Line Graph"},
-        {key: "PI", value: "Pie Chart"}
+        {key: "Line Graph", value: "Line Graph"},
+        {key: "Pie Graph", value: "Pie Chart"}
     ]
 
     const handlePress = () => {
         console.log(graph)
-        if(graph === "PI"){
+        if(graph === "Pie Graph"){
             navigation.navigate('AnalyticsPie', {
                 category: selectedCategory,
                 subcategory: selectedSubCategory
             });
         }
-        if(graph === "LI") {
+        if(graph === "Line Graph") {
             navigation.navigate('AnalyticsLine', {
                 category: selectedCategory,
                 subcategory: selectedSubCategory
@@ -54,7 +54,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
             <View style={styles.header}>
-                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.goBack()}/>
+                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Graph Filters</Text>
             </View>
             <View style={{paddingHorizontal: 10, paddingTop: 20}}>
@@ -72,20 +72,23 @@ const Analytics_FilterScreen = ({ navigation }) => {
                     placeholder={"Select Category"}
                     // defaultOption={{key: 'SUP', value: 'SuperType'}}
                 />
+                {selectedCategory && (
+                    <SelectList
+                        setSelected={(selected) => {
 
-                <SelectList
-                    setSelected={(selected) => {
-
-                        const selectedCategoryObj = subCategories[selectedCategory].find(item => item.key === selected);
-                        setSelectedSubCategory(selectedCategoryObj.value);
-                        console.log("Selected subcategory:", selectedCategoryObj.value);
-                    }}
-                    data={subCategories[selectedCategory]}
-                    placeholder={`Select value`}
-                />
+                            const selectedCategoryObj = subCategories[selectedCategory].find(item => item.key === selected);
+                            setSelectedSubCategory(selectedCategoryObj.value);
+                            console.log("Selected subcategory:", selectedCategoryObj.value);
+                        }}
+                        data={subCategories[selectedCategory]}
+                        placeholder={`Select value`}
+                    />
+                )}
             </View>
-            <View>
-                <Button title="Go to Second Screen" onPress={handlePress} />
+            <View style={{ padding: 50 }}>
+                <Pressable style={styles.button} onPress={handlePress} textStyle={{ color: 'white' }}>
+                    <Text style={styles.text}>{`Generate ${graph}`}</Text>
+                </Pressable>
             </View>
         </SafeAreaView>
     );
@@ -139,14 +142,19 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 8,
+        elevation: 3,
         backgroundColor: COLORS.primary,
-        padding: 10,
-        borderRadius: 5,
-        marginTop: 20
     },
-    buttonText: {
+    text: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
         color: 'white',
-        textAlign: 'center',
-        fontWeight: 'bold'
-    }
+    },
 });
