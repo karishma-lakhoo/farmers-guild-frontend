@@ -10,6 +10,9 @@ import super_to_type_pie from "../consts/super_to_type_pie";
 import type_to_sub from "../consts/type_to_sub";
 // console.log(super_to_type_pie[0]["Fruit"])
 import types_pie from "../consts/types_pie";
+import { useRoute } from '@react-navigation/native';
+
+
 // const data = [
 //     { x: 'Apples', y: 35 },
 //     { x: 'Bananas', y: 40 },
@@ -35,8 +38,8 @@ function generateOutputAll(data, supertypeCountName, initialValues) {
             }
         });
     });
-    console.log("hehehe")
-    console.log(supertypeCount)
+    // console.log("hehehe")
+    // console.log(supertypeCount)
     // Format output
     const output = [];
     Object.entries(supertypeCount).forEach(([type, count]) => {
@@ -94,26 +97,54 @@ function generateOutput2(data, countName1, countName2, initialValues) {
 
 
 
-console.log("generated");
+// console.log("generated");
 const test1 = "type_count";
 const test2 = "Citrus";
-console.log(generateOutput2(dummy_data, test1, test2, type_to_sub));
-console.log("generated");
+// console.log(generateOutput2(dummy_data, test1, test2, type_to_sub));
+// console.log("generated");
 
 
 // if it is ALL
-const formattedData = generateOutput2(dummy_data, test1, test2, type_to_sub)
-console.log("formatted data")
-console.log(formattedData)
+
+// console.log("formatted data")
+// console.log(formattedData)
 
 // console.log(formattedData);
 const AnalyticsPieScreen = ({navigation}) => {
+    const route = useRoute();
+    const { category, subcategory } = route.params;
+    console.log("Selected category:", category);
+    console.log("Selected subcategory:", subcategory);
+    // const formattedData = generateOutputAll(dummy_data, category, subtypes_pie)
+    let formattedData;
+    if(subcategory === "All Supertypes" || subcategory === "All Types" || subcategory === "All Subtypes" ){
+        if(category === "supertype_count"){
+            formattedData = generateOutputAll(dummy_data, category, supertypes_pie)
+
+        }
+        if(category === "type_count"){
+            formattedData = generateOutputAll(dummy_data, category, types_pie)
+
+        }
+        if(category === "subtype_count"){
+            formattedData = generateOutputAll(dummy_data, category, subtypes_pie)
+
+        }
+    }
+    else{
+        if(category === "supertype_count"){
+            formattedData = generateOutput2(dummy_data, category, subcategory, super_to_type_pie)
+        }
+        if(category === "type_count"){
+            formattedData = generateOutput2(dummy_data, category, subcategory, type_to_sub)
+        }
+    }
+
     const [output, setOutput] = useState([]);
 
     const legendData = formattedData.map((datum) => ({ name: datum.x }));
     const colorScale = generateColorScale(formattedData.length);
     const total = formattedData.reduce((acc, curr) => acc + curr.y, 0);
-    // console.log(total)
     const percentageData = formattedData.map((datum) => ({
         name: `${datum.x} (${((datum.y / total) * 100).toFixed(2)}%)`,
     }));
