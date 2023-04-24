@@ -47,10 +47,10 @@ function generateOutputAll(data, supertypeCountName, initialValues) {
 function generateOutput2(data, countName1, countName2, initialValues) {
     const supertypeCount = {};
 
-    console.log(initialValues)
+    // console.log(initialValues)
     // Set initial values
     initialValues.forEach(item => {
-        console.log(item)
+        // console.log(item)
         const key = countName2;
         supertypeCount[key] = item[key];
     });
@@ -113,7 +113,7 @@ const AnalyticsPieScreen = ({navigation}) => {
     const legendData = formattedData.map((datum) => ({ name: datum.x }));
     const colorScale = generateColorScale(formattedData.length);
     const total = formattedData.reduce((acc, curr) => acc + curr.y, 0);
-    console.log(total)
+    // console.log(total)
     const percentageData = formattedData.map((datum) => ({
         name: `${datum.x} (${((datum.y / total) * 100).toFixed(2)}%)`,
     }));

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View , SafeAreaView, Button} from 'react-native';
 import Icon from "react-native-vector-icons/MaterialIcons";
 import COLORS from "../consts/colors";
 import {api_url} from "../consts/api_url";
-import {foods, foodSubCategories} from "../consts/foods";
+import {foods, foodSubCategoriesLine, foodSubCategoriesPie} from "../consts/foods";
 import {SelectList} from 'react-native-dropdown-select-list'
 import {TouchableOpacity} from "react-native-web";
 
@@ -15,21 +15,41 @@ const Analytics_FilterScreen = ({ navigation }) => {
     const [graph, setGraph] = React.useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubCategory, setSelectedSubCategory] = useState("");
+    const [subCategories, setSubCategories] = useState(foodSubCategoriesLine); // initialize subCategories to foodSubCategoriesLine
 
     const categories = foods
-    const subCategories = foodSubCategories
     const graphs = [
         {key: "LI", value: "Line Graph"},
         {key: "PI", value: "Pie Graph"}
     ]
 
     const handlePress = () => {
-        navigation.navigate('AnalyticsLine', {
-            category: selectedCategory,
-            subcategory: selectedSubCategory
-        });
+        console.log(graph)
+        if(graph === "PI"){
+            navigation.navigate('AnalyticsPie', {
+                category: selectedCategory,
+                subcategory: selectedSubCategory
+            });
+        }
+        if(graph === "LI") {
+            navigation.navigate('AnalyticsLine', {
+                category: selectedCategory,
+                subcategory: selectedSubCategory
+            });
+        }
     };
 
+    const handleGraphSelection = (selected) => {
+        setGraph(selected);
+        const selectedGraph = graphs.find(item => item.key === selected);
+        if(selectedGraph.value === "Pie Graph") {
+            setSubCategories(foodSubCategoriesPie); // update subCategories to foodSubCategoriesPie
+            console.log(subCategories);
+        } else {
+            setSubCategories(foodSubCategoriesLine); // set subCategories back to foodSubCategoriesLine
+        }
+        console.log("Selected graph:", selectedGraph.value);
+    };
 
     return (
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
@@ -39,14 +59,9 @@ const Analytics_FilterScreen = ({ navigation }) => {
             </View>
             <View style={{paddingHorizontal: 10, paddingTop: 20}}>
                 <SelectList
-                    setSelected={(selected) => {
-                        setGraph(selected);
-                        const selectedGraph = graphs.find(item => item.key === selected);
-                        console.log("Selected graph:", selectedGraph.value);
-                    }}
+                    setSelected={handleGraphSelection}
                     data={graphs}
                     placeholder={"Select Graph Type"}
-                    // defaultOption={{key: 'SUP', value: 'SuperType'}}
                 />
                 <SelectList
                     setSelected={(selected) => {

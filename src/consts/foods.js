@@ -13,7 +13,7 @@ export const foods = [
     }
 ];
 
-export const foodSubCategories = {
+export const foodSubCategoriesLine = {
     'supertype_count': [
         {
             key: '1',
@@ -301,5 +301,122 @@ export const foodSubCategories = {
         { key: 87, value: 'Turmeric' },
         { key: 88, value: 'Turnip' },
         { key: 89, value: 'Zucchini' }
+    ]
+}
+
+
+
+export const foodSubCategoriesPie = {
+    'supertype_count': [
+        {
+            key: "1",
+            value: "All Supertypes"
+        },
+        {
+            key: '2',
+            value: 'Fruit'
+        },
+        {
+            key: '3',
+            value: 'Vegetable'
+        },
+        {
+            key: '4',
+            value: 'Herb'
+        },
+        {
+            key: '5',
+            value: 'Flower'
+        }],
+    'type_count': [
+        {
+            key: "5",
+            value: "All Types"
+        },
+        {
+            key: '6',
+            value: 'Nut'
+        },
+        {
+            key: '7',
+            value: 'Pome Fruit'
+        },
+        {
+            key: '8',
+            value: 'Flower'
+        },
+        {
+            key: '9',
+            value: 'Nightshade'
+        },
+        {
+            key: '10',
+            value: 'Soft Herb'
+        },
+        {
+            key: '11',
+            value: 'Legume'
+        },
+        {
+            key: '12',
+            value: 'Root'
+        },
+        {
+            key: "13",
+            value: 'Berry'
+        },
+        {
+            key: "14",
+            value: 'Cruciferous'
+        },
+        {
+            key: "15",
+            value: 'Cucurbit'
+        },
+        {
+            key: "16",
+            value: 'Stalk'
+        },
+        {
+            key: "17",
+            value: 'Allium'
+        },
+        {
+            key: "18",
+            value: 'Woody Herb'
+        },
+        {
+            key: "19",
+            value: 'False Fruit'
+        },
+        {
+            key: "20",
+            value: 'Vine Fruit'
+        },
+        {
+            key: "21",
+            value: 'Citrus'
+        },
+        {
+            key: "22",
+            value: 'Hard Herb'
+        },
+        {
+            key: "23",
+            value: 'Leaf'
+        },
+        {
+            key: "24",
+            value: 'Stone Fruit'
+        },
+        {
+            key: "25",
+            value: 'Seed'
+        }],
+    'subtype_count': [
+        {
+            key: 25,
+            value: 'All Subtypes'
+        }
     ]
 }
