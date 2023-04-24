@@ -20,7 +20,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
     const categories = foods
     const graphs = [
         {key: "LI", value: "Line Graph"},
-        {key: "PI", value: "Pie Graph"}
+        {key: "PI", value: "Pie Chart"}
     ]
 
     const handlePress = () => {
@@ -42,7 +42,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
     const handleGraphSelection = (selected) => {
         setGraph(selected);
         const selectedGraph = graphs.find(item => item.key === selected);
-        if(selectedGraph.value === "Pie Graph") {
+        if(selectedGraph.value === "Pie Chart") {
             setSubCategories(foodSubCategoriesPie); // update subCategories to foodSubCategoriesPie
             console.log(subCategories);
         } else {

@@ -152,6 +152,10 @@ const AnalyticsPieScreen = ({navigation}) => {
 
     return (
         <View>
+            <View style={styles.header}>
+                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.goBack()}/>
+                <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Pie Chart</Text>
+            </View>
             <VictoryPie
                 data={formattedData}
                 x="x"
@@ -171,6 +175,13 @@ const AnalyticsPieScreen = ({navigation}) => {
         </View>
     );
 };
-
+const styles = StyleSheet.create({
+    header: {
+        paddingVertical: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginHorizontal: 10,
+    },
+});
 
 export default AnalyticsPieScreen;
