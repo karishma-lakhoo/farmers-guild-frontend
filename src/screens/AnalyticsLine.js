@@ -118,7 +118,7 @@ const AnalyticsLineScreen = ({navigation}) => {
         <SafeAreaView style={{backgroundColor: COLORS.primary, flex: 1}}>
             <View style={styles.header}>
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.goBack()}/>
-                <Text style = {{fontSize: 20, fontWeight: 'bold'}}>New Screen Title</Text>
+               <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Line Graph</Text> 
             </View>
             <View style={styles.container}>
                 <View>
