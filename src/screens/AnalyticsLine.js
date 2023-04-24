@@ -5,11 +5,13 @@ import {LineChart} from "react-native-chart-kit";
 import COLORS from "../consts/colors";
 import dummy_data from "../consts/dummy_data";
 import { useRoute } from '@react-navigation/native';
+import { api_url } from "../consts/api_url";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function getCategoryCounts(data, category, countObject) {
     const counts = new Array(12).fill(0);
-
-    data.forEach(item => {
+    console.log(data);
+    data?.forEach(item => {
         const count = item[countObject];
         if (category in count) {
             const month = item.month - 1; // month is 1-based, array is 0-based
@@ -18,18 +20,78 @@ function getCategoryCounts(data, category, countObject) {
     });
 
     return counts;
-}
+}  
 
-const counts2 = getCategoryCounts(dummy_data, "Tomato", "subtype_count");
-console.log(counts2); // prints an array of length 12 with the count of Tomato for each month
+const url = api_url + '/harvest_log/analytics/?start_year=2020&end_year=2022';
+
+//const counts2 = getCategoryCounts(dummy_data, "Tomato", "subtype_count");
+//console.log(counts2); // prints an array of length 12 with the count of Tomato for each month
 
 
 const AnalyticsLineScreen = ({navigation}) => {
+
+
+
     const route = useRoute();
     const { category, subcategory } = route.params;
     console.log("Selected category:", category);
     console.log("Selected subcategory:", subcategory);
-    const counts = getCategoryCounts(dummy_data, subcategory, category);
+
+    const [counts, setCounts] = useState(new Array(12).fill(0));
+
+    const [true_data, set_true_Data] = useState([{}])
+    const [token, setToken] = useState('');
+
+    useEffect(() => {
+        const getToken = async () => {
+            try {
+                const value = await AsyncStorage.getItem('token');
+                if (value !== null) {
+                    setToken(value);
+                }
+            } catch (error) {
+                console.log('Error retrieving data:', error);
+                console.log()
+            }
+        };
+        getToken();
+    }, []);
+
+    useEffect(() => {
+        if (!token) {
+            return;
+        }
+
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+        };
+
+
+        fetch(url, {
+            method: "GET",
+            headers: headers
+        })
+
+            .then(resp => resp.json())
+            .then(data => {
+                
+                
+               //console.log(data);
+                set_true_Data(data); // update the data state variable with the API response
+                const categoryCounts = getCategoryCounts(data, subcategory, category);
+                setCounts(categoryCounts);
+                
+            })
+            .catch(error => console.log("error"))
+    }, [token]); 
+
+   
+
+
+
+
+    
+  
     console.log(counts); // prints an array of length 12 with the count of Fruit for each month
     const data = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul","Aug", "Sept", "Oct", "Nov", "Dec"],
@@ -61,7 +123,7 @@ const AnalyticsLineScreen = ({navigation}) => {
             <View style={styles.container}>
                 <View>
                     <LineChart
-                        data={data}
+                        data={data} //change back to data?
                         width={Dimensions.get("window").width}
                         height={220}
                         chartConfig={chartConfig}
