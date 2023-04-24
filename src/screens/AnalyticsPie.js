@@ -8,8 +8,10 @@ import supertypes_pie from "../consts/supertypes_pie";
 import subtypes_pie from "../consts/subtypes_pie";
 import super_to_type_pie from "../consts/super_to_type_pie";
 import type_to_sub from "../consts/type_to_sub";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // console.log(super_to_type_pie[0]["Fruit"])
 import types_pie from "../consts/types_pie";
+import { api_url } from "../consts/api_url";
 import { useRoute } from '@react-navigation/native';
 
 
@@ -21,6 +23,9 @@ import { useRoute } from '@react-navigation/native';
 //     { x: 'Oranges', y: 25 },
 // ];
 // this is for all supertypes, types and subtypes
+const url = api_url + '/harvest_log/analytics/?start_year=2020&end_year=2022'; 
+
+
 function generateOutputAll(data, supertypeCountName, initialValues) {
     const supertypeCount = {};
 
@@ -31,7 +36,7 @@ function generateOutputAll(data, supertypeCountName, initialValues) {
     });
 
     // Sum up supertype counts
-    data.forEach(item => {
+    data?.forEach(item => {
         Object.entries(item[supertypeCountName]).forEach(([type, count]) => {
             if (supertypeCount[type] !== undefined) {
                 supertypeCount[type] += count;
@@ -61,7 +66,7 @@ function generateOutput2(data, countName1, countName2, initialValues) {
     console.log(supertypeCount)
     if(countName1 === "supertype_count"){
         // Sum up supertype counts
-        data.forEach(item => {
+        data?.forEach(item => {
             for (const [key, value] of Object.entries(item["type_count"])) {
                 for (let thing of supertypeCount[countName2]) {
                     if (key in thing) {
@@ -74,7 +79,7 @@ function generateOutput2(data, countName1, countName2, initialValues) {
     }
     if(countName1 === "type_count"){
         // Sum up supertype counts
-        data.forEach(item => {
+        data?.forEach(item => {
             for (const [key, value] of Object.entries(item["subtype_count"])) {
                 for (let thing of supertypeCount[countName2]) {
                     if (key in thing) {
@@ -93,10 +98,48 @@ function generateOutput2(data, countName1, countName2, initialValues) {
         });
     }
     return output;
-}
+} 
 
 
-
+{/*function generateOutput2(data, countName1, countName2, initialValues) {
+    const supertypeCount = {};
+  
+    // Set initial values
+    initialValues.forEach(item => {
+      const key = item[countName2];
+      supertypeCount[key] = {};
+      for (let type of subtypes_pie) {
+        supertypeCount[key][type] = 0;
+      }
+    });
+  
+    // Sum up supertype counts
+    data.forEach(item => {
+      Object.entries(item[countName1]).forEach(([type, count]) => {
+        const subtype = type_to_sub[type];
+        if (subtype && supertypeCount[subtype] !== undefined) {
+          supertypeCount[subtype][type] += count;
+        }
+      });
+    });
+  
+    // Format output
+    const output = [];
+    for (let [supertype, subtypes] of Object.entries(supertypeCount)) {
+      Object.entries(subtypes).forEach(([subtype, count]) => {
+        output.push({ x: subtype, y: count, label: supertype });
+      });
+    }
+    return output;
+  } */}
+  
+  
+  
+  
+  
+  
+  
+  
 // console.log("generated");
 const test1 = "type_count";
 const test2 = "Citrus";
@@ -111,53 +154,156 @@ const test2 = "Citrus";
 
 // console.log(formattedData);
 const AnalyticsPieScreen = ({navigation}) => {
+
+
+   
+    //start of fetch request
+
+
+
+    const [true_data, set_true_Data] = useState([{}])
+    const [token, setToken] = useState('');
+
+    useEffect(() => {
+        const getToken = async () => {
+            try {
+                const value = await AsyncStorage.getItem('token');
+                if (value !== null) {
+                    setToken(value);
+                }
+            } catch (error) {
+                console.log('Error retrieving data:', error);
+                console.log()
+            }
+        };
+        getToken();
+    }, []);
+
+    useEffect(() => {
+        if (!token) {
+            return;
+        }
+
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+        };
+
+
+        fetch(url, {
+            method: "GET",
+            headers: headers
+        })
+
+            .then(resp => resp.json())
+            .then(data => {
+                
+                
+               
+                set_true_Data(data); // update the data state variable with the API response
+                
+            })
+            .catch(error => console.log("error"))
+    }, [token]); 
+
+   
+
+    
+    
+
+
+    //console.log("Pratham loves alisha")
+    //console.log(true_data);
+    //console.log("Pratham still loves that bish");
+   // console.log("true data is as follows ///////////////////")
+  //  console.log(true_data);
+   // console.log("true data is above ///////////////////")
+
+   
+
+
+
+    //end of fetch request
+
+
+
+
+
+    {/*useEffect(() => {
+        if (true_data.length > 3) {
+          // Code that depends on true_data goes here
+          console.log("This is the true data bbleeeeeeeeehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh ///////////")
+    console.log(true_data)
+    console.log("This is the true data ///////////")
+        }
+      }, [true_data]);  */}
+
+
+
+      console.log("This is the true data bbleeeeeeeeehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh ///////////")
+    console.log(true_data)
+    console.log("This is the true data ///////////")
+
+
     const route = useRoute();
     const { category, subcategory } = route.params;
-    console.log("Selected category:", category);
-    console.log("Selected subcategory:", subcategory);
+  //  console.log("Selected category:", category);
+  //  console.log("Selected subcategory:", subcategory);
     // const formattedData = generateOutputAll(dummy_data, category, subtypes_pie)
+    
+    
     let formattedData;
     if(subcategory === "All Supertypes" || subcategory === "All Types" || subcategory === "All Subtypes" ){
         if(category === "supertype_count"){
-            formattedData = generateOutputAll(dummy_data, category, supertypes_pie)
+
+           
+
+
+            formattedData = generateOutputAll(true_data?.true_data, category, supertypes_pie)
+
+            
 
         }
         if(category === "type_count"){
-            formattedData = generateOutputAll(dummy_data, category, types_pie)
+            formattedData = generateOutputAll(true_data?.true_data, category, types_pie)
 
         }
         if(category === "subtype_count"){
-            formattedData = generateOutputAll(dummy_data, category, subtypes_pie)
+            formattedData = generateOutputAll(true_data?.true_data, category, subtypes_pie)
 
         }
     }
     else{
         if(category === "supertype_count"){
-            formattedData = generateOutput2(dummy_data, category, subcategory, super_to_type_pie)
+            formattedData = generateOutput2(true_data?.true_data, category, subcategory, super_to_type_pie)
         }
         if(category === "type_count"){
-            formattedData = generateOutput2(dummy_data, category, subcategory, type_to_sub)
+            formattedData = generateOutput2(true_data?.true_data, category, subcategory, type_to_sub)
         }
     }
 
     const [output, setOutput] = useState([]);
 
-    const legendData = formattedData.map((datum) => ({ name: datum.x }));
-    const colorScale = generateColorScale(formattedData.length);
-    const total = formattedData.reduce((acc, curr) => acc + curr.y, 0);
-    const percentageData = formattedData.map((datum) => ({
+    const legendData = formattedData?.map((datum) => ({ name: datum.x }));
+    const colorScale = generateColorScale(formattedData?.length);
+    const total = formattedData?.reduce((acc, curr) => acc + curr.y, 0);
+    const percentageData = formattedData?.map((datum) => ({
         name: `${datum.x} (${((datum.y / total) * 100).toFixed(2)}%)`,
     }));
     console.log(percentageData)
 
     return (
+
+
+        
+        
         <View>
             <View style={styles.header}>
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.goBack()}/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Pie Chart</Text>
             </View>
             <VictoryPie
-                data={formattedData}
+                data={formattedData?.formattedData}
+                //true_data = {data}
                 x="x"
                 y="y"
                 colorScale={colorScale}

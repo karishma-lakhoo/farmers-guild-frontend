@@ -29,8 +29,9 @@ export default function App() {
             <NavigationContainer>
                 <StatusBar backgroundColor={'#fff'} barStyle={'dark-content'} />
                 <Stack.Navigator screenOptions={{headerShown: false}} initalRouteName={"Login"}>
+                <Stack.Screen name="Analytics_Filter" component={Analytics_FilterScreen}/>
                     <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }}/>
-                    <Stack.Screen name="Analytics_Filter" component={Analytics_FilterScreen}/>
+                    
                     <Stack.Screen name="AnalyticsPie" component={AnalyticsPieScreen}/>
                     <Stack.Screen name="AnalyticsLine" component={AnalyticsLineScreen}/>
                     <Stack.Screen name="Login" component={LoginScreen}/>
