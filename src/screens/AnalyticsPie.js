@@ -23,7 +23,10 @@ import { useRoute } from '@react-navigation/native';
 //     { x: 'Oranges', y: 25 },
 // ];
 // this is for all supertypes, types and subtypes
-const url = api_url + '/harvest_log/analytics/?start_year=2020&end_year=2022'; 
+
+
+
+const url = api_url + '/harvest_log/analytics/?start_year=2022&end_year=2022'; 
 
 
 function generateOutputAll(data, supertypeCountName, initialValues) {
@@ -101,37 +104,6 @@ function generateOutput2(data, countName1, countName2, initialValues) {
 } 
 
 
-{/*function generateOutput2(data, countName1, countName2, initialValues) {
-    const supertypeCount = {};
-  
-    // Set initial values
-    initialValues.forEach(item => {
-      const key = item[countName2];
-      supertypeCount[key] = {};
-      for (let type of subtypes_pie) {
-        supertypeCount[key][type] = 0;
-      }
-    });
-  
-    // Sum up supertype counts
-    data.forEach(item => {
-      Object.entries(item[countName1]).forEach(([type, count]) => {
-        const subtype = type_to_sub[type];
-        if (subtype && supertypeCount[subtype] !== undefined) {
-          supertypeCount[subtype][type] += count;
-        }
-      });
-    });
-  
-    // Format output
-    const output = [];
-    for (let [supertype, subtypes] of Object.entries(supertypeCount)) {
-      Object.entries(subtypes).forEach(([subtype, count]) => {
-        output.push({ x: subtype, y: count, label: supertype });
-      });
-    }
-    return output;
-  } */}
   
   
   
@@ -159,8 +131,8 @@ const AnalyticsPieScreen = ({navigation}) => {
    
     //start of fetch request
 
-
-
+    const [isDataLoaded, setIsDataLoaded] = useState(true);
+    const [output, setOutput] = useState([]);
     const [true_data, set_true_Data] = useState([{}])
     const [token, setToken] = useState('');
 
@@ -200,42 +172,13 @@ const AnalyticsPieScreen = ({navigation}) => {
                 
                
                 set_true_Data(data); // update the data state variable with the API response
+                setIsDataLoaded(false);
                 
             })
             .catch(error => console.log("error"))
     }, [token]); 
 
    
-
-    
-    
-
-
-    //console.log("Pratham loves alisha")
-    //console.log(true_data);
-    //console.log("Pratham still loves that bish");
-   // console.log("true data is as follows ///////////////////")
-  //  console.log(true_data);
-   // console.log("true data is above ///////////////////")
-
-   
-
-
-
-    //end of fetch request
-
-
-
-
-
-    {/*useEffect(() => {
-        if (true_data.length > 3) {
-          // Code that depends on true_data goes here
-          console.log("This is the true data bbleeeeeeeeehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh ///////////")
-    console.log(true_data)
-    console.log("This is the true data ///////////")
-        }
-      }, [true_data]);  */}
 
 
 
@@ -250,59 +193,71 @@ const AnalyticsPieScreen = ({navigation}) => {
   //  console.log("Selected subcategory:", subcategory);
     // const formattedData = generateOutputAll(dummy_data, category, subtypes_pie)
     
-    
+   
+
+
     let formattedData;
+
+    if (!isDataLoaded){
+
+//        var legendData;
+//   var  colorScale;
+//    var total;
+//    var percentageData ;
     if(subcategory === "All Supertypes" || subcategory === "All Types" || subcategory === "All Subtypes" ){
         if(category === "supertype_count"){
 
            
 
 
-            formattedData = generateOutputAll(true_data?.true_data, category, supertypes_pie)
+            formattedData = generateOutputAll(true_data, category, supertypes_pie)
 
             
 
         }
         if(category === "type_count"){
-            formattedData = generateOutputAll(true_data?.true_data, category, types_pie)
+            formattedData = generateOutputAll(true_data, category, types_pie)
 
         }
         if(category === "subtype_count"){
-            formattedData = generateOutputAll(true_data?.true_data, category, subtypes_pie)
+            formattedData = generateOutputAll(true_data, category, subtypes_pie)
 
         }
     }
     else{
         if(category === "supertype_count"){
-            formattedData = generateOutput2(true_data?.true_data, category, subcategory, super_to_type_pie)
+            formattedData = generateOutput2(true_data, category, subcategory, super_to_type_pie)
         }
         if(category === "type_count"){
-            formattedData = generateOutput2(true_data?.true_data, category, subcategory, type_to_sub)
+            formattedData = generateOutput2(true_data, category, subcategory, type_to_sub)
         }
-    }
+    
 
-    const [output, setOutput] = useState([]);
+    
+    
 
-    const legendData = formattedData?.map((datum) => ({ name: datum.x }));
-    const colorScale = generateColorScale(formattedData?.length);
-    const total = formattedData?.reduce((acc, curr) => acc + curr.y, 0);
-    const percentageData = formattedData?.map((datum) => ({
+   var  legendData = formattedData.map((datum) => ({ name: datum.x }));
+    var colorScale = generateColorScale(formattedData.length);
+    var total = formattedData.reduce((acc, curr) => acc + curr.y, 0);
+    var percentageData = formattedData.map((datum) => ({
         name: `${datum.x} (${((datum.y / total) * 100).toFixed(2)}%)`,
     }));
     console.log(percentageData)
+}
+
 
     return (
 
 
         
-        
+       
         <View>
             <View style={styles.header}>
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.goBack()}/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Pie Chart</Text>
             </View>
             <VictoryPie
-                data={formattedData?.formattedData}
+                data={formattedData}
                 //true_data = {data}
                 x="x"
                 y="y"
@@ -319,7 +274,12 @@ const AnalyticsPieScreen = ({navigation}) => {
                 </View>
             </ScrollView>
         </View>
+
+    
+        
     );
+    }
+        
 };
 const styles = StyleSheet.create({
     header: {
