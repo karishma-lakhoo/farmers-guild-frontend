@@ -22,6 +22,7 @@ function getCategoryCounts(data, category, countObject) {
     return counts;
 }
 
+const url = api_url + '/harvest_log/analytics/?start_year=2020&end_year=2022';
 
 //const counts2 = getCategoryCounts(dummy_data, "Tomato", "subtype_count");
 //console.log(counts2); // prints an array of length 12 with the count of Tomato for each month
@@ -89,13 +90,6 @@ const AnalyticsLineScreen = ({navigation}) => {
             .catch(error => console.log("error"))
     }, [token]); 
 
-   
-
-
-
-
-    
-  
     // console.log(counts); // prints an array of length 12 with the count of Fruit for each month
     const data = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul","Aug", "Sept", "Oct", "Nov", "Dec"],
@@ -112,7 +106,7 @@ const AnalyticsLineScreen = ({navigation}) => {
         backgroundGradientFrom: "#1E2923",
         backgroundGradientFromOpacity: 0,
         backgroundGradientTo: "#08130D",
-        backgroundGradientToOpacity: 0.5,
+        backgroundGradientToOpacity: 0,
         color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
         strokeWidth: 2, // optional, default 3
         barPercentage: 0.5,
@@ -121,12 +115,13 @@ const AnalyticsLineScreen = ({navigation}) => {
     return (
         <SafeAreaView style={{backgroundColor: COLORS.primary, flex: 1}}>
             <View style={styles.header}>
-                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.goBack()}/>
-               <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Line Graph</Text> 
+                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.goBack()} style={{color:"white"}}/>
+               <Text style = {{fontSize: 20, fontWeight: 'bold', color:"white"}}>Line Graph</Text>
             </View>
             <View style={styles.container}>
                 <View>
-                    <Text style={{color: 'white'}}>{`From ${start_date} to ${end_date}`}</Text>
+
+                    <Text style={{color: 'white', marginLeft:10, marginBottom:10}}>{`From ${start_date} to ${end_date}`}</Text>
                     <LineChart
                         data={data} //change back to data?
                         width={Dimensions.get("window").width}

@@ -12,11 +12,12 @@ import {Picker} from "@react-native-picker/picker";
 
 
 const Analytics_FilterScreen = ({ navigation }) => {
-
+    const [firstYear, setFirstYear] = useState(2010)
+    const n_years = (2023-firstYear) + 1
     const [selectedYear, setSelectedYear] = useState(null);
     const [selectedYear2, setSelectedYear2] = useState(null);
-    const years1 = Array.from({ length: 100 }, (_, i) => (2023 - i).toString()); // generates an array of 100 years, from "2023" to "1924"
-    const years2 = Array.from({ length: years1.indexOf(selectedYear)+1 }, (_, i) => (2023 - i).toString()); // generates an array of years, from "2023" down to the selected year as a string
+    const years1 = Array.from({ length: n_years }, (_, i) => (2023 - i).toString()); // generates an array of 100 years, from "2023" to "1924"
+    const years2 = Array.from({ length: years1.indexOf(selectedYear)+1 }, (_, j) => (2023 - j).toString()); // generates an array of years, from "2023" down to the selected year as a string
 
 
     const renderPickerItems1 = () => {
@@ -80,38 +81,6 @@ const Analytics_FilterScreen = ({ navigation }) => {
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Graph Filters</Text>
             </View>
-            {/*<View style={styles.dateContainer}>*/}
-            {/*    <Text style={{ fontSize: 16 , marginLeft: 10}}>*/}
-            {/*        From January {selectedYear || 'none'}*/}
-            {/*    </Text>*/}
-            {/*    <Picker*/}
-            {/*        selectedValue={selectedYear}*/}
-            {/*        onValueChange={(itemValue) => setSelectedYear(itemValue)}*/}
-            {/*        style={styles.picker}*/}
-            {/*    >*/}
-            {/*        {renderPickerItems1()}*/}
-
-            {/*    </Picker>*/}
-            {/*    /!*<View style={{ marginLeft: 16,   }}>*!/*/}
-            {/*    /!*    *!/*/}
-            {/*    /!*</View>*!/*/}
-            {/*</View>*/}
-            {/*<View style={styles.dateContainer2}>*/}
-            {/*    <Text style={{ fontSize: 16 , marginLeft: 10}}>*/}
-            {/*        To December {selectedYear2 || 'none'}*/}
-            {/*    </Text>*/}
-            {/*    <Picker*/}
-            {/*        selectedValue={selectedYear2}*/}
-            {/*        onValueChange={(itemValue) => setSelectedYear2(itemValue)}*/}
-            {/*        style={styles.picker}*/}
-            {/*    >*/}
-            {/*        {renderPickerItems2()}*/}
-
-            {/*    </Picker>*/}
-            {/*    /!*<View style={{ marginLeft: 16,   }}>*!/*/}
-            {/*    /!*    *!/*/}
-            {/*    /!*</View>*!/*/}
-            {/*</View>*/}
             <View style={{paddingHorizontal: 10, paddingTop: 20}}>
                 <Text>
                     {`From January:`}
@@ -143,8 +112,9 @@ const Analytics_FilterScreen = ({ navigation }) => {
                 <Text>
 
                 </Text>
-                <Text>
 
+                <Text>
+                    {`Graph Type:`}
                 </Text>
                 <SelectList
                     setSelected={handleGraphSelection}
@@ -155,8 +125,9 @@ const Analytics_FilterScreen = ({ navigation }) => {
                 <Text>
 
                 </Text>
-                <Text>
 
+                <Text>
+                    {`Category Type:`}
                 </Text>
                 <SelectList
                     setSelected={(selected) => {
@@ -170,7 +141,9 @@ const Analytics_FilterScreen = ({ navigation }) => {
                 <Text>
 
                 </Text>
+                <Text>
 
+                </Text>
                 {selectedCategory && (
                     <SelectList
                         setSelected={(selected) => {
@@ -180,7 +153,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
                             // console.log("Selected subcategory:", selectedCategoryObj.value);
                         }}
                         data={subCategories[selectedCategory]}
-                        placeholder={`Select value`}
+                        placeholder={`Select Subcategory`}
                     />
                 )}
             </View>

@@ -20,7 +20,6 @@ const HarvestScreen = ({navigation,route}) => {
     const {myState, setMyState} = useContext(MyContext);
     const gardenName = route.params?.gardenName;
 
-
     const fetchData = () => {
         const headers = {
             Authorization: `Bearer ${token}`,
@@ -33,7 +32,7 @@ const HarvestScreen = ({navigation,route}) => {
             .catch((error) => {
                 console.log(error);
             });
-    };  
+    };
 
     useEffect(() => {
         const getToken = async () => {
@@ -121,7 +120,7 @@ const HarvestScreen = ({navigation,route}) => {
     return (
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
             <View style={styles.header}>
-                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
+                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')} testID="material-icons"/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Harvest Plants</Text>
             </View>
             <Pressable onPress={() => navigation.navigate('Plants')}  style={Btn.container}>
@@ -153,6 +152,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginHorizontal: 10,
+        marginTop:20,
     },
     container: {
         flex: 1,

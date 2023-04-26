@@ -234,7 +234,7 @@ const AnalyticsPieScreen = ({navigation}) => {
                     colorScale={colorScale}
                     labels={() => null}/>
                 <ScrollView>
-                    <Text style={{color: 'black'}}>{`From ${start_date} to ${end_date}`}</Text>
+                    <Text style={{color: 'black', marginLeft:10}}>{`From ${start_date} to ${end_date}`}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <VictoryLegend
                             orientation="vertical"

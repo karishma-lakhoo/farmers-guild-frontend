@@ -7,9 +7,10 @@ import gardens from '../consts/gardens.js';
 import { MyContext} from "../../App";
 import {api_url} from "../consts/api_url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useRoute} from "@react-navigation/native";
 
 
-const url = api_url + '/garden/';
+const url = api_url + '/users_in_garden/';
 const HomeScreen = ({navigation}) => {
   const { myUser } = useContext(MyContext);
   const[isModalVisible,setIsModalVisible] = useState(false);
@@ -17,7 +18,25 @@ const HomeScreen = ({navigation}) => {
   const[chooseData,setChooseData] = useState();
   const [info, setInfo] = useState([])
   const [token, setToken] = useState('');
+  const route = useRoute();
+  const [username, setUsername] = useState('');
+  useEffect(() => {
+    const getUsername = async () => {
+      try {
+        const value = await AsyncStorage.getItem('username');
+        if (value !== null) {
+          setUsername(value);
+        }
+      } catch (error) {
+        console.log('Error retrieving data:', error);
+      }
+    };
+    getUsername();
+  }, []);
+  // console.log("shelly welly is a cutie pie")
+  console.log(username)
 
+  const filteredInfo = info.filter(item => item.user.username === username);
   useEffect(() => {
     const getToken = async () => {
       try {
@@ -121,8 +140,8 @@ const HomeScreen = ({navigation}) => {
           <FlatList
               showsVerticalScrollIndicator = {false}
               contentContainerStyle={{paddingBottom:80}}
-              data = {info} //add gardens file
-              renderItem = {({item}) => <GardenCard gardens={item}/>}
+              data = {filteredInfo} //add gardens file
+              renderItem = {({item}) => <GardenCard gardens={item.garden_detail}/>}
           />
 
           <TouchableOpacity

@@ -54,7 +54,9 @@ const LoginScreen = ({navigation}) => {
                 AsyncStorage.setItem('token', data.access);
                 AsyncStorage.setItem('username', username)
                     .then(() => {
-                        navigation.navigate('Home');
+                        navigation.navigate('Home', {
+                            username: username
+                        });
                     })
                     .catch((error) => {
                         console.error('Error:', error);
