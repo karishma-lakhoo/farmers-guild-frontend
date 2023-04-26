@@ -22,6 +22,7 @@ const Harvest_popup = (navigation) => {
         value.changeHarvestPopupVisible(bool);
         value.setData(data);
       //  props.changeAddGardenPopupVisible(bool2);
+        console.log()
     }
 
 
