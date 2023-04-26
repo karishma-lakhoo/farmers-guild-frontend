@@ -1,6 +1,6 @@
+import React, {useState, useEffect, useRef} from 'react';
 import {SafeAreaView, Text, Button, StyleSheet, View, Image, Alert} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SelectBox from 'react-native-multi-selectbox'
 import { xorBy } from 'lodash'
@@ -13,7 +13,7 @@ const GARDEN_OPTIONS = [
         item: 'All Gardens',
         id: 'AG',
     },
-]
+];
 
 const FILTER_OPTIONS = [
     {
@@ -24,17 +24,43 @@ const FILTER_OPTIONS = [
         item: 'Oldest to Newest',
         id: 'ON',
     },
-]
-const defaultValue = FILTER_OPTIONS[0]
-const url = api_url + '/harvest_log/';   //testing
+];
+
+const url = api_url + '/harvest_log/?ordering=-datetime';
 
 const LogScreen = ({navigation}) => {
+    const controller = useRef(new AbortController());
+    const [defaultValue, setDefaultValue] = useState(FILTER_OPTIONS[0]);
     const [gardenOptions, setGardenOptions] = useState(GARDEN_OPTIONS);
     const [selectedTeam1, setSelectedTeam1] = useState(GARDEN_OPTIONS[0]);
-    const [selectedTeam2, setSelectedTeam2] = useState({})
-    const [data, setData] = useState([{}])
+    const [selectedTeam2, setSelectedTeam2] = useState({});
+    const [data, setData] = useState([]);
     const [token, setToken] = useState('');
-    const [pageNumber, setPageNumber] = useState(1); // initialize page number as 1
+    const [pageNumber, setPageNumber] = useState(1);
+    function onChange1() {
+        return (val) => setSelectedTeam1(val)
+    }
+
+    const loadMoreData = () => {
+        fetch(`${url}&page=${pageNumber}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            signal: controller.current.signal,
+        })
+            .then(resp => resp.json())
+            .then(response => {
+                const nextPage = response.next;
+                const newData = response.results;
+                setData(prevData => [...prevData, ...newData]);
+                if (nextPage !== null) {
+                    setPageNumber(prevPageNumber => prevPageNumber + 1);
+                }
+            })
+            .catch(error => console.log(error));
+    };
+
     useEffect(() => {
         const getToken = async () => {
             try {
@@ -54,41 +80,10 @@ const LogScreen = ({navigation}) => {
             return;
         }
 
-        const headers = {
-            'Authorization': `Bearer ${token}`,
-        };
-
-        fetch(`${url}?page=${pageNumber}`, { // append the page number to the API URL
-            method: "GET",
-            headers: headers
-        })
-            .then(resp => resp.json())
-            .then(response => {
-                const nextPage = response.next; // get the URL for the next page
-                const newData = response.results;
-                setData(prevData => [...prevData, ...newData]); // concatenate the new data to the existing data
-                console.log(newData)
-                if (nextPage !== null) { // if there's a next page, increment the page number and call the API again
-                    setPageNumber(prevPageNumber => prevPageNumber + 1);
-                }
-            })
-            .catch(error => console.log(error));
+        loadMoreData();
     }, [token, pageNumber]);
-    // const gardenNames = [];
-    // for (let i = 0; i < data.length; i++) {
-    //     const gardenDetail = data[i]?.plants_in_garden?.garden_detail;
-    //     const gardenName = gardenDetail?.name?.toLowerCase();
-    //     if (gardenName && !gardenNames.includes(gardenName)) {
-    //         gardenNames.push(gardenName);
-    //         GARDEN_OPTIONS.push({ item: gardenDetail.name, id: gardenDetail?.id });
-    //     }
-    // }
-    const gardenOptions2 = [...GARDEN_OPTIONS]
 
-
-
-    const LogCard = ({item}) =>{
-
+    const renderItem = ({item}) => {
         const date = new Date(item.datetime);
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -96,7 +91,6 @@ const LogScreen = ({navigation}) => {
         const formattedDate = `${day}-${month}-${year}`;
         return (
             <View style={styles.LogCard}>
-            {/*<Image source={item.image} style={{height: 60,width: 60 }}/>*/}
                 <View style={{
                     height: 100,
                     marginLeft: 20,
@@ -108,98 +102,110 @@ const LogScreen = ({navigation}) => {
                             <Text style={{fontWeight: 'bold', fontSize: 16}}>
                                 {item?.food_detail?.food ?? "No food found"}
                             </Text>
-                            {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
-                            {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
-                            {/*</Text>*/}
-                            <Text style={{color: 'grey', fontSize: 14}}>
-                                {item?.garden_detail?.name ?? "No garden found"}
-                            </Text>
-                            <Text style={{ fontSize: 13, color: 'grey'}}>
-                                {item?.weight ? item.weight + " g" : "No weight found"}
-                            </Text>
-                            <Text style={{color: 'grey', fontSize: 13}}>
+                            <Text style={{color: 'grey', fontSize: 16}}>
                                 {formattedDate}
+                            </Text>
+                            <Text style={{color: 'grey', fontSize: 16}}>
+                                Garden: {item?.garden_detail?.name ?? "No garden found"}
                             </Text>
                         </>
                     }
                 </View>
-
             </View>
         );
     };
-
+    const handleFilterChange = (selected) => {
+        setDefaultValue(selected);
+        if (selected.id === 'NO') {
+            setData(prevData => prevData.sort((a, b) => new Date(b.datetime) - new Date(a.datetime)));
+        } else {
+            setData(prevData => prevData.sort((a, b) => new Date(a.datetime) - new Date(b.datetime)));
+        }
+    };
     return (
-        <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
-                <Text style = {{fontSize: 25, fontWeight: 'bold', marginLeft:5}}>Harvest Log</Text>
+                <Icon
+                    name="arrow-back"
+                    size={25}
+                    onPress={() => navigation.goBack()}
+                />
+                <Text style={styles.headerText}>Harvest Log</Text>
             </View>
-            <View style={styles.SelectBox}>
+            <View style={[styles.filterContainer, { flexDirection: 'column' }]}>
                 <SelectBox
-                    label="Select garden"
-                    options={gardenOptions2}
-                    value={selectedTeam1}
-                    onChange={onChange1()}
-                    hideInputFilter={false}/>
-                </View>
-                <View style={styles.SelectBox}>
-                    <SelectBox
-                        label="Time"
-                        options={FILTER_OPTIONS}
-                        value={defaultValue}
-                        onChange={onChange2()}
-                        hideInputFilter={false}/>
-                </View>
+                    label="Garden"
+                    options={gardenOptions}
+                    value={gardenOptions[0]}
+                    onChange={onChange1}
+                />
+                <SelectBox
+                    label="Sort By"
+                    options={FILTER_OPTIONS}
+                    value={defaultValue}
+                    onChange={handleFilterChange}
+                />
+            </View>
             <FlatList
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle = {{paddingBottom: 80}}
-                data = {data}
-                renderItem = {({item})=> <LogCard item = {item}/>}
+                data={data}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
+                onEndReached={loadMoreData}
+                onEndReachedThreshold={0.5}
+                ListFooterComponent={
+                    <View style={styles.footer}>
+                        <Button title="Load More" onPress={loadMoreData} />
+                    </View>
+                }
             />
         </SafeAreaView>
-    )
-    function onChange1() {
-        return (val) => setSelectedTeam1(val)
-    }
-    function onChange2() {
-        return (val) => setSelectedTeam2(val)
-    }
-}
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        backgroundColor: 'white',
     },
     header: {
-        paddingVertical: 50,
         flexDirection: 'row',
         alignItems: 'center',
-        marginHorizontal: 10,
+        backgroundColor: 'white',
+        padding: 15,
+    },
+    headerText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginLeft: 10,
+    },
+    filterContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginHorizontal: 20,
+        marginVertical: 10,
     },
     LogCard: {
-        height: 100,
-        borderRadius: 10,
         backgroundColor: 'white',
-        marginVertical: 10,
+        borderRadius: 10,
         marginHorizontal: 20,
-        paddingHorizontal: 10,
+        marginTop: 15,
         flexDirection: 'row',
         alignItems: 'center',
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.07,
-        shadowRadius: 4,
-        elevation: 8, // This is for Android
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
+
     },
-    SelectBox: {
-        marginLeft: 30,
-        marginRight: 30,
-        marginBottom: 30,
-        marginTop:-10,
-    }
+    footer: {
+        marginVertical: 20,
+        alignItems: 'center',
+    },
 });
 
 export default LogScreen;
