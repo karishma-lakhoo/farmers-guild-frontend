@@ -86,7 +86,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
                 <Picker
                     selectedValue={selectedYear}
                     onValueChange={(itemValue) => setSelectedYear(itemValue)}
-                    style={{ height: 50, width: '100%' }}
+                    style={styles.picker}
                 >
                     {renderPickerItems1()}
 
@@ -102,7 +102,8 @@ const Analytics_FilterScreen = ({ navigation }) => {
                 <Picker
                     selectedValue={selectedYear2}
                     onValueChange={(itemValue) => setSelectedYear2(itemValue)}
-                    style={{ height: 50, width: '100%' }}
+                    style={styles.picker}
+
                 >
                     {renderPickerItems2()}
 
@@ -157,6 +158,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginHorizontal: 10,
+    },
+    picker: {
+        height: 50,
+        width: '100%',
+        backgroundColor: '#fff',
+        borderColor: '#000',
+        borderWidth: 1,
+        borderRadius: 5,
+        marginBottom: 10,
+        paddingHorizontal: 10,
     },
     container: {
         backgroundColor: 'white',
