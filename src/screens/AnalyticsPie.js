@@ -106,7 +106,9 @@ function generateOutput2(data, countName1, countName2, initialValues) {
     return output;
 }
 const AnalyticsPieScreen = ({navigation}) => {
-    const url = api_url + '/harvest_log/analytics/?start_year=2022&end_year=2022';
+    const route = useRoute();
+    const { category, subcategory, start_date, end_date } = route.params;
+    const url = api_url + '/harvest_log/analytics/?start_year='+start_date+'&end_year='+end_date;
 
 
     //start of fetch request
@@ -162,11 +164,10 @@ const AnalyticsPieScreen = ({navigation}) => {
 
 
 
-    console.log("This is the true data bbleeeeeeeeehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh ///////////")
-    console.log(true_data)
-    console.log("This is the true data ///////////")
-    const route = useRoute();
-    const { category, subcategory } = route.params;
+    // console.log("This is the true data bbleeeeeeeeehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh ///////////")
+    // console.log(true_data)
+    // console.log("This is the true data ///////////")
+
     //  console.log("Selected category:", category);
     //  console.log("Selected subcategory:", subcategory);
     // const formattedData = generateOutputAll(dummy_data, category, subtypes_pie)
@@ -179,8 +180,8 @@ const AnalyticsPieScreen = ({navigation}) => {
         if(subcategory === "All Supertypes" || subcategory === "All Types" || subcategory === "All Subtypes" ){
             if(category === "supertype_count"){
                 formattedData = generateOutputAll(true_data, category, supertypes_pie)
-                console.log("am i working")
-                console.log(formattedData)
+                // console.log("am i working")
+                // console.log(formattedData)
             }
             if(category === "type_count"){
                 formattedData = generateOutputAll(true_data, category, types_pie)
@@ -210,10 +211,10 @@ const AnalyticsPieScreen = ({navigation}) => {
             var percentageData = formattedData.map((datum) => ({
                 name: `${datum.x} (${((datum.y / total) * 100).toFixed(2)}%)`,
             }));
-            console.log("percentage")
-            console.log(percentageData)
-            console.log("formatted")
-            console.log(formattedData)
+            // console.log("percentage")
+            // console.log(percentageData)
+            // console.log("formatted")
+            // console.log(formattedData)
         }
         return (
 
@@ -233,6 +234,7 @@ const AnalyticsPieScreen = ({navigation}) => {
                     colorScale={colorScale}
                     labels={() => null}/>
                 <ScrollView>
+                    <Text style={{color: 'black'}}>{`From ${start_date} to ${end_date}`}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <VictoryLegend
                             orientation="vertical"

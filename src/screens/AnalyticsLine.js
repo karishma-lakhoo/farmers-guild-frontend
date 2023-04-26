@@ -20,9 +20,8 @@ function getCategoryCounts(data, category, countObject) {
     });
 
     return counts;
-}  
+}
 
-const url = api_url + '/harvest_log/analytics/?start_year=2022&end_year=2022';
 
 //const counts2 = getCategoryCounts(dummy_data, "Tomato", "subtype_count");
 //console.log(counts2); // prints an array of length 12 with the count of Tomato for each month
@@ -33,9 +32,14 @@ const AnalyticsLineScreen = ({navigation}) => {
 
 
     const route = useRoute();
-    const { category, subcategory } = route.params;
-    console.log("Selected category:", category);
-    console.log("Selected subcategory:", subcategory);
+    const { category, subcategory , start_date, end_date} = route.params;
+    const url = api_url + '/harvest_log/analytics/?start_year='+start_date+'&end_year='+end_date;
+
+
+    // console.log("Selected category:", category);
+    // console.log("Selected subcategory:", subcategory);
+    console.log("Selected start date:", start_date);
+    console.log("Selected start date:", end_date);
 
     const [counts, setCounts] = useState(new Array(12).fill(0));
 
@@ -92,7 +96,7 @@ const AnalyticsLineScreen = ({navigation}) => {
 
     
   
-    console.log(counts); // prints an array of length 12 with the count of Fruit for each month
+    // console.log(counts); // prints an array of length 12 with the count of Fruit for each month
     const data = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul","Aug", "Sept", "Oct", "Nov", "Dec"],
         datasets: [
@@ -122,6 +126,7 @@ const AnalyticsLineScreen = ({navigation}) => {
             </View>
             <View style={styles.container}>
                 <View>
+                    <Text style={{color: 'white'}}>{`From ${start_date} to ${end_date}`}</Text>
                     <LineChart
                         data={data} //change back to data?
                         width={Dimensions.get("window").width}

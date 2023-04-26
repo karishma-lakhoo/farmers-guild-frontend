@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         padding: 15,
+        marginTop: 20
     },
     headerText: {
         fontSize: 20,

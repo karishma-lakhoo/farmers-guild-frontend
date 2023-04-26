@@ -15,10 +15,16 @@ const Analytics_FilterScreen = ({ navigation }) => {
 
     const [selectedYear, setSelectedYear] = useState(null);
     const [selectedYear2, setSelectedYear2] = useState(null);
-    const years = Array.from({ length: 100 }, (_, i) => 2023 - i); // generates an array of 100 years, from 2023 to 1924
+    const years1 = Array.from({ length: 100 }, (_, i) => 2023 - i); // generates an array of 100 years, from 2023 to 1924
+    const years2 = Array.from({ length: years1.indexOf(selectedYear)+1 }, (_, i) => 2023 - i); // generates an array of 100 years, from 2023 to 1924
 
-    const renderPickerItems = () => {
-        return years.map(year => (
+    const renderPickerItems1 = () => {
+        return years1.map(year => (
+            <Picker.Item key={year} label={year.toString()} value={year} />
+        ));
+    };
+    const renderPickerItems2 = () => {
+        return years2.map(year => (
             <Picker.Item key={year} label={year.toString()} value={year} />
         ));
     };
@@ -36,17 +42,21 @@ const Analytics_FilterScreen = ({ navigation }) => {
     ]
 
     const handlePress = () => {
-        console.log(graph)
+        // console.log(graph)
         if(graph === "Pie Graph"){
             navigation.navigate('AnalyticsPie', {
                 category: selectedCategory,
-                subcategory: selectedSubCategory
+                subcategory: selectedSubCategory,
+                start_date: selectedYear,
+                end_date: selectedYear2
             });
         }
         if(graph === "Line Graph") {
             navigation.navigate('AnalyticsLine', {
                 category: selectedCategory,
-                subcategory: selectedSubCategory
+                subcategory: selectedSubCategory,
+                start_date: selectedYear,
+                end_date: selectedYear2
             });
         }
     };
@@ -56,11 +66,11 @@ const Analytics_FilterScreen = ({ navigation }) => {
         const selectedGraph = graphs.find(item => item.key === selected);
         if(selectedGraph.value === "Pie Chart") {
             setSubCategories(foodSubCategoriesPie); // update subCategories to foodSubCategoriesPie
-            console.log(subCategories);
+            // console.log(subCategories);
         } else {
             setSubCategories(foodSubCategoriesLine); // set subCategories back to foodSubCategoriesLine
         }
-        console.log("Selected graph:", selectedGraph.value);
+        // console.log("Selected graph:", selectedGraph.value);
     };
 
     return (
@@ -78,7 +88,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
                     onValueChange={(itemValue) => setSelectedYear(itemValue)}
                     style={{ height: 50, width: '100%' }}
                 >
-                    {renderPickerItems()}
+                    {renderPickerItems1()}
 
                 </Picker>
                 {/*<View style={{ marginLeft: 16,   }}>*/}
@@ -94,7 +104,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
                     onValueChange={(itemValue) => setSelectedYear2(itemValue)}
                     style={{ height: 50, width: '100%' }}
                 >
-                    {renderPickerItems()}
+                    {renderPickerItems2()}
 
                 </Picker>
                 {/*<View style={{ marginLeft: 16,   }}>*/}
@@ -111,7 +121,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
                 <SelectList
                     setSelected={(selected) => {
                         setSelectedCategory(selected);
-                        console.log("Selected category:", selected);
+                        // console.log("Selected category:", selected);
                     }}
                     data={categories}
                     placeholder={"Select Category"}
@@ -123,7 +133,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
 
                             const selectedCategoryObj = subCategories[selectedCategory].find(item => item.key === selected);
                             setSelectedSubCategory(selectedCategoryObj.value);
-                            console.log("Selected subcategory:", selectedCategoryObj.value);
+                            // console.log("Selected subcategory:", selectedCategoryObj.value);
                         }}
                         data={subCategories[selectedCategory]}
                         placeholder={`Select value`}
