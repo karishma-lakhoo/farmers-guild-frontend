@@ -3,13 +3,25 @@ import {StyleSheet, Text, View, SafeAreaView, Button, Pressable} from 'react-nat
 import Icon from "react-native-vector-icons/MaterialIcons";
 import COLORS from "../consts/colors";
 import {api_url} from "../consts/api_url";
-import {foods, foodSubCategoriesLine, foodSubCategoriesPie} from "../consts/foods";
+import {foods, foodSubCategories, foodSubCategoriesLine, foodSubCategoriesPie} from "../consts/foods";
 import {SelectList} from 'react-native-dropdown-select-list'
-import {TouchableOpacity} from "react-native-web";
+import {TouchableOpacity} from "react-native-gesture-handler";
+import { AntDesign } from '@expo/vector-icons';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {Picker} from "@react-native-picker/picker";
 
 
 const Analytics_FilterScreen = ({ navigation }) => {
 
+    const [selectedYear, setSelectedYear] = useState(null);
+    const [selectedYear2, setSelectedYear2] = useState(null);
+    const years = Array.from({ length: 100 }, (_, i) => 2023 - i); // generates an array of 100 years, from 2023 to 1924
+
+    const renderPickerItems = () => {
+        return years.map(year => (
+            <Picker.Item key={year} label={year.toString()} value={year} />
+        ));
+    };
     const [category, setCategory] = React.useState("");
     const [subCategory, setSubCategory] = React.useState("");
     const [graph, setGraph] = React.useState("");
@@ -57,11 +69,44 @@ const Analytics_FilterScreen = ({ navigation }) => {
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Graph Filters</Text>
             </View>
+            <View style={styles.dateContainer}>
+                <Text style={{ fontSize: 16 , marginLeft: 10}}>
+                    From January {selectedYear || 'none'}
+                </Text>
+                <Picker
+                    selectedValue={selectedYear}
+                    onValueChange={(itemValue) => setSelectedYear(itemValue)}
+                    style={{ height: 50, width: '100%' }}
+                >
+                    {renderPickerItems()}
+
+                </Picker>
+                {/*<View style={{ marginLeft: 16,   }}>*/}
+                {/*    */}
+                {/*</View>*/}
+            </View>
+            <View style={styles.dateContainer2}>
+                <Text style={{ fontSize: 16 , marginLeft: 10}}>
+                    To December {selectedYear2 || 'none'}
+                </Text>
+                <Picker
+                    selectedValue={selectedYear2}
+                    onValueChange={(itemValue) => setSelectedYear2(itemValue)}
+                    style={{ height: 50, width: '100%' }}
+                >
+                    {renderPickerItems()}
+
+                </Picker>
+                {/*<View style={{ marginLeft: 16,   }}>*/}
+                {/*    */}
+                {/*</View>*/}
+            </View>
             <View style={{paddingHorizontal: 10, paddingTop: 20}}>
                 <SelectList
                     setSelected={handleGraphSelection}
                     data={graphs}
                     placeholder={"Select Graph Type"}
+                    // defaultOption={{key: 'SUP', value: 'SuperType'}}
                 />
                 <SelectList
                     setSelected={(selected) => {
@@ -107,6 +152,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 16,
         marginTop: 30,
+    },
+    dateContainer: {
+        height: 50
+    },
+    dateContainer2: {
+        height: 80,
+        paddingVertical: 20
     },
     dropdown: {
         height: 50,

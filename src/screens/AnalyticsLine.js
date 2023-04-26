@@ -22,7 +22,7 @@ function getCategoryCounts(data, category, countObject) {
     return counts;
 }  
 
-const url = api_url + '/harvest_log/analytics/?start_year=2020&end_year=2022';
+const url = api_url + '/harvest_log/analytics/?start_year=2022&end_year=2022';
 
 //const counts2 = getCategoryCounts(dummy_data, "Tomato", "subtype_count");
 //console.log(counts2); // prints an array of length 12 with the count of Tomato for each month
