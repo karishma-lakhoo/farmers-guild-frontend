@@ -4,9 +4,6 @@ const TestScreen = ({navigation}) => {
     return (
         <View testID="test-screen">
             <Text>hello</Text>
-            <TestComponent>
-                <Text> i am testing </Text>
-            </TestComponent>
             <Button title={"test"}/>
         </View>
     )

@@ -59,10 +59,10 @@ const Line_popup = (props) => {
         const data = await response.json();
 
         // fetch updated garden data
-        props.fetchGardens();
+        // props.fetchGardens();
 
         // close popup
-        props.changeAddGardenPopupVisible(false);
+        // props.changeAddGardenPopupVisible(false);
     };
 
     return (
