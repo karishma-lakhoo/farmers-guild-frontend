@@ -15,8 +15,9 @@ const Analytics_FilterScreen = ({ navigation }) => {
 
     const [selectedYear, setSelectedYear] = useState(null);
     const [selectedYear2, setSelectedYear2] = useState(null);
-    const years1 = Array.from({ length: 100 }, (_, i) => 2023 - i); // generates an array of 100 years, from 2023 to 1924
-    const years2 = Array.from({ length: years1.indexOf(selectedYear)+1 }, (_, i) => 2023 - i); // generates an array of 100 years, from 2023 to 1924
+    const years1 = Array.from({ length: 100 }, (_, i) => (2023 - i).toString()); // generates an array of 100 years, from "2023" to "1924"
+    const years2 = Array.from({ length: years1.indexOf(selectedYear)+1 }, (_, i) => (2023 - i).toString()); // generates an array of years, from "2023" down to the selected year as a string
+
 
     const renderPickerItems1 = () => {
         return years1.map(year => (
@@ -79,46 +80,84 @@ const Analytics_FilterScreen = ({ navigation }) => {
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Graph Filters</Text>
             </View>
-            <View style={styles.dateContainer}>
-                <Text style={{ fontSize: 16 , marginLeft: 10}}>
-                    From January {selectedYear || 'none'}
-                </Text>
-                <Picker
-                    selectedValue={selectedYear}
-                    onValueChange={(itemValue) => setSelectedYear(itemValue)}
-                    style={styles.picker}
-                >
-                    {renderPickerItems1()}
+            {/*<View style={styles.dateContainer}>*/}
+            {/*    <Text style={{ fontSize: 16 , marginLeft: 10}}>*/}
+            {/*        From January {selectedYear || 'none'}*/}
+            {/*    </Text>*/}
+            {/*    <Picker*/}
+            {/*        selectedValue={selectedYear}*/}
+            {/*        onValueChange={(itemValue) => setSelectedYear(itemValue)}*/}
+            {/*        style={styles.picker}*/}
+            {/*    >*/}
+            {/*        {renderPickerItems1()}*/}
 
-                </Picker>
-                {/*<View style={{ marginLeft: 16,   }}>*/}
-                {/*    */}
-                {/*</View>*/}
-            </View>
-            <View style={styles.dateContainer2}>
-                <Text style={{ fontSize: 16 , marginLeft: 10}}>
-                    To December {selectedYear2 || 'none'}
-                </Text>
-                <Picker
-                    selectedValue={selectedYear2}
-                    onValueChange={(itemValue) => setSelectedYear2(itemValue)}
-                    style={styles.picker}
+            {/*    </Picker>*/}
+            {/*    /!*<View style={{ marginLeft: 16,   }}>*!/*/}
+            {/*    /!*    *!/*/}
+            {/*    /!*</View>*!/*/}
+            {/*</View>*/}
+            {/*<View style={styles.dateContainer2}>*/}
+            {/*    <Text style={{ fontSize: 16 , marginLeft: 10}}>*/}
+            {/*        To December {selectedYear2 || 'none'}*/}
+            {/*    </Text>*/}
+            {/*    <Picker*/}
+            {/*        selectedValue={selectedYear2}*/}
+            {/*        onValueChange={(itemValue) => setSelectedYear2(itemValue)}*/}
+            {/*        style={styles.picker}*/}
+            {/*    >*/}
+            {/*        {renderPickerItems2()}*/}
 
-                >
-                    {renderPickerItems2()}
-
-                </Picker>
-                {/*<View style={{ marginLeft: 16,   }}>*/}
-                {/*    */}
-                {/*</View>*/}
-            </View>
+            {/*    </Picker>*/}
+            {/*    /!*<View style={{ marginLeft: 16,   }}>*!/*/}
+            {/*    /!*    *!/*/}
+            {/*    /!*</View>*!/*/}
+            {/*</View>*/}
             <View style={{paddingHorizontal: 10, paddingTop: 20}}>
+                <Text>
+                    {`From January:`}
+                </Text>
+                <SelectList
+                    setSelected={(selected) => {
+                        setSelectedYear(selected);
+                        // console.log("Selected category:", selected);
+                    }}
+                    data={years1}
+                    placeholder={"Start Date"}
+                    // defaultOption={{key: 'SUP', value: 'SuperType'}}
+                />
+                <Text>
+
+                </Text>
+                <Text>
+                    {`To December:`}
+                </Text>
+                <SelectList
+                    setSelected={(selected) => {
+                        setSelectedYear2(selected);
+                        // console.log("Selected category:", selected);
+                    }}
+                    data={years2}
+                    placeholder={"End Date"}
+                    // defaultOption={{key: 'SUP', value: 'SuperType'}}
+                />
+                <Text>
+
+                </Text>
+                <Text>
+
+                </Text>
                 <SelectList
                     setSelected={handleGraphSelection}
                     data={graphs}
                     placeholder={"Select Graph Type"}
                     // defaultOption={{key: 'SUP', value: 'SuperType'}}
                 />
+                <Text>
+
+                </Text>
+                <Text>
+
+                </Text>
                 <SelectList
                     setSelected={(selected) => {
                         setSelectedCategory(selected);
@@ -128,6 +167,10 @@ const Analytics_FilterScreen = ({ navigation }) => {
                     placeholder={"Select Category"}
                     // defaultOption={{key: 'SUP', value: 'SuperType'}}
                 />
+                <Text>
+
+                </Text>
+
                 {selectedCategory && (
                     <SelectList
                         setSelected={(selected) => {
