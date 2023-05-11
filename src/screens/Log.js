@@ -102,11 +102,17 @@ const LogScreen = ({navigation}) => {
                             <Text style={{fontWeight: 'bold', fontSize: 16}}>
                                 {item?.food_detail?.food ?? "No food found"}
                             </Text>
-                            <Text style={{color: 'grey', fontSize: 16}}>
+                            <Text style={{color: 'grey', fontSize: 13}}>
+                                Weight: {item?.weight ?? "No weight found"} g
+                            </Text>
+                            <Text style={{color: 'grey', fontSize: 13}}>
                                 {formattedDate}
                             </Text>
-                            <Text style={{color: 'grey', fontSize: 16}}>
+                            <Text style={{color: 'grey', fontSize: 13}}>
                                 Garden: {item?.garden_detail?.name ?? "No garden found"}
+                            </Text>
+                            <Text style={{color: 'grey', fontSize: 13}}>
+                                User: {item?.user?.username ?? "No user found"}
                             </Text>
                         </>
                     }
