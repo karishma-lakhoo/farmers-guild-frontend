@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {SafeAreaView, Text, Button, StyleSheet, View, Image, Alert} from 'react-native';
+import {SafeAreaView, Text, Button, StyleSheet, View, Image, Alert, ActivityIndicator} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SelectBox from 'react-native-multi-selectbox'
@@ -37,10 +37,73 @@ const LogScreen = ({navigation}) => {
     const [data, setData] = useState([]);
     const [token, setToken] = useState('');
     const [pageNumber, setPageNumber] = useState(1);
-    function onChange1() {
-        return (val) => setSelectedTeam1(val)
-    }
+    const [filteredGardensArray, setFilteredGardensArray] = useState([]);
+    const [defaultGardenValue, setDefaultGardenValue] = useState(GARDEN_OPTIONS[0]);
+    const [isLoading, setIsLoading] = useState(false);
 
+
+    // getting the filtered gardens array to populate the dropdown
+    useEffect(() => {
+        AsyncStorage.getItem('filteredGardensArray')
+            .then(value => {
+                const parsedValue = JSON.parse(value);
+                setFilteredGardensArray(parsedValue);
+            })
+            .catch(error => {
+                console.log('Error retrieving array:', error);
+            });
+    }, []);
+    const handleGardenFilterChange = (selected) => {
+        setDefaultGardenValue(selected);
+        if(selected.id !== "AG"){
+            // this might be incorrect since the info about this hasn't loaded as yet, so wouldnt i need to make a new get request
+            const filteredInfo = data.filter(item => item.garden_detail.name === selected.item);
+            console.log(filteredInfo)
+            setData(filteredInfo)
+        }
+        else{
+            setData(data)
+        }
+    }
+    // const handleFilterChange = (selected) => {
+    //     setDefaultValue(selected);
+    //     if (selected.id === 'NO') {
+    //         setData(prevData => prevData.sort((a, b) => new Date(b.datetime) - new Date(a.datetime)));
+    //     } else {
+    //         setData(prevData => prevData.sort((a, b) => new Date(a.datetime) - new Date(b.datetime)));
+    //     }
+    // };
+    const handleFilterChange = (selected) => {
+        setDefaultValue(selected);
+        setData([]); // Empty the data array
+        setIsLoading(true); // Set isLoading to true
+        if (selected.id === 'NO') {
+            setData((prevData) =>
+                prevData.sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
+            );
+            setIsLoading(false); // Set isLoading to false when data is updated;
+        } else {
+            const newUrl = api_url + '/harvest_log/?ordering=datetime';
+            fetch(newUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+                signal: controller.current.signal,
+            })
+                .then((resp) => resp.json())
+                .then((response) => {
+                    const newData = response.results;
+                    setData(newData); // Update the data state with the new fetched data
+                })
+                .catch((error) => console.log(error))
+                .finally(() => {
+                    setIsLoading(false); // Set isLoading to false when data is updated or when an error occurs
+                });
+        }
+    };
+
+    // console.log(filteredGardensArray)
     const loadMoreData = () => {
         fetch(`${url}&page=${pageNumber}`, {
             method: 'GET',
@@ -102,16 +165,16 @@ const LogScreen = ({navigation}) => {
                             <Text style={{fontWeight: 'bold', fontSize: 16}}>
                                 {item?.food_detail?.food ?? "No food found"}
                             </Text>
-                            <Text style={{color: 'grey', fontSize: 13}}>
-                                Weight: {item?.weight ?? "No weight found"} g
+                            <Text style={{color: 'grey', fontSize: 12}}>
+                                {item?.weight ?? "No weight found"} g
                             </Text>
-                            <Text style={{color: 'grey', fontSize: 13}}>
+                            <Text style={{color: 'grey', fontSize: 12}}>
                                 {formattedDate}
                             </Text>
-                            <Text style={{color: 'grey', fontSize: 13}}>
+                            <Text style={{color: 'grey', fontSize: 12}}>
                                 Garden: {item?.garden_detail?.name ?? "No garden found"}
                             </Text>
-                            <Text style={{color: 'grey', fontSize: 13}}>
+                            <Text style={{color: 'grey', fontSize: 12}}>
                                 User: {item?.user?.username ?? "No user found"}
                             </Text>
                         </>
@@ -120,14 +183,7 @@ const LogScreen = ({navigation}) => {
             </View>
         );
     };
-    const handleFilterChange = (selected) => {
-        setDefaultValue(selected);
-        if (selected.id === 'NO') {
-            setData(prevData => prevData.sort((a, b) => new Date(b.datetime) - new Date(a.datetime)));
-        } else {
-            setData(prevData => prevData.sort((a, b) => new Date(a.datetime) - new Date(b.datetime)));
-        }
-    };
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
@@ -141,10 +197,11 @@ const LogScreen = ({navigation}) => {
             <View style={[styles.filterContainer, { flexDirection: 'column' }]}>
                 <SelectBox
                     label="Garden"
-                    options={gardenOptions}
-                    value={gardenOptions[0]}
-                    onChange={onChange1}
+                    options={filteredGardensArray}
+                    value={defaultGardenValue}
+                    onChange={handleGardenFilterChange}
                 />
+                <Text></Text>
                 <SelectBox
                     label="Sort By"
                     options={FILTER_OPTIONS}
@@ -152,20 +209,27 @@ const LogScreen = ({navigation}) => {
                     onChange={handleFilterChange}
                 />
             </View>
-            <FlatList
-                data={data}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={renderItem}
-                onEndReached={loadMoreData}
-                onEndReachedThreshold={0.5}
-                ListFooterComponent={
-                    <View style={styles.footer}>
-                        <Button title="Load More" onPress={loadMoreData} />
-                    </View>
-                }
-            />
+            {isLoading ? (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color="purple" />
+                </View>
+            ) : (
+                <FlatList
+                    data={data}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={renderItem}
+                    onEndReached={loadMoreData}
+                    onEndReachedThreshold={0.5}
+                    ListFooterComponent={
+                        <View style={styles.footer}>
+                            <Button title="Load More" onPress={loadMoreData} />
+                        </View>
+                    }
+                />
+            )}
         </SafeAreaView>
     );
+
 };
 
 const styles = StyleSheet.create({
@@ -211,6 +275,11 @@ const styles = StyleSheet.create({
     },
     footer: {
         marginVertical: 20,
+        alignItems: 'center',
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
     },
 });
