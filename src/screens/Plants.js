@@ -14,13 +14,14 @@ import COLORS from '../consts/colors'
 import Icon from "react-native-vector-icons/MaterialIcons";
 import {FlatList, TextInput} from "react-native-gesture-handler";
 import categories from "../consts/categories";
+import foods from "../consts/foods";
 import {api_url} from "../consts/api_url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {MyContext} from "../../App";
 
 const {width} = Dimensions.get("screen");
 const cardWidth = width/2-20;
-const url = api_url + '/user/';
+const url = api_url + '/food/';
 
 const PlantsScreen = ({navigation}) => {
     const [selectedCategoryIndex,setSelectedCategoryIndex] = React.useState(0);
@@ -62,7 +63,6 @@ const PlantsScreen = ({navigation}) => {
             .then(data => {
                 console.log(data);
                 setData(data); // update the data state variable with the API response
-                console.log(data)
             })
             .catch(error => console.log("error"))
     }, [token]);
@@ -96,7 +96,6 @@ const PlantsScreen = ({navigation}) => {
     }
 
     const Card = ({food}) =>{
-        console.log(food)
         return(
             <TouchableHighlight underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => {
                 setMyState(food);
@@ -109,12 +108,14 @@ const PlantsScreen = ({navigation}) => {
                     <View style={{marginHorizontal:20}}>
                         <Text style={{fontSize:16, fontWeight:'bold', marginTop:10}}>{food.food}</Text>
                         <Text style={{fontSize:13, color:COLORS.grey}}>{food.supertype}</Text>
+
                     </View>
                     <View style={styles.plantAt}>
                         <Icon name="add" size={20} color={COLORS.white}/>
                     </View>
                 </View>
             </TouchableHighlight>
+
         )
     }
 
@@ -153,7 +154,7 @@ const PlantsScreen = ({navigation}) => {
                     <Icon name="search" size={28} style={{width: 28}} />
                     <TextInput
                         style={{flex: null, width: '100%', fontSize: 18}}
-                        placeholder="Search for user"
+                        placeholder="Search for Plant"
                         onChangeText={text => handleSearch(text)}
                         value={searchText}
                     />
