@@ -2,27 +2,31 @@ import {
     View,
     Text,
     Button,
-    StyleSheet,
     SafeAreaView,
+    StyleSheet,
     ScrollView,
     TouchableOpacity,
     Image,
-    Dimensions, TouchableHighlight
-} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import COLORS from '../consts/colors'
+    TouchableHighlight, Dimensions
+} from "react-native";
+import TestComponent from "../components/test-component";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import React, {useContext, useEffect, useState} from "react";
+import COLORS from "../consts/colors";
 import {FlatList, TextInput} from "react-native-gesture-handler";
-import categories from "../consts/categories";
 import {api_url} from "../consts/api_url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {MyContext} from "../../App";
-
+import categories from "../consts/categories";
+const url = api_url + '/user/';
 const {width} = Dimensions.get("screen");
 const cardWidth = width/2-20;
-const url = api_url + '/user/';
+function handleSearch(text) {
+    return undefined;
+}
 
-const PlantsScreen = ({navigation}) => {
+
+const InviteScreen = ({navigation}) => {
     const [selectedCategoryIndex,setSelectedCategoryIndex] = React.useState(0);
     const {myState, setMyState} = useContext(MyContext);
     const [data, setData] = useState([])
@@ -62,90 +66,50 @@ const PlantsScreen = ({navigation}) => {
             .then(data => {
                 console.log(data);
                 setData(data); // update the data state variable with the API response
-                console.log(data)
             })
             .catch(error => console.log("error"))
     }, [token]);
 
-
-    const ListCategories = () => {
-        return(
-            <ScrollView horizontal showHorizontalScrollIndicator={false} contentContainerStyle={styles.categoriesListContainer}>
-                {categories.map((category,index) => (
-                    <TouchableOpacity key={index} activeOpacity={0.8} onPress={() =>{handleSearch2(category.name); setSelectedCategoryIndex(index);}} >
-                        <View style ={{
-                            backgroundColor:
-                                selectedCategoryIndex === index
-                                    ? COLORS.primary
-                                    :COLORS.secondary,
-                            ...styles.categoryBtn
-                        }}>
-                            <View style={styles.categoryBtnImgCon}>
-                                <Image source={category.image} style={{height:27,width:27,resizeMode:'cover'}}/>
-                            </View>
-                            <Text style={{
-                                fontSize:10,
-                                fontWeight:'bold',
-                                marginLeft:10,
-                                color:selectedCategoryIndex === index? COLORS.white:COLORS.primary}}>{category.name}</Text>
-                        </View>
-                    </TouchableOpacity>
-                ))}
-            </ScrollView>
-        )
-    }
-
     const Card = ({food}) =>{
-        console.log(food)
         return(
             <TouchableHighlight underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => {
                 setMyState(food);
-                navigation.navigate('PlantDetails')
+                navigation.navigate('Home')
             }}>
                 <View style={styles.card}>
                     <View style={{alignItems:'center', top:-40}}>
                         {/*<Image source={food.image} style={{height:120, width:120}}/>*/}
                     </View>
                     <View style={{marginHorizontal:20}}>
-                        <Text style={{fontSize:16, fontWeight:'bold', marginTop:10}}>{food.food}</Text>
-                        <Text style={{fontSize:13, color:COLORS.grey}}>{food.supertype}</Text>
+                        <Text style={{fontSize:16, fontWeight:'bold', marginTop:10}}>{food.username}</Text>
                     </View>
                     <View style={styles.plantAt}>
                         <Icon name="add" size={20} color={COLORS.white}/>
                     </View>
                 </View>
             </TouchableHighlight>
+
         )
     }
-
     const handleSearch = text => {
         setSearchText(text);
         const filtered = data.filter(
             item =>
-                item.food.toLowerCase().includes(text.toLowerCase()) ||
-                item.supertype.toLowerCase().includes(text.toLowerCase())
+                item.username.toLowerCase().includes(text.toLowerCase())
         );
         setFilteredData(filtered);
     };
 
-    const handleSearch2 = text => {
-        setSearchText(text);
-        const filtered = data.filter(
-            item =>
-                item.supertype.toLowerCase().includes(text.toLowerCase())
-        );
-        setFilteredData(filtered);
-    };
 
     return (
         <SafeAreaView style={{flex:1}}>
             <View style={styles.head}>
-                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Harvest')}/>
+                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Plant</Text>
             </View>
             <View style={styles.header}>
                 <View>
-                    <Text style={{marginTop:5,marginLeft: 25, fontSize:22,color:COLORS.grey}}>What do you want to plant today?</Text>
+                    <Text style={{marginTop:5,marginLeft: 25, fontSize:22,color:COLORS.grey}}>Who do you want to invite?</Text>
                 </View>
             </View>
             <View style={{marginTop:40,flexDirection:'row',paddingHorizontal:20}}>
@@ -159,11 +123,6 @@ const PlantsScreen = ({navigation}) => {
                     />
                 </View>
             </View>
-            <View>
-                <ListCategories
-                    value = {searchText}
-                />
-            </View>
             <FlatList
                 showsVerticalScrollIndicator={false}
                 numColumns={2}
@@ -173,9 +132,17 @@ const PlantsScreen = ({navigation}) => {
             />
         </SafeAreaView>
     )
+
 }
 
 const styles = StyleSheet.create({
+    header: {
+        paddingVertical: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginHorizontal: 10,
+        marginTop:20,
+    },
     head: {
         paddingVertical: 50,
         flexDirection: 'row',
@@ -255,5 +222,4 @@ const styles = StyleSheet.create({
     },
 
 });
-
-export default PlantsScreen;
+export default InviteScreen;
