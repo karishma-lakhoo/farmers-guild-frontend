@@ -75,12 +75,18 @@ const LogScreen = ({navigation}) => {
         };
         fetchData();
     }, []);
-
+    useEffect(() => {
+        console.log("data must be fetched")
+        console.log(defaultValue)
+        console.log(defaultGardenValue)
+        console.log(selectedTeam2)
+    },[defaultValue, defaultGardenValue, selectedTeam2]);
     const handleGardenFilterChange = (selected) => {
         setPageNumber(2)
         setDefaultGardenValue(selected);
         setData([])
         setIsLoading(true);
+
         //  when a specific garden is selected
         if(selected.id !== "AG"){
         //     based on ordering - "ON"
@@ -138,7 +144,6 @@ const LogScreen = ({navigation}) => {
                 if (selectedTeam2.item === "All Users"){
                     url = api_url + '/harvest_log/?ordering=datetime' + allGardensUrl + "&user=All Users";
                 }
-
                 // If specific user is chosen
                 else{
                     url = api_url + '/harvest_log/?ordering=datetime' + allGardensUrl + "&user=" + selectedTeam2.id;
@@ -178,8 +183,13 @@ const LogScreen = ({navigation}) => {
 
 
     const handleUserFilterChange = (selected) => {
+        console.log("selected user")
+        console.log(selected)
         setPageNumber(2)
         setSelectedTeam2(selected);
+        console.log("selected user after setting")
+        console.log(selectedTeam2)
+
         setData([])
         setIsLoading(true);
         // when all users are specified
@@ -246,6 +256,8 @@ const LogScreen = ({navigation}) => {
             //     if ordering = "NO"
                 if(defaultValue.id === "NO"){
                     url = api_url + '/harvest_log/?ordering=-datetime' + allGardensUrl + "&user=" + selectedTeam2.id;
+                    console.log("selectedteam2")
+                    console.log(selectedTeam2.item)
                 }
             }
             // Specific garden chosen
