@@ -159,8 +159,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         color: COLORS.primary,
-        marginVertical: 100,
-        marginHorizontal : 130,
+        marginVertical: 50,
+        marginHorizontal : 50,
     },
 
     text: {
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
 
     input : {
         borderRadius: 100,
-        paddingHorizontal: 120,
+        paddingHorizontal: 90,
         paddingVertical: 10,
         width: '90%',
         //  placeholderTextColor: '#006400',
