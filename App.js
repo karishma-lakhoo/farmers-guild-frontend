@@ -18,6 +18,7 @@ import AnalyticsPieScreen from "./src/screens/AnalyticsPie";
 import AnalyticsLineScreen from "./src/screens/AnalyticsLine";
 import TestScreen from "./src/screens/Test_screen";
 import InviteScreen from "./src/screens/Invite";
+import ConfirmInviteScreen from "./src/screens/Confirm_invite";
 
 
 const Stack = createStackNavigator();
@@ -45,6 +46,7 @@ export default function App() {
                     <Stack.Screen name="Harvest" component={HarvestScreen}/>
                     <Stack.Screen name="Test" component={TestScreen}/>
                     <Stack.Screen name="Invite" component={InviteScreen}/>
+                    <Stack.Screen name="Confirm_invite" component={ConfirmInviteScreen}/>
 
 
 
