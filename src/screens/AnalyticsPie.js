@@ -172,14 +172,7 @@ const AnalyticsPieScreen = ({navigation}) => {
 //    var percentageData ;
     if(subcategory === "All Supertypes" || subcategory === "All Types" || subcategory === "All Subtypes" ){
         if(category === "supertype_count"){
-
-           
-
-
             formattedData = generateOutputAll(true_data, category, supertypes_pie)
-
-            
-
         }
         if(category === "type_count"){
             formattedData = generateOutputAll(true_data, category, types_pie)
@@ -187,7 +180,6 @@ const AnalyticsPieScreen = ({navigation}) => {
         }
         if(category === "subtype_count"){
             formattedData = generateOutputAll(true_data, category, subtypes_pie)
-
         }
     }
     else{
