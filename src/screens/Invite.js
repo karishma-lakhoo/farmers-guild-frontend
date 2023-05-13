@@ -33,6 +33,7 @@ const InviteScreen = ({navigation}) => {
     const [token, setToken] = useState('');
     const [searchText, setSearchText] = useState('');
     const [filteredData, setFilteredData] = useState([]);
+    
 
     useEffect(() => {
         const getToken = async () => {
@@ -74,7 +75,7 @@ const InviteScreen = ({navigation}) => {
         return(
             <TouchableHighlight underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => {
                 setMyState(food);
-                navigation.navigate('Home')
+                navigation.navigate('Confirm_invite')
             }}>
                 <View style={styles.card}>
                     <View style={{alignItems:'center', top:-40}}>

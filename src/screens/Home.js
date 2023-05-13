@@ -142,9 +142,11 @@ const HomeScreen = ({navigation}) => {
     }
   };
 
+
   const GardenCard = ({gardens}) => {
 
     const navigateToHarvest = () => {
+     
       saveGardenId(gardens.id);
       setMyState(gardens);
       navigation.navigate('Harvest', { gardenName: gardens.name });
