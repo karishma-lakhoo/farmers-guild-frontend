@@ -19,13 +19,14 @@ const HomeScreen = ({navigation}) => {
   const [info, setInfo] = useState([])
   const [token, setToken] = useState('');
   const route = useRoute();
-  const [username, setUsername] = useState('');
+  const [myUsername, setMyUsername] = useState('');
+  const [myUsernameID, setMyUsernameID] = useState('');
   useEffect(() => {
     const getUsername = async () => {
       try {
         const value = await AsyncStorage.getItem('username');
         if (value !== null) {
-          setUsername(value);
+          setMyUsername(value);
         }
       } catch (error) {
         console.log('Error retrieving data:', error);
@@ -36,7 +37,7 @@ const HomeScreen = ({navigation}) => {
   // console.log("shelly welly is a cutie pie")
   // console.log(username)
 
-  const filteredInfo = info.filter(item => item.user.username === username);
+  const filteredInfo = info.filter(item => item.user.username === myUsername);
 
   // store filtered gardens into async storage
   const filteredGardensArray = [{item: "All Gardens", id: "AG"}];
@@ -52,7 +53,7 @@ const HomeScreen = ({navigation}) => {
   // filteredInfo.forEach(item => filteredGardensArray.push(item.garden_detail.name))
   AsyncStorage.setItem('filteredGardensArray', JSON.stringify(filteredGardensArray))
       .then(() => {
-        console.log('Array stored successfully');
+        // console.log('Array stored successfully');
       })
       .catch(error => {
         console.log('Error storing array:', error);
@@ -61,6 +62,47 @@ const HomeScreen = ({navigation}) => {
   console.log("filtered garden array")
   // console.log(filteredInfo[0].garden_detail.name)
   console.log(filteredGardensArray)
+
+  // store associated users into async storage
+  const filteredUsersArray = [{item: "All Users", id: "AU"}];
+  const uniqueUsernames = new Set(); // Set to store unique usernames
+  for (let i=0; i < info.length; i++){
+    const item = info[i];
+    // console.log("teststserfse")
+    // console.log(item.garden_detail.name)
+    for (let j = 0; j < filteredGardensArray.length; j++){
+      if(item.garden_detail.name === filteredGardensArray[j].item){
+        const username = item.user.username;
+        const usernameID = item.user.id;
+        if (username === myUsername){
+          AsyncStorage.setItem('usernameID', item.user.id);
+        }
+        if (!uniqueUsernames.has(username)) {
+          uniqueUsernames.add(username); // Add the username to the set
+          const add = {
+            item: username,
+            id: usernameID,
+          };
+          filteredUsersArray.push(add)
+        }
+        break; // Break the inner loop after adding the username
+      }
+    }
+
+  }
+  AsyncStorage.setItem('filteredUsersArray', JSON.stringify(filteredUsersArray))
+      .then(() => {
+        // console.log('Array stored successfully');
+      })
+      .catch(error => {
+        console.log('Error storing array:', error);
+      });
+
+  console.log("filtered user array")
+  // console.log(filteredInfo[0].garden_detail.name)
+  console.log(filteredUsersArray)
+
+
   useEffect(() => {
     const getToken = async () => {
       try {
