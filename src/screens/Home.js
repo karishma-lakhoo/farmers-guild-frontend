@@ -37,6 +37,30 @@ const HomeScreen = ({navigation}) => {
   console.log(username)
 
   const filteredInfo = info.filter(item => item.user.username === username);
+
+  // store filtered gardens into async storage
+  const filteredGardensArray = [{item: "All Gardens", id: "AG"}];
+  for (let i=0; i < filteredInfo.length; i++){
+    const item = filteredInfo[i];
+    const add = {
+      item: item.garden_detail.name,
+      id: i.toString(),
+    }
+    filteredGardensArray.push(add)
+  }
+  console.log(filteredGardensArray)
+  // filteredInfo.forEach(item => filteredGardensArray.push(item.garden_detail.name))
+  AsyncStorage.setItem('filteredGardensArray', JSON.stringify(filteredGardensArray))
+      .then(() => {
+        console.log('Array stored successfully');
+      })
+      .catch(error => {
+        console.log('Error storing array:', error);
+      });
+
+  console.log("filtered garden array")
+  // console.log(filteredInfo[0].garden_detail.name)
+  console.log(filteredGardensArray)
   useEffect(() => {
     const getToken = async () => {
       try {
@@ -68,6 +92,7 @@ const HomeScreen = ({navigation}) => {
     })
         .then(resp => resp.json())
         .then(info => {
+          console.log("info is here")
           console.log(info);
           setInfo(info); // update the data state variable with the API response
         })

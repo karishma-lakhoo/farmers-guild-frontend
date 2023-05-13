@@ -141,7 +141,9 @@ const HarvestScreen = ({navigation,route}) => {
 
 
             </Modal>
-
+            <Pressable onPress={() => navigation.navigate('Invite')}  style={Btn.container}>
+                <Text style={Btn.text}> Share </Text>
+            </Pressable>
         </SafeAreaView>
     )
 }
