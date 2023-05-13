@@ -34,7 +34,7 @@ const HomeScreen = ({navigation}) => {
     getUsername();
   }, []);
   // console.log("shelly welly is a cutie pie")
-  console.log(username)
+  // console.log(username)
 
   const filteredInfo = info.filter(item => item.user.username === username);
 
@@ -84,7 +84,7 @@ const HomeScreen = ({navigation}) => {
     const headers = {
       'Authorization': `Bearer ${token}`,
     };
-    console.log(token)
+    // console.log(token)
 
     fetch(url, {
       method: "GET",
@@ -175,7 +175,8 @@ const HomeScreen = ({navigation}) => {
               style = {styles.add}
               onPress = {() => {
                 changeModalVisible(true);
-                console.log(myUser)}}>
+                // console.log(myUser)
+                }}>
             <Image source = {require('../images/plus_sign.png')}/>
 
           </TouchableOpacity>

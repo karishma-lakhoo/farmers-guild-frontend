@@ -29,8 +29,8 @@ const LoginScreen = ({navigation}) => {
         setPassword(text);
     };
     const onSignInPressed = () => {
-        console.log(username)
-        console.log(password)
+        // console.log(username)
+        // console.log(password)
         fetch(api_url + '/token/', {
             method: 'POST',
             headers: {

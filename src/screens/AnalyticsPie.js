@@ -14,7 +14,6 @@ import types_pie from "../consts/types_pie";
 import { api_url } from "../consts/api_url";
 import { useRoute } from '@react-navigation/native';
 
-
 // const data = [
 //     { x: 'Apples', y: 35 },
 //     { x: 'Bananas', y: 40 },
@@ -24,10 +23,7 @@ import { useRoute } from '@react-navigation/native';
 // ];
 // this is for all supertypes, types and subtypes
 
-
-
 const url = api_url + '/harvest_log/analytics/?start_year=2022&end_year=2022'; 
-
 
 function generateOutputAll(data, supertypeCountName, initialValues) {
     const supertypeCount = {};
@@ -103,34 +99,18 @@ function generateOutput2(data, countName1, countName2, initialValues) {
     return output;
 } 
 
-
-  
-  
-  
-  
-  
-  
-  
-  
 // console.log("generated");
 const test1 = "type_count";
 const test2 = "Citrus";
 // console.log(generateOutput2(dummy_data, test1, test2, type_to_sub));
 // console.log("generated");
-
-
 // if it is ALL
-
 // console.log("formatted data")
 // console.log(formattedData)
 
 // console.log(formattedData);
 const AnalyticsPieScreen = ({navigation}) => {
-
-
-   
     //start of fetch request
-
     const [isDataLoaded, setIsDataLoaded] = useState(true);
     const [output, setOutput] = useState([]);
     const [true_data, set_true_Data] = useState([{}])
@@ -159,8 +139,6 @@ const AnalyticsPieScreen = ({navigation}) => {
         const headers = {
             'Authorization': `Bearer ${token}`,
         };
-
-
         fetch(url, {
             method: "GET",
             headers: headers
@@ -176,44 +154,25 @@ const AnalyticsPieScreen = ({navigation}) => {
                 
             })
             .catch(error => console.log("error"))
-    }, [token]); 
-
-   
-
-
+    }, [token]);
 
       console.log("This is the true data bbleeeeeeeeehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh ///////////")
     console.log(true_data)
     console.log("This is the true data ///////////")
-
-
     const route = useRoute();
     const { category, subcategory } = route.params;
   //  console.log("Selected category:", category);
   //  console.log("Selected subcategory:", subcategory);
     // const formattedData = generateOutputAll(dummy_data, category, subtypes_pie)
-    
-   
-
-
     let formattedData;
-
     if (!isDataLoaded){
-
 //        var legendData;
 //   var  colorScale;
 //    var total;
 //    var percentageData ;
     if(subcategory === "All Supertypes" || subcategory === "All Types" || subcategory === "All Subtypes" ){
         if(category === "supertype_count"){
-
-           
-
-
             formattedData = generateOutputAll(true_data, category, supertypes_pie)
-
-            
-
         }
         if(category === "type_count"){
             formattedData = generateOutputAll(true_data, category, types_pie)
@@ -221,7 +180,6 @@ const AnalyticsPieScreen = ({navigation}) => {
         }
         if(category === "subtype_count"){
             formattedData = generateOutputAll(true_data, category, subtypes_pie)
-
         }
     }
     else{
@@ -231,12 +189,8 @@ const AnalyticsPieScreen = ({navigation}) => {
         if(category === "type_count"){
             formattedData = generateOutput2(true_data, category, subcategory, type_to_sub)
         }
-    
 
-    
-    
-
-   var  legendData = formattedData.map((datum) => ({ name: datum.x }));
+    var  legendData = formattedData.map((datum) => ({ name: datum.x }));
     var colorScale = generateColorScale(formattedData.length);
     var total = formattedData.reduce((acc, curr) => acc + curr.y, 0);
     var percentageData = formattedData.map((datum) => ({
@@ -244,13 +198,7 @@ const AnalyticsPieScreen = ({navigation}) => {
     }));
     console.log(percentageData)
 }
-
-
     return (
-
-
-        
-       
         <View>
             <View style={styles.header}>
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.goBack()}/>
@@ -274,9 +222,6 @@ const AnalyticsPieScreen = ({navigation}) => {
                 </View>
             </ScrollView>
         </View>
-
-    
-        
     );
     }
         

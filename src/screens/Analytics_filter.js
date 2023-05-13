@@ -70,7 +70,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
             setSubCategories(foodSubCategoriesPie); // update subCategories to foodSubCategoriesPie
             // console.log(subCategories);
         } else {
-            setSubCategories(foodSubCategoriesLine); // set subCategories back to foodSubCategoriesLine
+            setSubCategories(foodSubCategoriesPie); // set subCategories back to foodSubCategoriesLine
         }
         // console.log("Selected graph:", selectedGraph.value);
     };

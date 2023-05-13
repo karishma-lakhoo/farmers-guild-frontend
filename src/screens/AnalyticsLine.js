@@ -8,21 +8,84 @@ import { useRoute } from '@react-navigation/native';
 import { api_url } from "../consts/api_url";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function getCategoryCounts(data, category, countObject) {
-    const counts = new Array(12).fill(0);
-    console.log(data);
+function getCategoryCounts(data, category, countObject) { //all types, typecount
+    let counts;
+    counts = new Array(12).fill(0);
+    console.log(data)
+    console.log(category)
+
     data?.forEach(item => {
         const count = item[countObject];
-        if (category in count) {
+        console.log(count)
+        if (category === "All Supertypes" || category === "All Types" || category === "All Subtypes" ){
+            const total = Object.values(count).reduce((acc, curr) => acc + curr, 0);
+            console.log("Bleh")
+            console.log(total)
+            const month = item.month - 1; // month is 1-based, array is 0-based
+            counts[month] += total
+        }
+        else if (category in count) {
             const month = item.month - 1; // month is 1-based, array is 0-based
             counts[month] += count[category];
         }
     });
 
+    // if (start_date!== end_date){
+    //     counts = counts.slice(0, (end_date-start_date)+1);
+    // }
+
+    console.log(counts);
     return counts;
 }
 
-const url = api_url + '/harvest_log/analytics/?start_year=2020&end_year=2022';
+
+
+
+function getCategoryCounts2(data, category, countObject, start_date, end_date) {
+    // console.log(countObject)
+    // console.log(category)
+
+    const counts =[]
+    // console.log(counts)
+    // console.log(data)
+
+    const sumsByYear = {};
+    data?.forEach(item => {
+        const count = item[countObject];
+        const year = item.year;
+        const categoryCounts = sumsByYear[year] || {};
+        Object.keys(count).forEach(category => {
+            categoryCounts[category] = (categoryCounts[category] || 0) + count[category];
+        });
+        sumsByYear[year] = categoryCounts;
+    });
+
+    Object.keys(sumsByYear).forEach(year => {
+        const yearValues = sumsByYear[year];
+        let sum = 0;
+        if (category === "All Supertypes" || category === "All Types" || category === "All Subtypes") {
+            Object.keys(yearValues).forEach(cat => {
+                sum += yearValues[cat];
+            });
+        } else if (category in yearValues) {
+            sum = yearValues[category];
+        }
+        counts.push(sum);
+
+    });
+
+
+    console.log(sumsByYear);
+    //
+    console.log(counts)
+
+    // if (start_date!== end_date){
+    //     counts = counts.slice(0, (end_date-start_date)+1);
+    // }
+
+
+    return counts;
+}
 
 //const counts2 = getCategoryCounts(dummy_data, "Tomato", "subtype_count");
 //console.log(counts2); // prints an array of length 12 with the count of Tomato for each month
@@ -35,12 +98,13 @@ const AnalyticsLineScreen = ({navigation}) => {
     const route = useRoute();
     const { category, subcategory , start_date, end_date} = route.params;
     const url = api_url + '/harvest_log/analytics/?start_year='+start_date+'&end_year='+end_date;
-
+    console.log(category)
+    console.log(subcategory)
 
     // console.log("Selected category:", category);
     // console.log("Selected subcategory:", subcategory);
-    console.log("Selected start date:", start_date);
-    console.log("Selected start date:", end_date);
+    // console.log("Selected start date:", start_date);
+    // console.log("Selected start date:", end_date);
 
     const [counts, setCounts] = useState(new Array(12).fill(0));
 
@@ -83,16 +147,41 @@ const AnalyticsLineScreen = ({navigation}) => {
                 
                //console.log(data);
                 set_true_Data(data); // update the data state variable with the API response
-                const categoryCounts = getCategoryCounts(data, subcategory, category);
-                setCounts(categoryCounts);
+                if (start_date === end_date){
+                    const categoryCounts = getCategoryCounts(data, subcategory, category); //type_count, all types
+                    setCounts(categoryCounts);
+                }
+                else{
+                    const categoryCounts = getCategoryCounts2(data, subcategory, category,start_date,end_date);
+                    setCounts(categoryCounts);
+                }
+
+
                 
             })
             .catch(error => console.log("error"))
     }, [token]); 
 
     // console.log(counts); // prints an array of length 12 with the count of Fruit for each month
-    const data = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul","Aug", "Sept", "Oct", "Nov", "Dec"],
+        const data = {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul","Aug", "Sept", "Oct", "Nov", "Dec"],
+            datasets: [
+                {
+                    data: counts,
+                    color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+                    strokeWidth: 2 // optional
+                }
+            ],
+            legend: [subcategory+"s"+ " Yielded"] // optional
+        };
+
+    const yearLabels = [];
+    for (let i = start_date; i <= end_date; i++) {
+        yearLabels.push(`Year ${i - start_date + 1}`);
+    }
+
+    const data2 = {
+        labels: yearLabels,
         datasets: [
             {
                 data: counts,
@@ -119,17 +208,33 @@ const AnalyticsLineScreen = ({navigation}) => {
                <Text style = {{fontSize: 20, fontWeight: 'bold', color:"white"}}>Line Graph</Text>
             </View>
             <View style={styles.container}>
-                <View>
-
-                    <Text style={{color: 'white', marginLeft:10, marginBottom:10}}>{`From ${start_date} to ${end_date}`}</Text>
-                    <LineChart
-                        data={data} //change back to data?
-                        width={Dimensions.get("window").width}
-                        height={220}
-                        chartConfig={chartConfig}
-                    />
-                </View>
+                {start_date === end_date ? (
+                    <View>
+                        <Text style={{ color: "white", marginLeft: 10, marginBottom: 10 }}>
+                            {`From ${start_date} to ${end_date}`}
+                        </Text>
+                        <LineChart
+                            data={data}
+                            width={Dimensions.get("window").width}
+                            height={220}
+                            chartConfig={chartConfig}
+                        />
+                    </View>
+                ) : (
+                    <View>
+                        <Text style={{ color: "white", marginLeft: 10, marginBottom: 10 }}>
+                            {`From ${start_date} to ${end_date}`}
+                        </Text>
+                        <LineChart
+                            data={data2}
+                            width={Dimensions.get("window").width}
+                            height={220}
+                            chartConfig={chartConfig}
+                        />
+                    </View>
+                )}
             </View>
+
 
         </SafeAreaView>
     );
