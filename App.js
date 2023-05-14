@@ -2,13 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator} from "@react-navigation/stack";
-import React, { createContext, useState} from "react";
 import 'react-native-gesture-handler';
 import LoginScreen from "./src/screens/Login";
 import LogScreen from "./src/screens/Log";
 import SignUpScreen from "./src/screens/SignUp";
 import PlantsScreen from "./src/screens/Plants";
 import HarvestScreen from "./src/screens/Harvest";
+import React, { createContext, useState} from "react";
 import PlantDetailsScreen from "./src/screens/PlantDetails";
 import BottomNavigator from "./src/navigation/BottomNavigator";
 import SplashScreen from "./src/screens/SplashScreen";
@@ -19,6 +19,8 @@ import AnalyticsLineScreen from "./src/screens/AnalyticsLine";
 import TestScreen from "./src/screens/Test_screen";
 import InviteScreen from "./src/screens/Invite";
 import ConfirmInviteScreen from "./src/screens/Confirm_invite";
+import Notifications from "./src/screens/notifications";
+import NotificationScreen from "./src/screens/notifications";
 
 
 const Stack = createStackNavigator();
@@ -47,6 +49,7 @@ export default function App() {
                     <Stack.Screen name="Test" component={TestScreen}/>
                     <Stack.Screen name="Invite" component={InviteScreen}/>
                     <Stack.Screen name="Confirm_invite" component={ConfirmInviteScreen}/>
+                    <Stack.Screen name="Notifications" component={NotificationScreen}/>
 
 
 

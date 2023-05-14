@@ -9,6 +9,7 @@ import HomeScreen from "../screens/Home";
 import LogScreen from "../screens/Log";
 import Analytics_filter from "../screens/Analytics_filter";
 import Analytics_FilterScreen from "../screens/Analytics_filter";
+import NotificationScreen from "../screens/notifications";
 const Tab = createBottomTabNavigator();
 const BottomNavigator = () => {
     return <Tab.Navigator screenOptions={{
@@ -31,6 +32,11 @@ const BottomNavigator = () => {
         <Tab.Screen name="Analytics" component={Analytics_FilterScreen} options={{
             tabBarIcon: ({color}) => (
                 <Icon name="timeline" color={color} size={28}/>
+            ),
+        }}/>
+        <Tab.Screen name="Notification" component={NotificationScreen} options={{
+            tabBarIcon: ({color}) => (
+                <Icon name="bell" color={color} size={28}/>
             ),
         }}/>
 
