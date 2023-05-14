@@ -36,17 +36,14 @@ let url = api_url + '/harvest_log/?ordering=-datetime';
 
 const LogScreen = ({navigation}) => {
     const controller = useRef(new AbortController());
-    const [defaultValue, setDefaultValue] = useState(FILTER_OPTIONS[0]);
-    const [gardenOptions, setGardenOptions] = useState(GARDEN_OPTIONS);
-    const [selectedTeam1, setSelectedTeam1] = useState(GARDEN_OPTIONS[0]);
-    const [selectedTeam2, setSelectedTeam2] = useState({});
+    const [sortValue, setSortValue] = useState(FILTER_OPTIONS[0]);
+    const [userValue, setUserValue] = useState({});
     const [data, setData] = useState([]);
     const [token, setToken] = useState('');
     const [pageNumber, setPageNumber] = useState(1);
     const [filteredGardensArray, setFilteredGardensArray] = useState([]);
     const [filteredUsersArray, setFilteredUsersArray] = useState([]);
-    const [defaultGardenValue, setDefaultGardenValue] = useState(GARDEN_OPTIONS[0]);
-    const [defaultUserValue, setDefaultUserValue] = useState(selectedTeam2);
+    const [gardenValue, setGardenValue] = useState(GARDEN_OPTIONS[0]);
     const [isLoading, setIsLoading] = useState(false);
     const [username, setUsername] = useState('');
 
@@ -66,7 +63,7 @@ const LogScreen = ({navigation}) => {
                 setFilteredGardensArray(parsedGardensValue);
                 if (usernameValue !== null) {
                     setUsername(usernameValue);
-                    setSelectedTeam2({ item: usernameValue, id: usernameID }); // Set the initial value of selectedTeam2 to the username
+                    setUserValue({ item: usernameValue, id: usernameID }); // Set the initial value of userValue to the username
                 }
 
             } catch (error) {
@@ -75,321 +72,64 @@ const LogScreen = ({navigation}) => {
         };
         fetchData();
     }, []);
+
     useEffect(() => {
-        console.log("data must be fetched")
-        console.log(defaultValue)
-        console.log(defaultGardenValue)
-        console.log(selectedTeam2)
-    },[defaultValue, defaultGardenValue, selectedTeam2]);
-    const handleGardenFilterChange = (selected) => {
         setPageNumber(2)
-        setDefaultGardenValue(selected);
         setData([])
         setIsLoading(true);
 
-        //  when a specific garden is selected
-        if(selected.id !== "AG"){
-        //     based on ordering - "ON"
-            if (defaultValue.id === "ON"){
-                // If All Users are Specified
-                if (selectedTeam2.item === "All Users"){
-                    url = api_url + '/harvest_log/?ordering=datetime&garden=' + selected.item + "&user=All Users";
-                }
-                // If specific user is chosen
-                else{
-                    url = api_url + '/harvest_log/?ordering=datetime&garden=' + selected.item + "&user=" + selectedTeam2.id;
-                }
-            }
-            // if the ordering - "NO"
-            else{
-                // If All Users are Specified
-                if (selectedTeam2.item === "All Users"){
-                    url = api_url + '/harvest_log/?ordering=-datetime&garden=' + selected.item + "&user=All Users";
-                }
-                // If specific user is chosen
-                else{
-                    url = api_url + '/harvest_log/?ordering=-datetime&garden=' + selected.item + "&user=" + selectedTeam2.id;
-                }
-            }
-            setData([])
-            fetch(url + '&page=1', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-                signal: controller.current.signal,
-            })
-                .then((resp) => resp.json())
-                .then((response) => {
-                    const newData = response.results;
-                    setData(newData); // Update the data state with the new fetched data
-                })
-                .catch((error) => console.log(error))
-                .finally(() => {
-                    setIsLoading(false); // Set isLoading to false when data is updated or when an error occurs
-                });
+        let orderingGarden = 'datetime'
+        if (sortValue.id !== "ON") {
+            orderingGarden = '-datetime'
         }
-        // when all gardens are selected
-        else{
-            console.log("i want to cri")
-            let allGardensUrl = '';
+
+        let userQuery = "All Users"
+        if (userValue.item !== "All Users") {
+            userQuery = userValue.id
+        }
+
+        let gardenQuery = gardenValue.item
+        if (gardenValue.id === "AG"){
+            gardenQuery = '';
             for (let i= 1; i < filteredGardensArray.length; i++){
-                allGardensUrl += "&garden="+filteredGardensArray[i].item.toString();
+                gardenQuery += "&garden="+filteredGardensArray[i].item.toString();
             }
-            console.log(allGardensUrl)
-            //     based on ordering - oldest to newest
-            if (defaultValue.id === "ON"){
-                // If All Users are Specified
-                console.log('ASDA')
-                if (selectedTeam2.item === "All Users"){
-                    url = api_url + '/harvest_log/?ordering=datetime' + allGardensUrl + "&user=All Users";
-                }
-                // If specific user is chosen
-                else{
-                    url = api_url + '/harvest_log/?ordering=datetime' + allGardensUrl + "&user=" + selectedTeam2.id;
-                }
-            }
-            // if the ordering is newest to oldest
-            else{
-                console.log('ASDfA')
-                // If All Users are Specified
-                if (selectedTeam2.item === "All Users"){
-                    url = api_url + '/harvest_log/?ordering=-datetime' + allGardensUrl + "&user=All Users";
-                }
-                // If specific user is chosen
-                else{
-                    url = api_url + '/harvest_log/?ordering=-datetime' + allGardensUrl + "&user=" + selectedTeam2.id;
-                }
-            }
-            setData([])
-            fetch(url + '&page=1', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-                signal: controller.current.signal,
-            })
-                .then((resp) => resp.json())
-                .then((response) => {
-                    const newData = response.results;
-                    setData(newData); // Update the data state with the new fetched data
-                })
-                .catch((error) => console.log(error))
-                .finally(() => {
-                    setIsLoading(false); // Set isLoading to false when data is updated or when an error occurs
-                });
         }
+        url = api_url + '/harvest_log/?ordering=' + orderingGarden + "&garden="+ gardenQuery  + "&user=" + userQuery;
+        setData([])
+        fetch(url + '&page=1', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            signal: controller.current.signal,
+        })
+            .then((resp) => resp.json())
+            .then((response) => {
+                const newData = response.results;
+                setData(newData); // Update the data state with the new fetched data
+            })
+            .catch((error) => console.log(error))
+            .finally(() => {
+                setIsLoading(false); // Set isLoading to false when data is updated or when an error occurs
+            });
+
+        console.log("data must be fetched")
+        console.log(sortValue)
+        console.log(gardenValue)
+        console.log(userValue)
+    },[sortValue, gardenValue, userValue]);
+
+    const handleGardenFilterChange = (selected) => {
+        setGardenValue(selected);
     }
 
-
     const handleUserFilterChange = (selected) => {
-        console.log("selected user")
-        console.log(selected)
-        setPageNumber(2)
-        setSelectedTeam2(selected);
-        console.log("selected user after setting")
-        console.log(selectedTeam2)
-
-        setData([])
-        setIsLoading(true);
-        // when all users are specified
-        if (selected.item === "All Users"){
-            // ALL Gardens specified
-            let allGardensUrl = '';
-            for (let i= 1; i < filteredGardensArray.length; i++){
-                allGardensUrl += "&garden="+filteredGardensArray[i].item.toString();
-            }
-            console.log("user all goardens")
-            console.log(allGardensUrl)
-            if (defaultGardenValue.id === "AG"){
-                //     if ordering = "ON"
-                if(defaultValue.id === "ON"){
-                    url = api_url + '/harvest_log/?ordering=datetime' + allGardensUrl + "&user=All Users" ;
-                }
-                //     if ordering = "NO"
-                if(defaultValue.id === "NO"){
-                    url = api_url + '/harvest_log/?ordering=-datetime' + allGardensUrl + "&user=All Users";
-                    console.log(url)
-                }
-            }
-            // Specific garden chosen
-            else{
-                //     if ordering = "ON"
-                if(defaultValue.id === "ON"){
-                    url = api_url + '/harvest_log/?ordering=datetime&garden=' + defaultGardenValue.item + "&user=All Users";
-                }
-                //     if ordering = "NO"
-                if(defaultValue.id === "NO"){
-                    url = api_url + '/harvest_log/?ordering=-datetime&garden=' + defaultGardenValue.item + "&user=All Users";
-                }
-            }
-            setData([])
-            fetch(url + '&page=1', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-                signal: controller.current.signal,
-            })
-                .then((resp) => resp.json())
-                .then((response) => {
-                    const newData = response.results;
-                    setData(newData); // Update the data state with the new fetched data
-                })
-                .catch((error) => console.log(error))
-                .finally(() => {
-                    setIsLoading(false); // Set isLoading to false when data is updated or when an error occurs
-                });
-        }
-        // when a user is specified
-        else{
-            // ALL Gardens specified
-            let allGardensUrl = '';
-            for (let i= 1; i < filteredGardensArray.length; i++){
-                allGardensUrl += "&garden="+filteredGardensArray[i].item.toString();
-            }
-            if (defaultGardenValue.item === "All Gardens"){
-            //     if ordering = "ON"
-                if(defaultValue.id === "ON"){
-                    url = api_url + '/harvest_log/?ordering=datetime' + allGardensUrl + "&user=" + selectedTeam2.id;
-                }
-            //     if ordering = "NO"
-                if(defaultValue.id === "NO"){
-                    url = api_url + '/harvest_log/?ordering=-datetime' + allGardensUrl + "&user=" + selectedTeam2.id;
-                    console.log("selectedteam2")
-                    console.log(selectedTeam2.item)
-                }
-            }
-            // Specific garden chosen
-            else{
-                //     if ordering = "ON"
-                if(defaultValue.id === "ON"){
-                    url = api_url + '/harvest_log/?ordering=datetime&garden=' + defaultGardenValue.item + "&user=" + selectedTeam2.id;
-                }
-                //     if ordering = "NO"
-                if(defaultValue.id === "NO"){
-                    url = api_url + '/harvest_log/?ordering=-datetime&garden=' + defaultGardenValue.item + "&user=" + selectedTeam2.id;
-                }
-            }
-            setData([])
-            fetch(url + '&page=1', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-                signal: controller.current.signal,
-            })
-                .then((resp) => resp.json())
-                .then((response) => {
-                    const newData = response.results;
-                    setData(newData); // Update the data state with the new fetched data
-                })
-                .catch((error) => console.log(error))
-                .finally(() => {
-                    setIsLoading(false); // Set isLoading to false when data is updated or when an error occurs
-                });
-        }
+        setUserValue(selected);
     }
 
     const handleFilterChange = (selected) => {
-        setPageNumber(2)
-        setDefaultValue(selected);
-        setData([]); // Empty the data array
-        setIsLoading(true); // Set isLoading to true
-        // if "NO" ordering is done on all gardens
-        if (selected.id === 'NO') {
-            // all gardens
-            if(defaultGardenValue.id === "AG"){
-                let allGardensUrl = '';
-                for (let i= 1; i < filteredGardensArray.length; i++){
-                    allGardensUrl += "&garden="+filteredGardensArray[i].item.toString();
-                }
-                // All users
-                if (selectedTeam2.item === "All Users"){
-                    url = api_url + '/harvest_log/?ordering=-datetime&garden=' + allGardensUrl + '&user=All Users';
-                }
-                // Specific users
-                else{
-                    url = api_url + '/harvest_log/?ordering=-datetime&garden=' + allGardensUrl + "&user=" + selectedTeam2.id;
-                }
-
-            }
-            // if "NO" ordering is done on a specific garden
-            else{
-                // All Users
-                if (selectedTeam2.item === "All Users"){
-                    url = api_url + '/harvest_log/?ordering=-datetime&garden=' + defaultGardenValue.item + '&user=All Users';
-                }
-                // Specified user
-                else{
-                    url = api_url + '/harvest_log/?ordering=-datetime&garden=' + defaultGardenValue.item + '&user=' + selectedTeam2.id;
-                }
-            }
-            setData([]); // Empty the data array
-            fetch(url + '&page=1', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-                signal: controller.current.signal,
-            })
-                .then((resp) => resp.json())
-                .then((response) => {
-                    const newData = response.results;
-                    setData(newData); // Update the data state with the new fetched data
-                })
-                .catch((error) => console.log(error))
-                .finally(() => {
-                    setIsLoading(false); // Set isLoading to false when data is updated or when an error occurs
-                });
-        // ordering = Oldest to Newest
-        } else {
-            // if "ON" ordering is done on all gardens
-            if(defaultGardenValue.id === "AG"){
-                let allGardensUrl = '';
-                for (let i= 1; i < filteredGardensArray.length; i++){
-                    allGardensUrl += "&garden="+filteredGardensArray[i].item.toString();
-                }
-                // All users
-                if (selectedTeam2.item === "All Users"){
-                    url = api_url + '/harvest_log/?ordering=datetime&garden=' + allGardensUrl + '&user=All Users';
-                }
-                // Specific users
-                else{
-                    url = api_url + '/harvest_log/?ordering=datetime&garden=' + allGardensUrl + '&user=' + selectedTeam2.id;
-                }
-            }
-            // if "ON" ordering is done on specific garden
-            else{
-                // All users
-                if (selectedTeam2.item === "All Users"){
-                    url = api_url + '/harvest_log/?ordering=datetime&garden=' + defaultGardenValue.item + '&user=All Users';
-                }
-                // Specific users
-                else{
-                    url = api_url + '/harvest_log/?ordering=datetime&garden=' + defaultGardenValue.item + '&user=' + selectedTeam2.id;
-                }
-
-            }
-            setData([]); // Empty the data array
-            fetch(url + '&page=1', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-                signal: controller.current.signal,
-            })
-                .then((resp) => resp.json())
-                .then((response) => {
-                    const newData = response.results;
-                    setData(newData); // Update the data state with the new fetched data
-                })
-                .catch((error) => console.log(error))
-                .finally(() => {
-                    setIsLoading(false); // Set isLoading to false when data is updated or when an error occurs
-                });
-
-        }
+        setSortValue(selected);
     };
 
     // console.log(filteredGardensArray)
@@ -496,21 +236,21 @@ const LogScreen = ({navigation}) => {
                 <SelectBox
                     label="Garden"
                     options={filteredGardensArray}
-                    value={defaultGardenValue}
+                    value={gardenValue}
                     onChange={handleGardenFilterChange}
                 />
                 <Text></Text>
                 <SelectBox
                     label="User"
                     options={filteredUsersArray}
-                    value={selectedTeam2}
+                    value={userValue}
                     onChange={handleUserFilterChange}
                 />
                 <Text></Text>
                 <SelectBox
                     label="Sort By"
                     options={FILTER_OPTIONS}
-                    value={defaultValue}
+                    value={sortValue}
                     onChange={handleFilterChange}
                 />
             </View>
