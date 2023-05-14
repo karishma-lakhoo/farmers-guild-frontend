@@ -34,9 +34,9 @@ const BottomNavigator = () => {
                 <Icon name="timeline" color={color} size={28}/>
             ),
         }}/>
-        <Tab.Screen name="Notification" component={NotificationScreen} options={{
+        <Tab.Screen name="Notifications" component={NotificationScreen} options={{
             tabBarIcon: ({color}) => (
-                <Icon name="bell" color={color} size={28}/>
+                <Icon name="notifications" color={color} size={28}/>
             ),
         }}/>
 
