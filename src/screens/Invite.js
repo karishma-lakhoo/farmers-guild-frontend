@@ -110,10 +110,10 @@ const InviteScreen = ({navigation}) => {
             </View>
             <View style={styles.header}>
                 <View>
-                    <Text style={{marginTop:5,marginLeft: 25, fontSize:22,color:COLORS.grey}}>Who do you want to invite?</Text>
+                    <Text style={{marginLeft: 25, fontSize:22,color:COLORS.grey}}>Who do you want to invite?</Text>
                 </View>
             </View>
-            <View style={{marginTop:40,flexDirection:'row',paddingHorizontal:20}}>
+            <View style={{marginTop:20,flexDirection:'row',paddingHorizontal:20}}>
                 <View style={styles.inputContainer}>
                     <Icon name="search" size={28} style={{width: 28}} />
                     <TextInput
@@ -138,11 +138,9 @@ const InviteScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
     header: {
-        paddingVertical: 50,
         flexDirection: 'row',
         alignItems: 'center',
         marginHorizontal: 10,
-        marginTop:20,
     },
     head: {
         paddingVertical: 50,
