@@ -106,7 +106,7 @@ const InviteScreen = ({navigation}) => {
         <SafeAreaView style={{flex:1}}>
             <View style={styles.head}>
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
-                <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Plant</Text>
+                <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Invite Users</Text>
             </View>
             <View style={styles.header}>
                 <View>
