@@ -1,5 +1,15 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {SafeAreaView, Text, Button, StyleSheet, View, Image, Alert, ActivityIndicator} from 'react-native';
+import {
+    SafeAreaView,
+    Text,
+    Button,
+    StyleSheet,
+    View,
+    Image,
+    Alert,
+    ActivityIndicator,
+    TouchableOpacity
+} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SelectBox from 'react-native-multi-selectbox'
@@ -7,6 +17,7 @@ import { xorBy } from 'lodash'
 import foods from "../consts/foods";
 import { api_url } from "../consts/api_url";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SelectList} from "react-native-dropdown-select-list";
 
 const GARDEN_OPTIONS = [
     {
@@ -35,6 +46,7 @@ const FILTER_OPTIONS = [
 let url = api_url + '/harvest_log/?ordering=-datetime';
 
 const LogScreen = ({navigation}) => {
+
     const controller = useRef(new AbortController());
     const [sortValue, setSortValue] = useState(FILTER_OPTIONS[0]);
     const [userValue, setUserValue] = useState({});
@@ -46,6 +58,14 @@ const LogScreen = ({navigation}) => {
     const [gardenValue, setGardenValue] = useState(GARDEN_OPTIONS[0]);
     const [isLoading, setIsLoading] = useState(false);
     const [username, setUsername] = useState('');
+    const [selectedYear, setSelectedYear] = useState('')
+    const [startYear, setStartYear] = useState('');
+    const [endYear, setEndYear] = useState('');
+    const [buttonPressed, setButtonPressed] = useState(false)
+    const [firstYear, setFirstYear] = useState(2010)
+    const n_years = (2023-firstYear) + 1
+    const years1 = Array.from({ length: n_years }, (_, i) => (2023 - i).toString()); // generates an array of 100 years, from "2023" to "1924"
+    const years2 = Array.from({ length: years1.indexOf(startYear)+1 }, (_, j) => (2023 - j).toString()); // generates an array of years, from "2023" down to the selected year as a string
 
     useEffect(() => {
         const fetchData = async () => {
@@ -55,8 +75,7 @@ const LogScreen = ({navigation}) => {
                 const filteredGardensValue = await AsyncStorage.getItem('filteredGardensArray');
                 const filteredUsersValue = await AsyncStorage.getItem('filteredUsersArray');
                 const usernameID = await AsyncStorage.getItem('usernameID')
-                console.log("asdfasdf")
-                console.log(usernameID)
+                // console.log(usernameID)
                 const parsedUsersValue = JSON.parse(filteredUsersValue);
                 setFilteredUsersArray(parsedUsersValue);
                 const parsedGardensValue = JSON.parse(filteredGardensValue);
@@ -92,10 +111,22 @@ const LogScreen = ({navigation}) => {
         if (gardenValue.id === "AG"){
             gardenQuery = '';
             for (let i= 1; i < filteredGardensArray.length; i++){
+                if(i===0){
+                    gardenQuery += filteredGardensArray[i].item.toString();
+                }
                 gardenQuery += "&garden="+filteredGardensArray[i].item.toString();
             }
         }
-        url = api_url + '/harvest_log/?ordering=' + orderingGarden + "&garden="+ gardenQuery  + "&user=" + userQuery;
+        if(!buttonPressed){
+            console.log("not pressed")
+            console.log("asdfasdfsafasf")
+            url = api_url + '/harvest_log/?ordering=' + orderingGarden + "&garden="+ gardenQuery  + "&user=" + userQuery;
+        }
+        else{
+            console.log("pressed")
+            console.log("my fingies are cold")
+            url = api_url + '/harvest_log/?ordering=' + orderingGarden + "&garden="+ gardenQuery  + "&user=" + userQuery + '&start_date=' + startYear + '&end_date=' + endYear;
+        }
         setData([])
         fetch(url + '&page=1', {
             method: 'GET',
@@ -118,7 +149,7 @@ const LogScreen = ({navigation}) => {
         console.log(sortValue)
         console.log(gardenValue)
         console.log(userValue)
-    },[sortValue, gardenValue, userValue]);
+    },[sortValue, gardenValue, userValue, startYear, endYear, buttonPressed]);
 
     const handleGardenFilterChange = (selected) => {
         setGardenValue(selected);
@@ -130,6 +161,12 @@ const LogScreen = ({navigation}) => {
 
     const handleFilterChange = (selected) => {
         setSortValue(selected);
+    };
+    const handleButtonPress = () => {
+        console.log("what am i")
+        setButtonPressed(true)
+        console.log(buttonPressed)
+
     };
 
     // console.log(filteredGardensArray)
@@ -253,6 +290,54 @@ const LogScreen = ({navigation}) => {
                     value={sortValue}
                     onChange={handleFilterChange}
                 />
+                <Text></Text>
+                {/*<Text style={{fontSize:12, color:'grey'}}>Date Range </Text>*/}
+                {/*<Text></Text>*/}
+
+                <View style={{ flexDirection: 'row' }}>
+                    <View style={{ marginRight: 5 }}>
+                        <Text style={{fontSize:13, color:'grey'}}>{`From January:`}</Text>
+                        <View style={{ marginTop: 5, borderWidth: 1, borderColor: 'transparent', borderRadius: 5, overflow: 'hidden' }}>
+                            <SelectList
+                                setSelected={(selected) => {
+                                    setStartYear(selected);
+                                    // console.log("Selected category:", selected);
+                                }}
+                                data={years1}
+                                placeholder={"Start Date"}
+                                // defaultOption={{key: 'SUP', value: 'SuperType'}}
+                            />
+                        </View>
+                    </View>
+                    <View>
+                        <Text style={{fontSize:13, color:'grey'}}>{`To December:`}</Text>
+                        <View style={{ marginTop: 5, borderWidth: 1, borderColor: 'transparent', borderRadius: 5, overflow: 'hidden' }}>
+                            <SelectList
+                                setSelected={(selected) => {
+                                    setEndYear(selected);
+                                }}
+                                data={years2}
+                                placeholder={"End Date"}
+                                // defaultOption={{key: 'SUP', value: 'SuperType'}}
+                            />
+                        </View>
+                    </View>
+                    <View style={{ marginTop: 21, marginLeft: 5 }}>
+                        <TouchableOpacity
+                            style={{
+                                backgroundColor: 'purple',
+                                borderRadius: 12,
+                                paddingVertical: 14,
+                                paddingHorizontal: 16,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                            onPress={handleButtonPress}
+                        >
+                            <Text style={{ color: 'white', fontSize: 16 }}>Apply</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </View>
             {isLoading ? (
                 <View style={styles.loadingContainer}>
