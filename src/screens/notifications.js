@@ -8,25 +8,19 @@ import COLORS from "../consts/colors";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import {SecondaryButton} from "../consts/button";
 
-const url = api_url  + "/invites/";
+// const url = api_url  + "/invites/";
 
 const NotificationScreen = ({navigation}) => {
     const [invites, setInvites] = useState([]);
+    const [token, setToken] = useState('');
+
 
     useEffect(() => {
         const getToken = async () => {
             try {
                 const value = await AsyncStorage.getItem('token');
                 if (value !== null) {
-                    const headers = {
-                        'Authorization': `Bearer ${value}`
-                    };
-                    fetch(url, { headers })
-                        .then(response => response.json())
-                        .then(data => {
-                            setInvites(data);
-                        })
-                        .catch(error => console.log(error));
+                    setToken(value);
                 }
             } catch (error) {
                 console.log('Error retrieving data:', error);
@@ -35,6 +29,35 @@ const NotificationScreen = ({navigation}) => {
         getToken();
     }, []);
 
+    useEffect(() => {
+        if (!token) {
+            return;
+        }
+
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        };
+
+        fetch(api_url  + "/invites/", {
+            method: "GET",
+            headers: headers
+        })
+            .then(resp => resp.json())
+            .then(data => {
+                console.log(data);
+                setInvites(data); // update the data state variable with the API response
+            })
+            .catch(error => console.log("error"))
+    }, [token]);
+
+    const handleAccept = () => {
+        console.log("accepted")
+
+    }
+    const handleDecline = () => {
+        console.log("declined")
+    }
     const LogCard = ({item}) =>{
         return (
 
@@ -47,7 +70,7 @@ const NotificationScreen = ({navigation}) => {
                 }}>
                     { invites &&
                         <>
-                            <Text style={{fontWeight: 'bold', fontSize: 15, marginTop:10 ,marginLeft:-15}}> {item.garden_detail.name} by {item.sender_detail.username}</Text>
+                            <Text style={{fontWeight: 'bold', fontSize: 14, marginTop:10 ,marginLeft:-15}}> {item.garden_detail.name} by {item.sender_detail.username}</Text>
                             {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
                             {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
                             {/*</Text>*/}
@@ -62,20 +85,14 @@ const NotificationScreen = ({navigation}) => {
                 <View style={{ marginBottom: 50, right: 85}}>
                     <Pressable
                         style={styles.actionBtn}
-                        onPress={() => {
-                            console.log("Accept pressed");
-                            // console.log(item);
-                        }}>
+                        onPress={handleAccept}>
                         <Text style={styles.actionBtnText}>Accept</Text>
                     </Pressable>
                 </View>
                 <View style={{ marginBottom: 50, right: 0}}>
                     <Pressable
                         style={styles.actionBtn2}
-                        onPress={() => {
-                            console.log("Decline pressed");
-                            // console.log(item);
-                        }}>
+                        onPress={handleDecline}>
                         <Text style={styles.actionBtnText}>Decline</Text>
                     </Pressable>
                 </View>
@@ -192,7 +209,7 @@ const styles = StyleSheet.create({
         marginBottom: 3,
         marginLeft: 18,
         fontWeight: "bold",
-        fontSize: 10,
+        fontSize: 11,
         color: 'white',
     },
 });
