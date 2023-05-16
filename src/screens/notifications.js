@@ -8,10 +8,9 @@ import COLORS from "../consts/colors";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import {SecondaryButton} from "../consts/button";
 
-const url = api_url  + "/invites";
+const url = api_url  + "/invites/";
 
 const NotificationScreen = ({navigation}) => {
-
     const [invites, setInvites] = useState([]);
 
     useEffect(() => {
@@ -63,16 +62,20 @@ const NotificationScreen = ({navigation}) => {
                 <View style={{ marginBottom: 50, right: 85}}>
                     <Pressable
                         style={styles.actionBtn}
-                        onPress={() => {navigation.navigate('HarvestWeight'); setInvites(item);}
-                        }>
+                        onPress={() => {
+                            console.log("Accept pressed");
+                            // console.log(item);
+                        }}>
                         <Text style={styles.actionBtnText}>Accept</Text>
                     </Pressable>
                 </View>
                 <View style={{ marginBottom: 50, right: 0}}>
                     <Pressable
                         style={styles.actionBtn2}
-                        onPress={() => {navigation.navigate('HarvestWeight'); setInvites(item);}
-                        }>
+                        onPress={() => {
+                            console.log("Decline pressed");
+                            // console.log(item);
+                        }}>
                         <Text style={styles.actionBtnText}>Decline</Text>
                     </Pressable>
                 </View>
@@ -189,10 +192,9 @@ const styles = StyleSheet.create({
         marginBottom: 3,
         marginLeft: 18,
         fontWeight: "bold",
-        fontSize: 12,
+        fontSize: 10,
         color: 'white',
     },
 });
-
 
 export default NotificationScreen;

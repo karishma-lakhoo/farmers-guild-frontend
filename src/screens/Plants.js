@@ -18,7 +18,6 @@ import foods from "../consts/foods";
 import {api_url} from "../consts/api_url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {MyContext} from "../../App";
-
 const {width} = Dimensions.get("screen");
 const cardWidth = width/2-20;
 const url = api_url + '/food/';

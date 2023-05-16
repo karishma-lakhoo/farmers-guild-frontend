@@ -109,6 +109,7 @@ const HomeScreen = ({navigation}) => {
         const value = await AsyncStorage.getItem('token');
         if (value !== null) {
           setToken(value);
+          console.log(value)
 
         }
       } catch (error) {

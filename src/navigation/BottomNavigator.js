@@ -10,6 +10,7 @@ import LogScreen from "../screens/Log";
 import Analytics_filter from "../screens/Analytics_filter";
 import Analytics_FilterScreen from "../screens/Analytics_filter";
 import NotificationScreen from "../screens/notifications";
+import ProfileScreen from "../screens/Profile";
 const Tab = createBottomTabNavigator();
 const BottomNavigator = () => {
     return <Tab.Navigator screenOptions={{
@@ -37,6 +38,11 @@ const BottomNavigator = () => {
         <Tab.Screen name="Notifications" component={NotificationScreen} options={{
             tabBarIcon: ({color}) => (
                 <Icon name="notifications" color={color} size={28}/>
+            ),
+        }}/>
+        <Tab.Screen name="Profile" component={ProfileScreen} options={{
+            tabBarIcon: ({color}) => (
+                <Icon name="person" color={color} size={28}/>
             ),
         }}/>
 

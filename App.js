@@ -19,8 +19,8 @@ import AnalyticsLineScreen from "./src/screens/AnalyticsLine";
 import TestScreen from "./src/screens/Test_screen";
 import InviteScreen from "./src/screens/Invite";
 import ConfirmInviteScreen from "./src/screens/Confirm_invite";
-import Notifications from "./src/screens/notifications";
 import NotificationScreen from "./src/screens/notifications";
+import ProfileScreen from "./src/screens/Profile";
 
 
 const Stack = createStackNavigator();
@@ -50,8 +50,7 @@ export default function App() {
                     <Stack.Screen name="Invite" component={InviteScreen}/>
                     <Stack.Screen name="Confirm_invite" component={ConfirmInviteScreen}/>
                     <Stack.Screen name="Notifications" component={NotificationScreen}/>
-
-
+                    <Stack.Screen name="Profile" component={ProfileScreen}/>
 
                 </Stack.Navigator>
             </NavigationContainer>
