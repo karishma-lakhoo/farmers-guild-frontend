@@ -47,6 +47,7 @@ const ConfirmInviteScreen= ({navigation}) => {
 
     const getGardenId = async () => {
         try {
+            // Retrieve the gardenId from AsyncStorage
             const value = await AsyncStorage.getItem('gardenId');
             if (value !== null) {
                 setGardenId(value);
@@ -56,9 +57,11 @@ const ConfirmInviteScreen= ({navigation}) => {
         }
     };
 
-    
+
+
     const getUserId = async () => {
         try {
+            // Retrieve the username from AsyncStorage
             const value = await AsyncStorage.getItem('username');
             if (value !== null) {
                 setUsername(value);
@@ -67,6 +70,7 @@ const ConfirmInviteScreen= ({navigation}) => {
             console.log('Error retrieving user name:', error);
         }
     };
+
 
 
     useEffect(() => {
@@ -80,62 +84,60 @@ const ConfirmInviteScreen= ({navigation}) => {
     //getting row
     useEffect(() => {
         const fetchGardens = async () => {
-          if (!token) {
-            return;
-          }
-      
-          const headers = {
-            'Authorization': `Bearer ${token}`,
-          };
-      
-          try {
-            const response = await fetch(url, {
-              method: "GET",
-              headers: headers,
-            });
-            const data = await response.json();
-          //  setTable(data);
-      
-            console.log("These are the gardens:");
-            console.log(data);
-            console.log("These are the gardens.");
-
-
-
-            // Retrieve a particular name
-      const gardenIdToFind = gardenId; 
-      const garden = data.find((item) => item.garden === gardenIdToFind);
-      if (garden) {
-        const gardenName = garden.garden_detail.name;
-        console.log("The name of the garden is:", gardenName);
-        setName_ofGarden(gardenName);
-      } else {
-        console.log("Garden not found with ID:", gardenIdToFind);
-      }
-
-
-          } catch (error) {
-            console.log(error);
-          }
-        };
-      
-        const getToken = async () => {
-          try {
-            const value = await AsyncStorage.getItem('token');
-            if (value !== null) {
-              setToken(value);
+            if (!token) {
+                return;
             }
-          } catch (error) {
-            console.log('Error retrieving data:', error);
-          }
+
+            const headers = {
+                'Authorization': `Bearer ${token}`,
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: "GET",
+                    headers: headers,
+                });
+                const data = await response.json();
+                // setTable(data);
+
+                console.log("These are the gardens:");
+                console.log(data);
+                console.log("These are the gardens.");
+
+                // Retrieve a particular name
+                const gardenIdToFind = gardenId;
+                const garden = data.find((item) => item.garden === gardenIdToFind);
+                if (garden) {
+                    const gardenName = garden.garden_detail.name;
+                    console.log("The name of the garden is:", gardenName);
+                    setName_ofGarden(gardenName);
+                } else {
+                    console.log("Garden not found with ID:", gardenIdToFind);
+                }
+            } catch (error) {
+                console.log(error);
+            }
         };
-      
+
+        const getToken = async () => {
+            try {
+                const value = await AsyncStorage.getItem('token');
+                if (value !== null) {
+                    setToken(value);
+                }
+            } catch (error) {
+                console.log('Error retrieving data:', error);
+            }
+        };
+
+        // Retrieve the token and fetch gardens
         getToken();
         fetchGardens();
-      }, []);
+    }, []);
 
 
-      //getting row for garden
+
+    //getting row for garden
       //getting row
   {/*  useEffect(() => {
         const fetchUsers = async () => {

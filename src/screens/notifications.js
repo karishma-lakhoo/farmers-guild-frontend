@@ -33,125 +33,36 @@ const NotificationScreen = ({navigation}) => {
 
 
     useEffect(() => {
+        // Function to retrieve the token from AsyncStorage
         const getToken = async () => {
             try {
                 const value = await AsyncStorage.getItem('token');
                 if (value !== null) {
-                    setToken(value);
+                    // Construct the authorization headers
+                    const headers = {
+                        'Authorization': `Bearer ${value}`
+                    };
+                    // Make an API request to fetch invites data
+                    fetch(url, { headers })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Store the response data in the invites state variable
+                            setInvites(data);
+                        })
+                        .catch(error => console.log(error));
                 }
             } catch (error) {
                 console.log('Error retrieving data:', error);
             }
         };
+
+        // Call the getToken function on initial render
         getToken();
     }, []);
 
-    useEffect(() => {
-        if (!token) {
-            return;
-        }
 
-        const headers = {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        };
-
-        fetch(api_url  + "/invites/", {
-            method: "GET",
-            headers: headers
-        })
-            .then(resp => resp.json())
-            .then(data => {
-                console.log(data);
-
-                setInvites(data); // update the data state variable with the API response
-            })
-            .catch(error => console.log("error"))
-    }, [token]);
-
-    // const handleAccept = (gardenId) => {
-    //     console.log(gardenId)
-    //     const headers = {
-    //         'Authorization': `Bearer ${token}`,
-    //         'Content-Type': 'application/json',
-    //     };
-    //     const body = JSON.stringify({
-    //         garden: gardenId});
-    //
-    //     fetch(api_url + '/users_in_garden/', {
-    //         method: 'POST',
-    //         headers: headers,
-    //         body: body,
-    //     })
-    //         .then((resp) => resp.json())
-    //         .then((data) => {
-    //             console.log('Invite Accepted:', data);
-    //
-    //             // Remove the declined invite from the state
-    //             setInvites((prevInvites) => prevInvites.filter((invite) => invite.garden_detail.id !== gardenId));
-    //         })
-    //         .catch((error) => console.log('Error Accepting invite:', error));
-    // };
-
-    const handleAccept = async (gardenID) => {
-        try {
-            const token = await AsyncStorage.getItem('token');
-            const headers = {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            };
-            const body = JSON.stringify({
-                garden: gardenID
-            });
-            const response = await fetch(api_url + '/users_in_garden/', {
-                method: 'POST',
-                headers: headers,
-                body: body,
-            });
-            console.log(response.status)
-            if (response.status === 201) {
-                // The garden was added successfully, so close the modal
-                console.log('yey');
-
-                // Remove the accepted invite from the state
-                setInvites((prevInvites) => prevInvites.filter((invite) => invite.garden_detail.id !== gardenID));
-            } else {
-                // There was an error adding the garden, so display an error message
-                console.error('Error adding food:', response.status);
-            }
-        } catch (error) {
-            // There was an error retrieving the token, so display an error message
-            console.error('Error retrieving food:', error);
-        }
-    };
-
-
-    const handleDecline = (inviteId) => {
-        const headers = {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        };
-
-        fetch(api_url + '/invites/' + inviteId +"/", {
-            method: 'DELETE',
-            headers: headers,
-        })
-            .then((resp) => resp.json())
-            .then((data) => {
-                console.log('Invite declined:', data);
-                // Remove the declined invite from the state
-                setInvites((prevInvites) => prevInvites.filter((invite) => invite.id !== inviteId));
-            })
-            .catch((error) => console.log('Error declining invite:', error));
-    };
-    // const handleDecline = () => {
-    //     console.log("declined")
-    // }
-    const LogCard = ({item}) =>{
-        const { id, garden_detail, sender_detail, receiver_detail } = item;
-
+    const LogCard = ({item}) => {
         return (
-
             <View style={styles.LogCard}>
                 <View style={{
                     height: 100,
@@ -161,31 +72,41 @@ const NotificationScreen = ({navigation}) => {
                 }}>
                     { invites &&
                         <>
-                            <Text style={{fontWeight: 'bold', fontSize: 12, marginTop:20 ,marginLeft:-15}}> {item.garden_detail.name} by {item.sender_detail.username}</Text>
+                            {/* Display the garden name and sender username */}
+                            <Text style={{fontWeight: 'bold', fontSize: 15, marginTop:10 ,marginLeft:-15}}> {item.garden_detail.name} by {item.sender_detail.username}</Text>
+                            {/* Uncomment the lines below if needed */}
                             {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
-                            {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
+                            {/*  {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
                             {/*</Text>*/}
-                            {/*<Text style={{fontWeight: 'bold', fontSize: 13, marginLeft:-15}}>  /!*changed fontweight from grey to bold*!/*/}
-                            {/*    {item?.garden_detail?.name ?? "No garden found"}*/}
+                            {/*<Text style={{fontWeight: 'bold', fontSize: 13, marginLeft:-15}}>*/}
+                            {/*  {item?.garden_detail?.name ?? "No garden found"}*/}
                             {/*</Text>*/}
                         </>
                     }
-
-                    {/*<Text style={{ fontSize: 13, color: 'grey'}}>{item.receiver_detail.username}</Text>*/}
+                    {/* Display the receiver username */}
+                    <Text style={{ fontSize: 13, color: 'grey'}}>{item.receiver_detail.username}</Text>
                 </View>
+                {/* Accept button */}
                 <View style={{ marginBottom: 50, right: 85}}>
                     <Pressable style={styles.actionBtn} onPress={() => handleAccept(item.garden_detail.id)}>
                         <Text style={styles.actionBtnText}>Accept</Text>
                     </Pressable>
                 </View>
-                <View style={{ marginBottom: 50, right: 0 }}>
-                    <Pressable style={styles.actionBtn2} onPress={() => handleDecline(item.id)}>
+                {/* Decline button */}
+                <View style={{ marginBottom: 50, right: 0}}>
+                    <Pressable
+                        style={styles.actionBtn2}
+                        onPress={() => {
+                            console.log("Decline pressed");
+                            // console.log(item);
+                        }}>
                         <Text style={styles.actionBtnText}>Decline</Text>
                     </Pressable>
                 </View>
             </View>
         );
     };
+
 
     // const renderItem = ({ item }) => (
     //     <View style={styles.inviteContainer}>
