@@ -1,9 +1,21 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {ActivityIndicator, Button, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import {
+    SafeAreaView,
+    Text,
+    Button,
+    StyleSheet,
+    View,
+    Image,
+    Alert,
+    ActivityIndicator,
+    TouchableOpacity
+} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SelectBox from 'react-native-multi-selectbox'
-import {api_url} from "../consts/api_url";
+import { xorBy } from 'lodash'
+import foods from "../consts/foods";
+import { api_url } from "../consts/api_url";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SelectList} from "react-native-dropdown-select-list";
 
@@ -81,73 +93,63 @@ const LogScreen = ({navigation}) => {
     }, []);
 
     useEffect(() => {
+        setPageNumber(2)
+        setData([])
         setIsLoading(true);
 
-        let orderingGarden = 'datetime';
-        if (sortValue.id !== 'ON') {
-            orderingGarden = '-datetime';
+        let orderingGarden = 'datetime'
+        if (sortValue.id !== "ON") {
+            orderingGarden = '-datetime'
         }
 
-        let userQuery = 'All Users';
-        if (userValue && userValue.item !== 'All Users') {
-            userQuery = userValue.id;
+        let userQuery = "All Users"
+        if (userValue.item !== "All Users") {
+            userQuery = userValue.id
         }
 
-        let gardenQuery = gardenValue.item;
-        if (gardenValue.id === 'AG') {
+        let gardenQuery = gardenValue.item
+        if (gardenValue.id === "AG"){
             gardenQuery = '';
-            for (let i = 1; i < filteredGardensArray.length; i++) {
-                gardenQuery += '&garden=' + filteredGardensArray[i].item.toString();
+            for (let i= 1; i < filteredGardensArray.length; i++){
+                if(i===0){
+                    gardenQuery += filteredGardensArray[i].item.toString();
+                }
+                gardenQuery += "&garden="+filteredGardensArray[i].item.toString();
             }
         }
-
-        let startYearQuery = '';
-        let endYearQuery = '';
-        if (startYear.length > 2 && endYear.length > 2) {
-            startYearQuery = startYear;
-            endYearQuery = endYear;
+        if(!buttonPressed){
+            console.log("not pressed")
+            console.log("asdfasdfsafasf")
+            url = api_url + '/harvest_log/?ordering=' + orderingGarden + "&garden="+ gardenQuery  + "&user=" + userQuery;
         }
-
-        if (userQuery) {
-            url =
-                api_url +
-                '/harvest_log/?ordering=' +
-                orderingGarden +
-                '&garden=' +
-                gardenQuery +
-                '&user=' +
-                userQuery +
-                '&start_year=' +
-                startYearQuery +
-                '&end_year=' +
-                endYearQuery +
-                '&page=' +
-                pageNumber;
-            console.log(url);
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-                signal: controller.current.signal,
+        else{
+            console.log("pressed")
+            console.log("my fingies are cold")
+            url = api_url + '/harvest_log/?ordering=' + orderingGarden + "&garden="+ gardenQuery  + "&user=" + userQuery + '&start_year=' + startYear + '&end_year=' + endYear;
+        }
+        setData([])
+        fetch(url + '&page=1', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            signal: controller.current.signal,
+        })
+            .then((resp) => resp.json())
+            .then((response) => {
+                const newData = response.results;
+                setData(newData); // Update the data state with the new fetched data
             })
-                .then((resp) => resp.json())
-                .then((response) => {
-                    const newData = response.results;
-                    setData((prevData) => [...prevData, ...newData]); // Combine previous data with newly fetched data using the spread operator
-                })
-                .catch((error) => console.log(error))
-                .finally(() => {
-                    setIsLoading(false);
-                });
-        }
-    }, [pageNumber]);
+            .catch((error) => console.log(error))
+            .finally(() => {
+                setIsLoading(false); // Set isLoading to false when data is updated or when an error occurs
+            });
 
-
-
-    useEffect(() => {
-        setPageNumber(1)
-    }, [gardenValue,userValue, sortValue, startYear, endYear]);
+        console.log("data must be fetched")
+        console.log(sortValue)
+        console.log(gardenValue)
+        console.log(userValue)
+    },[sortValue, gardenValue, userValue, startYear, endYear, buttonPressed]);
 
     const handleGardenFilterChange = (selected) => {
         setGardenValue(selected);
@@ -169,7 +171,31 @@ const LogScreen = ({navigation}) => {
 
     // console.log(filteredGardensArray)
     const loadMoreData = () => {
-        setPageNumber(pageNumber+1)
+        const nextPageUrl = `${url}&page=${pageNumber}`;
+        fetch(nextPageUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            signal: controller.current.signal,
+        })
+            .then(resp => {
+                if (!resp.ok) {
+                    throw new Error(resp.statusText);
+                }
+                return resp.json();
+            })
+            .then(response => {
+                const nextPage = response.next;
+                const newData = response.results;
+                setData(prevData => [...prevData, ...newData]);
+                if (nextPage !== null) {
+                    setPageNumber(prevPageNumber => prevPageNumber + 1);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
     };
 
 
@@ -193,7 +219,7 @@ const LogScreen = ({navigation}) => {
         }
         // this is where the initial get request is done
         loadMoreData();
-    }, [token]);
+    }, [token, pageNumber]);
 
     const renderItem = ({item}) => {
         const date = new Date(item.datetime);
@@ -296,21 +322,21 @@ const LogScreen = ({navigation}) => {
                             />
                         </View>
                     </View>
-                    {/*<View style={{ marginTop: 21, marginLeft: 5 }}>*/}
-                    {/*    <TouchableOpacity*/}
-                    {/*        style={{*/}
-                    {/*            backgroundColor: 'purple',*/}
-                    {/*            borderRadius: 12,*/}
-                    {/*            paddingVertical: 14,*/}
-                    {/*            paddingHorizontal: 16,*/}
-                    {/*            alignItems: 'center',*/}
-                    {/*            justifyContent: 'center',*/}
-                    {/*        }}*/}
-                    {/*        onPress={handleButtonPress}*/}
-                    {/*    >*/}
-                    {/*        <Text style={{ color: 'white', fontSize: 16 }}>Apply</Text>*/}
-                    {/*    </TouchableOpacity>*/}
-                    {/*</View>*/}
+                    <View style={{ marginTop: 21, marginLeft: 5 }}>
+                        <TouchableOpacity
+                            style={{
+                                backgroundColor: 'purple',
+                                borderRadius: 12,
+                                paddingVertical: 14,
+                                paddingHorizontal: 16,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                            onPress={handleButtonPress}
+                        >
+                            <Text style={{ color: 'white', fontSize: 16 }}>Apply</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
             {isLoading ? (
