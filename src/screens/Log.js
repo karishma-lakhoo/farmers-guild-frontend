@@ -117,17 +117,20 @@ const LogScreen = ({navigation}) => {
                 gardenQuery += "&garden="+filteredGardensArray[i].item.toString();
             }
         }
-        if(!buttonPressed){
-            console.log("not pressed")
-            console.log("asdfasdfsafasf")
-            url = api_url + '/harvest_log/?ordering=' + orderingGarden + "&garden="+ gardenQuery  + "&user=" + userQuery;
+
+        let startYearQuery = '';
+        let endYearQuery = '';
+        if (startYear.length > 2 && endYear.length > 2) {
+            startYearQuery = startYear;
+            endYearQuery = endYear;
         }
-        else{
-            console.log("pressed")
-            console.log("my fingies are cold")
+
+        if (userQuery) {
             url = api_url + '/harvest_log/?ordering=' + orderingGarden + "&garden="+ gardenQuery  + "&user=" + userQuery + '&start_year=' + startYear + '&end_year=' + endYear;
         }
+
         setData([])
+        console.log(url)
         fetch(url + '&page=1', {
             method: 'GET',
             headers: {
@@ -146,9 +149,9 @@ const LogScreen = ({navigation}) => {
             });
 
         console.log("data must be fetched")
-        console.log(sortValue)
-        console.log(gardenValue)
-        console.log(userValue)
+        // console.log(sortValue)
+        // console.log(gardenValue)
+        // console.log(userValue)
     },[sortValue, gardenValue, userValue, startYear, endYear, buttonPressed]);
 
     const handleGardenFilterChange = (selected) => {
@@ -162,12 +165,12 @@ const LogScreen = ({navigation}) => {
     const handleFilterChange = (selected) => {
         setSortValue(selected);
     };
-    const handleButtonPress = () => {
-        console.log("what am i")
-        setButtonPressed(true)
-        console.log(buttonPressed)
-
-    };
+    // const handleButtonPress = () => {
+    //     console.log("what am i")
+    //     setButtonPressed(true)
+    //     console.log(buttonPressed)
+    //
+    // };
 
     // console.log(filteredGardensArray)
     const loadMoreData = () => {
@@ -322,21 +325,21 @@ const LogScreen = ({navigation}) => {
                             />
                         </View>
                     </View>
-                    <View style={{ marginTop: 21, marginLeft: 5 }}>
-                        <TouchableOpacity
-                            style={{
-                                backgroundColor: 'purple',
-                                borderRadius: 12,
-                                paddingVertical: 14,
-                                paddingHorizontal: 16,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}
-                            onPress={handleButtonPress}
-                        >
-                            <Text style={{ color: 'white', fontSize: 16 }}>Apply</Text>
-                        </TouchableOpacity>
-                    </View>
+                    {/*<View style={{ marginTop: 21, marginLeft: 5 }}>*/}
+                    {/*    <TouchableOpacity*/}
+                    {/*        style={{*/}
+                    {/*            backgroundColor: 'purple',*/}
+                    {/*            borderRadius: 12,*/}
+                    {/*            paddingVertical: 14,*/}
+                    {/*            paddingHorizontal: 16,*/}
+                    {/*            alignItems: 'center',*/}
+                    {/*            justifyContent: 'center',*/}
+                    {/*        }}*/}
+                    {/*        onPress={handleButtonPress}*/}
+                    {/*    >*/}
+                    {/*        <Text style={{ color: 'white', fontSize: 16 }}>Apply</Text>*/}
+                    {/*    </TouchableOpacity>*/}
+                    {/*</View>*/}
                 </View>
             </View>
             {isLoading ? (
