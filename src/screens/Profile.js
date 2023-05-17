@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {View, Text, StyleSheet, TouchableOpacity, TextInput, Image, ScrollView, SafeAreaView} from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {api_url} from "../consts/api_url";
+import COLORS from "../consts/colors";
+
+const url = api_url + '/user/';
 
 const images = {
     image1: require('../images/1.png'),
@@ -13,7 +18,8 @@ const images = {
 const ProfileScreen = ({ navigation }) => {
     const [selectedImage, setSelectedImage] = useState('image1');
     const [username, setUsername] = useState('JohnDoe');
-
+    const [token, setToken] = useState('');
+    const [data, setData] = useState([])
     const handleImageSelection = (imageKey) => {
         setSelectedImage(imageKey);
     };
@@ -22,12 +28,59 @@ const ProfileScreen = ({ navigation }) => {
         setUsername(newUsername);
     };
 
+    useEffect(() => {
+        const getUsername = async () => {
+            try {
+                const value = await AsyncStorage.getItem('username');
+                if (value !== null) {
+                    setUsername(value);
+                }
+            } catch (error) {
+                console.log('Error retrieving data:', error);
+            }
+        };
+        getUsername();
+    }, []);
+
+    const updateUsername = async () => {
+        try {
+            const userId = await AsyncStorage.getItem('user_id');
+            const updatedUser = {
+                username: username,
+            };
+
+            const response = await fetch(url + userId, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedUser),
+            });
+
+            if (response.ok) {
+                console.log('Username updated successfully');
+                // Handle successful update
+            } else {
+                console.log('Username update failed');
+                // Handle failed update
+            }
+        } catch (error) {
+            console.error('Error updating username:', error);
+            // Handle error
+        }
+    };
+
+
+
+
+
+
     return (
-        <SafeAreaView style={{flex:1}}>
+        <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container}>
                 <View style={styles.head}>
-                    <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Harvest')}/>
-                    <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Plant</Text>
+                    <Icon name="arrow-back-ios" size={28} onPress={() => navigation.navigate('Harvest')} />
+                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Profile</Text>
                 </View>
 
                 <View style={styles.profile}>
@@ -56,6 +109,14 @@ const ProfileScreen = ({ navigation }) => {
                         onChangeText={handleUsernameChange}
                         value={username}
                     />
+
+                    <TouchableOpacity
+                        style={styles.updateButton}
+                        onPress={updateUsername}
+                    >
+                        <Text style={styles.updateButtonText}>Update Username</Text>
+                    </TouchableOpacity>
+
                 </View>
             </View>
         </SafeAreaView>
@@ -90,6 +151,7 @@ const styles = StyleSheet.create({
     },
     imageSelectionContainer: {
         alignItems: 'center',
+        marginBottom: 30,
     },
     imageSelectionButton: {
         margin: 5,
@@ -102,14 +164,26 @@ const styles = StyleSheet.create({
     username: {
         fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 10,
+        marginBottom: 40,
     },
     usernameInput: {
         width: 200,
         height: 40,
+        borderRadius: 10,
         borderWidth: 1,
         padding: 10,
-        marginBottom: 20,
+    },
+    updateButton: {
+        backgroundColor: COLORS.secondary,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 5,
+        marginTop: 20,
+    },
+
+    updateButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
     },
 });
 
