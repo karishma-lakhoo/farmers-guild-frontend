@@ -161,7 +161,7 @@ const NotificationScreen = ({navigation}) => {
                 }}>
                     { invites &&
                         <>
-                            <Text style={{fontWeight: 'bold', fontSize: 14, marginTop:10 ,marginLeft:-15}}> {item.garden_detail.name} by {item.sender_detail.username}</Text>
+                            <Text style={{fontWeight: 'bold', fontSize: 12, marginTop:20 ,marginLeft:-15}}> {item.garden_detail.name} by {item.sender_detail.username}</Text>
                             {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
                             {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
                             {/*</Text>*/}
@@ -171,7 +171,7 @@ const NotificationScreen = ({navigation}) => {
                         </>
                     }
 
-                    <Text style={{ fontSize: 13, color: 'grey'}}>{item.receiver_detail.username}</Text>
+                    {/*<Text style={{ fontSize: 13, color: 'grey'}}>{item.receiver_detail.username}</Text>*/}
                 </View>
                 <View style={{ marginBottom: 50, right: 85}}>
                     <Pressable style={styles.actionBtn} onPress={() => handleAccept(item.garden_detail.id)}>
