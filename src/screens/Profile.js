@@ -17,9 +17,10 @@ const images = {
 
 const ProfileScreen = ({ navigation }) => {
     const [selectedImage, setSelectedImage] = useState('image1');
-    const [username, setUsername] = useState('JohnDoe');
+    const [username, setUsername] = useState('');
     const [token, setToken] = useState('');
-    const [data, setData] = useState([])
+    const [data, setData] = useState([]);
+    const [profilePictureID, setProfilePictureID] = useState("")
     const handleImageSelection = (imageKey) => {
         setSelectedImage(imageKey);
     };
@@ -40,6 +41,21 @@ const ProfileScreen = ({ navigation }) => {
             }
         };
         getUsername();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // get username, gardens, users to populate dropdowns
+                const profilePicture = await AsyncStorage.getItem('profilePicture')
+                setProfilePictureID(profilePicture)
+                setSelectedImage("image" + profilePicture.toString())
+
+            } catch (error) {
+                console.log('Error retrieving data:', error);
+            }
+        };
+        fetchData();
     }, []);
 
     const updateUsername = async () => {

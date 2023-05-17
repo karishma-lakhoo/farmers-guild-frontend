@@ -76,6 +76,7 @@ const HomeScreen = ({navigation}) => {
         const usernameID = item.user.id;
         if (username === myUsername){
           AsyncStorage.setItem('usernameID', item.user.id);
+          AsyncStorage.setItem('profilePicture', item.user.profile_picture);
         }
         if (!uniqueUsernames.has(username)) {
           uniqueUsernames.add(username); // Add the username to the set
