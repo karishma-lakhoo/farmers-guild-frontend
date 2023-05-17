@@ -13,6 +13,23 @@ import {SecondaryButton} from "../consts/button";
 const NotificationScreen = ({navigation}) => {
     const [invites, setInvites] = useState([]);
     const [token, setToken] = useState('');
+    const [myUsername, setMyUsername] = useState('');
+    useEffect(() => {
+        const getUsername = async () => {
+            try {
+                const value = await AsyncStorage.getItem('username');
+                if (value !== null) {
+                    setMyUsername(value);
+                }
+            } catch (error) {
+                console.log('Error retrieving data:', error);
+            }
+        };
+        getUsername();
+    }, []);
+
+    const filteredInfo = invites.filter(item => item.receiver_detail.username === myUsername);
+
 
 
     useEffect(() => {
@@ -46,6 +63,7 @@ const NotificationScreen = ({navigation}) => {
             .then(resp => resp.json())
             .then(data => {
                 console.log(data);
+
                 setInvites(data); // update the data state variable with the API response
             })
             .catch(error => console.log("error"))
@@ -186,7 +204,7 @@ const NotificationScreen = ({navigation}) => {
             <FlatList
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 80 }}
-                data={invites}
+                data={filteredInfo}
                 renderItem={({ item }) => <LogCard item={item} />}
             />
 
