@@ -55,10 +55,31 @@ const NotificationScreen = ({navigation}) => {
         console.log("accepted")
 
     }
-    const handleDecline = () => {
-        console.log("declined")
-    }
+
+    const handleDecline = (inviteId) => {
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        };
+
+        fetch(api_url + '/invites/' + inviteId +"/", {
+            method: 'DELETE',
+            headers: headers,
+        })
+            .then((resp) => resp.json())
+            .then((data) => {
+                console.log('Invite declined:', data);
+                // Remove the declined invite from the state
+                setInvites((prevInvites) => prevInvites.filter((invite) => invite.id !== inviteId));
+            })
+            .catch((error) => console.log('Error declining invite:', error));
+    };
+    // const handleDecline = () => {
+    //     console.log("declined")
+    // }
     const LogCard = ({item}) =>{
+        const { id, garden_detail, sender_detail, receiver_detail } = item;
+
         return (
 
             <View style={styles.LogCard}>
@@ -89,10 +110,8 @@ const NotificationScreen = ({navigation}) => {
                         <Text style={styles.actionBtnText}>Accept</Text>
                     </Pressable>
                 </View>
-                <View style={{ marginBottom: 50, right: 0}}>
-                    <Pressable
-                        style={styles.actionBtn2}
-                        onPress={handleDecline}>
+                <View style={{ marginBottom: 50, right: 0 }}>
+                    <Pressable style={styles.actionBtn2} onPress={() => handleDecline(item.id)}>
                         <Text style={styles.actionBtnText}>Decline</Text>
                     </Pressable>
                 </View>
