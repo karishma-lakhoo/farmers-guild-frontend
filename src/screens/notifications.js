@@ -51,13 +51,44 @@ const NotificationScreen = ({navigation}) => {
             .catch(error => console.log("error"))
     }, [token]);
 
-    const handleAccept = () => {
-        console.log("accepted")
-
-    }
+    // const handleAccept = async () => {
+    //     console.log("accepted")
+    //
+    // }
     const handleDecline = () => {
         console.log("declined")
     }
+
+    const handleAccept = async (gardenID) => {
+        console.log(gardenID)
+        // try {
+        //     const token = await AsyncStorage.getItem('token');
+        //     const headers = {
+        //         'Authorization': `Bearer ${token}`,
+        //         'Content-Type': 'application/json',
+        //     };
+        //     const body = JSON.stringify({
+        //         garden: gardenID});
+        //
+        //
+        //     const response = await fetch(api_url + '/users_in_garden/', {
+        //         method: 'POST',
+        //         headers: headers,
+        //         body: body,
+        //     });
+        //
+        //     if (response.status === 201) {
+        //         // The garden was added successfully, so close the modal
+        //         console.log('yey')
+        //     } else {
+        //         // There was an error adding the garden, so display an error message
+        //         console.error('Error adding food:', response.status);
+        //     }
+        // } catch (error) {
+        //     // There was an error retrieving the token, so display an error message
+        //     console.error('Error retrieving food:', error);
+        // }
+    };
     const LogCard = ({item}) =>{
         return (
 
@@ -85,7 +116,7 @@ const NotificationScreen = ({navigation}) => {
                 <View style={{ marginBottom: 50, right: 85}}>
                     <Pressable
                         style={styles.actionBtn}
-                        onPress={handleAccept}>
+                        onPress={() => handleAccept(item.garden_detail.id)}>
                         <Text style={styles.actionBtnText}>Accept</Text>
                     </Pressable>
                 </View>
@@ -112,7 +143,7 @@ const NotificationScreen = ({navigation}) => {
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
             <View style={styles.header}>
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')} testID="material-icons"/>
-                <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Invites</Text>
+                <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Notifications</Text>
             </View>
             <FlatList
                 showsVerticalScrollIndicator={false}

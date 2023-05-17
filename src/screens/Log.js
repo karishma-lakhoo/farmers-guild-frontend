@@ -125,9 +125,8 @@ const LogScreen = ({navigation}) => {
             endYearQuery = endYear;
         }
 
-        if (userQuery) {
-            url = api_url + '/harvest_log/?ordering=' + orderingGarden + "&garden="+ gardenQuery  + "&user=" + userQuery + '&start_year=' + startYear + '&end_year=' + endYear;
-        }
+        url = api_url + '/harvest_log/?ordering=' + orderingGarden + "&garden="+ gardenQuery  + "&user=" + userQuery + '&start_year=' + startYearQuery + '&end_year=' + endYearQuery;
+
 
         setData([])
         console.log(url)
@@ -148,7 +147,7 @@ const LogScreen = ({navigation}) => {
                 setIsLoading(false); // Set isLoading to false when data is updated or when an error occurs
             });
 
-        console.log("data must be fetched")
+        // console.log("data must be fetched")
         // console.log(sortValue)
         // console.log(gardenValue)
         // console.log(userValue)
