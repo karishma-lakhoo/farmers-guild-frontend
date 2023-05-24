@@ -33,6 +33,7 @@ const ConfirmInviteScreen= ({navigation}) => {
 
 
 
+
     //retrieving garden name
 
    
