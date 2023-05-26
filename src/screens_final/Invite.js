@@ -1,23 +1,31 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-const InviteScreen = () => {
+const InvitePage = () => {
   const [email, setEmail] = useState('');
 
-  const handleInvite = () => {
-    // Logic to send the invite email
-    console.log(`Sending invite to ${email}`);
+  const handleEmailChange = (text) => {
+    setEmail(text);
+  };
+
+  const handleSendInvite = () => {
+    // Implement logic to send the invite using the entered email
+    console.log('Invitation sent to:', email);
+    // Reset the email input
+    setEmail('');
   };
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Invite Page</Text>
       <TextInput
         style={styles.input}
         placeholder="Enter email"
         value={email}
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={handleEmailChange}
+        keyboardType="email-address"
       />
-      <Button title="Send Invite" onPress={handleInvite} />
+      <Button title="Send Invite" onPress={handleSendInvite} />
     </View>
   );
 };
@@ -29,14 +37,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
   input: {
     width: '80%',
     height: 40,
-    borderColor: '#ccc',
+    borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 16,
-    paddingHorizontal: 8,
+    paddingHorizontal: 10,
   },
 });
 
-export default InviteScreen;
+export default InvitePage;

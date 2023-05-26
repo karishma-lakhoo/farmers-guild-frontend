@@ -1,20 +1,30 @@
-
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import HarvestWeightScreen_final from '../src/screens_final/HarvestWeight';
+import HarvestWeightScreen from '../src/screens_final/HarvestWeight';
 
-it('should handle weight input and submit correctly', () => {
-  const { getByPlaceholderText, getByText } = render(<HarvestWeightScreen />);
+describe('HarvestWeightScreen', () => {
+  it('should update the weight correctly', () => {
+    const { getByPlaceholderText } = render(<HarvestWeightScreen />);
 
-  const weightInput = getByPlaceholderText('Enter weight');
-  expect(weightInput).toBeDefined();
+    const weightInput = getByPlaceholderText('Enter weight');
+    fireEvent.changeText(weightInput, '10');
 
-  fireEvent.changeText(weightInput, { nativeEvent: { text: '10.5' } });
-  expect(weightInput.props.value).toBe('10.5');
+    expect(weightInput.props.value).toBe('10');
+  });
 
-  const submitButton = getByText('Submit');
-  expect(submitButton).toBeDefined();
+  it('should handle submission correctly', () => {
+    const consoleLogSpy = jest.spyOn(console, 'log');
+    const { getByPlaceholderText, getByText } = render(<HarvestWeightScreen />);
 
-  fireEvent.press(submitButton);
-  expect(weightInput.props.value).toBe('');
+    const weightInput = getByPlaceholderText('Enter weight');
+    fireEvent.changeText(weightInput, '10');
+
+    const submitButton = getByText('Submit');
+    fireEvent.press(submitButton);
+
+    expect(consoleLogSpy).toHaveBeenCalledWith('Submitted weight:', '10');
+    expect(weightInput.props.value).toBe('');
+
+    consoleLogSpy.mockRestore();
+  });
 });

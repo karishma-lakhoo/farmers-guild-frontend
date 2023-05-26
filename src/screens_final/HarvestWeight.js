@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-const HarvestWeight = () => {
-  let weight = '';
+const HarvestWeightScreen = () => {
+  const [weight, setWeight] = useState('');
 
   const handleWeightChange = (text) => {
-    weight = text;
+    setWeight(text);
   };
 
   const handleSubmit = () => {
     // Perform any actions with the entered weight
     console.log('Submitted weight:', weight);
     // Reset the weight input
-    weight = '';
+    setWeight('');
   };
 
   return (
@@ -21,6 +21,7 @@ const HarvestWeight = () => {
       <TextInput
         style={styles.input}
         placeholder="Enter weight"
+        value={weight}
         onChangeText={handleWeightChange}
         keyboardType="numeric"
       />
@@ -51,4 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HarvestWeight;
+export default HarvestWeightScreen;
