@@ -75,8 +75,6 @@ const SignUpScreen = ({ navigation }) => {
                 AsyncStorage.setItem('username', username);
                 console.log(username)
                 console.log(data.access)
-                // Clear input fields
-  
             })
             .then(() => {
                 navigation.navigate('Home');
@@ -128,16 +126,13 @@ const SignUpScreen = ({ navigation }) => {
                 style={styles.input}
                 placeholder="Last Name"/>
 
-<Pressable
-  onPress={() => {
-    navigation.navigate('Login');
-    onSignUpPressed();
-  }}
-  testID="signup-button" // Add this line to set the testID for the button
-  style={Btn.container}
->
-  <Text style={Btn.text}> REGISTER </Text>
-</Pressable>
+            <Pressable
+                onPress={() => {
+                    navigation.navigate('Login');
+                    onSignUpPressed();
+                }}  style={Btn.container}>
+                <Text style={Btn.text}> REGISTER </Text>
+            </Pressable>
 
             <Text style={styles.text}>
                 By registering, you confirm our <Text style={styles.link}>Terms of Use</Text> and
