@@ -33,6 +33,7 @@ const InviteScreen = ({navigation}) => {
     const [token, setToken] = useState('');
     const [searchText, setSearchText] = useState('');
     const [filteredData, setFilteredData] = useState([]);
+    
 
     useEffect(() => {
         const getToken = async () => {
