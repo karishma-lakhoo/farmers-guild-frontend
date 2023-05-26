@@ -253,4 +253,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AnalyticsLineScreen;
+export default AnalyticsLineScreen_final;

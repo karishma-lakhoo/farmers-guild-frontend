@@ -198,4 +198,4 @@ const Btn2 = StyleSheet.create({
     },
 });
 
-export default LoginScreen;
+export default LoginScreen_final;

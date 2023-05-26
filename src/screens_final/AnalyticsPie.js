@@ -235,4 +235,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AnalyticsPieScreen;
+export default AnalyticsPieScreen_final;
