@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LogScreen_final;
+export default LogScreen;

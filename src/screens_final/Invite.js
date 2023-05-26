@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InviteScreen_final;
+export default InviteScreen;

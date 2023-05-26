@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen_final;
+export default HomeScreen;

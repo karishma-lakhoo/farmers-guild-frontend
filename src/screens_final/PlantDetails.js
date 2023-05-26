@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PlantDetailScreen_final;
+export default PlantDetailScreen;

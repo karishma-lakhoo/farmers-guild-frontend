@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import FilterScreen from '../src/screens_final/Analytics_filter';
+import FilterScreen_final from '../src/screens_final/Analytics_filter';
 
 describe('FilterScreen', () => {
   it('should apply the filter when the Apply button is pressed', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import NotificationPage from '../src/screens_final/notifications';
+import NotificationPage_final from '../src/screens_final/notifications';
 
 describe('NotificationScreen', () => {
     it('should render welcome message', () => {

@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FilterScreen_final;
+export default FilterScreen;

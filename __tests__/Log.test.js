@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import LogScreen from '../src/screens_final/Log';
+import LogScreen_final from '../src/screens_final/Log';
 
 describe('LogScreen', () => {
   it('should render log screen correctly', () => {

@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HarvestWeight_final;
+export default HarvestWeight;

@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NotificationScreen_final;
+export default NotificationScreen;

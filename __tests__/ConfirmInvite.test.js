@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import ConfirmInviteScreen from '../src/screens_final/Confirm_invite';
+import ConfirmInviteScreen_final from '../src/screens_final/Confirm_invite';
 
 describe('InviteScreen', () => {
     it('should handle invite correctly', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import HarvestScreen from '../src/screens_final/Harvest';
+import HarvestScreen_final from '../src/screens_final/Harvest';
 
 
 describe('HarvestScreen', () => {

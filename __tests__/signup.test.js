@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import fetchMock from 'jest-fetch-mock';
-import SignUpScreen from '../src/screens_final/SignUp';
+import SignUpScreen_final from '../src/screens_final/SignUp';
 import { api_url } from '../src/consts/api_url';
 
 jest.mock('@react-native-async-storage/async-storage', () => {

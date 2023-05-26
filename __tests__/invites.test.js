@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import InvitePage from '../src/screens_final/Invite';
+import InvitePage_final from '../src/screens_final/Invite';
 
 describe('InvitePage', () => {
   it('should handle invite correctly', () => {

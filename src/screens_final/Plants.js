@@ -46,4 +46,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PlantPage_final;
+export default PlantPage;

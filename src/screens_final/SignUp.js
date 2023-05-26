@@ -225,4 +225,4 @@ const Btn2 = StyleSheet.create({
     },
 });
 
-export default SignUpScreen_final;
+export default SignUpScreen;

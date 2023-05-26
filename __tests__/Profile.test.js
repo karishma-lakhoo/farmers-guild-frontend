@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import ProfileScreen from '../src/screens_final/Profile';
+import ProfileScreen_final from '../src/screens_final/Profile';
 
 describe('ProfileScreen', () => {
   const user = {

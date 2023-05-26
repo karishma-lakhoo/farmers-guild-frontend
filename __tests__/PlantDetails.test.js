@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import PlantDetailScreen from '../src/screens_final/PlantDetails';
+import PlantDetailScreen_final from '../src/screens_final/PlantDetails';
 describe('PlantDetailScreen', () => {
   const plant = {
     name: 'Rose',

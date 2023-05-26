@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import HarvestWeightScreen from '../src/screens_final/HarvestWeight';
+import HarvestWeightScreen_final from '../src/screens_final/HarvestWeight';
 
 it('should handle weight input and submit correctly', () => {
   const { getByPlaceholderText, getByText } = render(<HarvestWeightScreen />);

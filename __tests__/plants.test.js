@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, getByText } from '@testing-library/react-native';
-import PlantPage from '../src/screens_final/Plants';
+import PlantPage_final from '../src/screens_final/Plants';
 
 describe('PlantPage', () => {
   const plants = [

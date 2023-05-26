@@ -41,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HarvestScreen_final;
+export default HarvestScreen;
