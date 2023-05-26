@@ -62,8 +62,7 @@ const Home_popup = (props) => {
         props.fetchGardens();
 
         // close popup
-       // props.changeAddGardenPopupVisible(false);
-       props.changeModalVisible(false);
+        props.changeAddGardenPopupVisible(false);
     };
 
     return (
@@ -76,9 +75,7 @@ const Home_popup = (props) => {
                 />
                 <TouchableOpacity
                     style={styles.submitButton}
-                    onPress={handlePressSubmit}
-                    
-                    >
+                    onPress={handlePressSubmit}>
                     <Text style={styles.submitButtonText}>Add Garden</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
