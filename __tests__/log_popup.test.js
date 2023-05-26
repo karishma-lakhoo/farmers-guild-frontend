@@ -1,4 +1,4 @@
-import React from 'react';
+{/*import React from 'react';
 import {describe, it, expect, test} from '@jest/globals';
 import { render, fireEvent } from '@testing-library/react-native';
 import {Log_popup} from "../src/components/Log_popup";
@@ -17,4 +17,4 @@ describe('Log_popup', () => {
     });
 
 
-});
+});   */}

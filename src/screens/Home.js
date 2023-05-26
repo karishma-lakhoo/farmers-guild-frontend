@@ -198,7 +198,7 @@ const HomeScreen = ({navigation}) => {
 
     return (
         <TouchableOpacity style={styles.gardenCard} onPress={navigateToHarvest}>
-          <Text>{gardens.name}</Text>
+          <Text style={styles.GardensText}>{gardens.name}</Text>
         </TouchableOpacity>
     );
   }
@@ -221,7 +221,16 @@ const HomeScreen = ({navigation}) => {
                 changeModalVisible(true);
                 // console.log(myUser)
                 }}>
-            <Image source = {require('../images/plus_sign.png')}/>
+
+                  <TouchableOpacity
+                     style = {styles.plusV}>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                     style = {styles.plusH}>
+                  </TouchableOpacity>
+
+            {/*<Image source = {require('../images/plus_sign.png')}/> */}
 
           </TouchableOpacity>
           <Modal
@@ -236,14 +245,14 @@ const HomeScreen = ({navigation}) => {
                 fetchGardens={fetchGardens}
             />
           </Modal>
-          <Modal
+          {/*<Modal
               transparent = {true} //addGardenButton
               animationType = 'fade'
               visible = {isAddGardenPopupVisible} //changeAddGardenPopupVisible
               nRequestClose = {() => changeAddGardenPopupVisible(false)}>
 
             <AddGardenPopup/>
-          </Modal>
+          </Modal>  */}
 
 
         </View>
@@ -256,10 +265,12 @@ const styles = StyleSheet.create({
 
   gardenCard:{
     height: 60,
-    width: 300,
+    width: 150,
     elevation: 9,
     borderRadius: 50,
-    backgroundColor: 'white',
+    justifyContent: 'center',
+    //backgroundColor: 'white',
+    backgroundColor: "#4CAF50",
     marginVertical: 10,
     marginHorizontal: 10,
     paddingHorizontal: 10,
@@ -275,27 +286,40 @@ const styles = StyleSheet.create({
     marginVertical: 50,
     //justifyContent: 'center',
   },
-
-  nothingyet: {
-    //  fontWeight: 'bold',
-    //  fontSize: 22,
-    //  color: 'black',
-    //  alignItems: 'center',
-    //   justifyContent: 'center',
-    //   marginVertical: 10,
+  GardensText:{
+    fontWeight: 'bold',
+    fontSize: 20,
 
   },
 
+
   add:{
-    width: 60,
-    height: 60,
+    marginVertical: 20,
+    width: 80,
+    height: 80,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 50,
-    paddingBottom: 50,
-    // top:300,
     backgroundColor: '#4CAF50',
-    borderRadius: 10,
+    borderRadius: 50,
+
+  },
+  plusV:{
+    top: 35,
+    width: 10,
+    height: 60,
+    
+    backgroundColor: '#000000',
+    borderRadius: 50,
+
+  },
+  plusH:{
+    marginBottom: 60,
+    width: 60,
+    height: 10,
+   
+    backgroundColor: '#000000',
+    borderRadius: 50,
+
   },
 
   addText: {
@@ -311,12 +335,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#000000',
+    
     borderRadius: 25,
 
   },
 
   popupbackground: {
-
+    
     backgroundColor:"#000000aa",
     flex: 1,
     justifyContent: 'center',
@@ -330,7 +355,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#FFFFFF',
     alignItems: 'center',
     // justifyContent: 'center',
   },

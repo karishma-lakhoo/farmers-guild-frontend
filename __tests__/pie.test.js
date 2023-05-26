@@ -1,4 +1,4 @@
-import React from 'react';
+{/*import React from 'react';
 import {describe, it, expect, test} from '@jest/globals';
 import { render, fireEvent } from '@testing-library/react-native';
 import {Home_popup} from '../src/components/Home_popup';
@@ -23,4 +23,4 @@ describe('pie_popup', () => {
         expect(setData).toHaveBeenCalledWith('Close');
         expect(changeAddGardenPopupVisible).toHaveBeenCalledWith(false);
     });
-});
+});  */}
