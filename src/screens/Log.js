@@ -18,7 +18,9 @@ import foods from "../consts/foods";
 import { api_url } from "../consts/api_url";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SelectList} from "react-native-dropdown-select-list";
+import COLORS from "../consts/colors";
 
+// setting the default values for the dropdowns
 const GARDEN_OPTIONS = [
     {
         item: 'All Gardens',
@@ -66,7 +68,7 @@ const LogScreen = ({navigation}) => {
     const n_years = (2023-firstYear) + 1
     const years1 = Array.from({ length: n_years }, (_, i) => (2023 - i).toString()); // generates an array of 100 years, from "2023" to "1924"
     const years2 = Array.from({ length: years1.indexOf(startYear)+1 }, (_, j) => (2023 - j).toString()); // generates an array of years, from "2023" down to the selected year as a string
-
+    // get username, gardnens and other data
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -91,6 +93,7 @@ const LogScreen = ({navigation}) => {
         };
         fetchData();
     }, []);
+    // doing the filtering
 
     useEffect(() => {
         setPageNumber(2)
@@ -150,15 +153,17 @@ const LogScreen = ({navigation}) => {
         console.log(gardenValue)
         console.log(userValue)
     },[sortValue, gardenValue, userValue, startYear, endYear, buttonPressed]);
-
+    // setting variables
     const handleGardenFilterChange = (selected) => {
         setGardenValue(selected);
     }
 
+    // setting variables
     const handleUserFilterChange = (selected) => {
         setUserValue(selected);
     }
 
+    // setting variables
     const handleFilterChange = (selected) => {
         setSortValue(selected);
     };
@@ -274,6 +279,7 @@ const LogScreen = ({navigation}) => {
                     label="Garden"
                     options={filteredGardensArray}
                     value={gardenValue}
+                    arrowIconColor={COLORS.primary}
                     onChange={handleGardenFilterChange}
                 />
                 <Text></Text>
@@ -281,6 +287,7 @@ const LogScreen = ({navigation}) => {
                     label="User"
                     options={filteredUsersArray}
                     value={userValue}
+                    arrowIconColor={COLORS.primary}
                     onChange={handleUserFilterChange}
                 />
                 <Text></Text>
@@ -288,6 +295,7 @@ const LogScreen = ({navigation}) => {
                     label="Sort By"
                     options={FILTER_OPTIONS}
                     value={sortValue}
+                    arrowIconColor={COLORS.primary}
                     onChange={handleFilterChange}
                 />
                 <Text></Text>
@@ -325,7 +333,7 @@ const LogScreen = ({navigation}) => {
                     <View style={{ marginTop: 21, marginLeft: 5 }}>
                         <TouchableOpacity
                             style={{
-                                backgroundColor: 'purple',
+                                backgroundColor: COLORS.primary,
                                 borderRadius: 12,
                                 paddingVertical: 14,
                                 paddingHorizontal: 16,
