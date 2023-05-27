@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { SafeAreaView, View, Text, Button, StyleSheet, Modal,TouchableOpacity,Image } from 'react-native';
+import {SafeAreaView, View, Text, Button, StyleSheet, Modal, TouchableOpacity, Image, Pressable} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {Home_popup} from '../components/Home_popup';
 import {AddGardenPopup} from '../components/addGardenPopup_Test';
@@ -8,6 +8,8 @@ import { MyContext} from "../../App";
 import {api_url} from "../consts/api_url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRoute} from "@react-navigation/native";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import COLORS from "../consts/colors";
 
 
 const url = api_url + '/users_in_garden/';
@@ -216,24 +218,29 @@ const HomeScreen = ({navigation}) => {
               renderItem = {({item}) => <GardenCard gardens={item.garden_detail}/>}
           />
 
-          <TouchableOpacity
-              style = {styles.add}
-              onPress = {() => {
-                changeModalVisible(true);
-                // console.log(myUser)
-                }}>
+          <Pressable style={styles.actionBtn2} onPress={() => changeModalVisible(true)}>
+            <FontAwesomeIcon name="plus" size={30} color="white" style={styles.crossIcon} />
+          </Pressable>
 
-                  <TouchableOpacity
-                     style = {styles.plusV}>
-                  </TouchableOpacity>
+          {/*<TouchableOpacity*/}
 
-                  <TouchableOpacity
-                     style = {styles.plusH}>
-                  </TouchableOpacity>
+          {/*    style = {styles.add}*/}
+          {/*    onPress = {() => {*/}
+          {/*      changeModalVisible(true);*/}
+          {/*      // console.log(myUser)*/}
+          {/*      }}>*/}
 
-            {/*<Image source = {require('../images/plus_sign.png')}/> */}
+          {/*        <TouchableOpacity*/}
+          {/*           style = {styles.plusV}>*/}
+          {/*        </TouchableOpacity>*/}
 
-          </TouchableOpacity>
+          {/*        <TouchableOpacity*/}
+          {/*           style = {styles.plusH}>*/}
+          {/*        </TouchableOpacity>*/}
+
+          {/*  /!*<Image source = {require('../images/plus_sign.png')}/> *!/*/}
+
+          {/*</TouchableOpacity>*/}
           <Modal
               transparent = {true} //addGardenButton
               animationType = 'fade'
@@ -279,6 +286,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  crossIcon: {
+    alignSelf: 'center',
   },
 
   header:{
@@ -341,6 +351,18 @@ const styles = StyleSheet.create({
     
     borderRadius: 25,
 
+  },
+  actionBtn2: {
+    height: 70,
+    width: 70,
+    backgroundColor: COLORS.primary,
+    borderRadius: 40,
+    marginBottom: 20,
+    marginLeft: 300,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
+    elevation: 8,
   },
 
   popupbackground: {
