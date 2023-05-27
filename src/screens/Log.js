@@ -265,7 +265,7 @@ const LogScreen = ({navigation}) => {
                                         Garden: {item?.garden_detail?.name ?? "No garden found"}
                                     </Text>
                                     <Text style={{color: 'grey', fontSize: 12}}>
-                                        User: {item?.user?.username ?? "No user found"}
+                                        User: {item?.user?.display_name ?? "No user found"}
                                     </Text>
                                 </View>
 

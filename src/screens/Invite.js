@@ -88,7 +88,7 @@ const InviteScreen = ({navigation}) => {
                         />
                     </View>
                     <View style={{marginHorizontal:20}}>
-                        <Text style={{fontSize:16, fontWeight:'bold', marginTop:10}}>{food.username}</Text>
+                        <Text style={{fontSize:16, fontWeight:'bold', marginTop:10}}>{food.display_name}</Text>
                     </View>
                     <View style={styles.plantAt}>
                         <Icon name="add" size={20} color={COLORS.white}/>
