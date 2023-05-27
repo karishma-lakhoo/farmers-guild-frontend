@@ -8,6 +8,7 @@ import COLORS from "../consts/colors";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {SecondaryButton} from "../consts/button";
+import { Alert } from 'react-native';
 
 // const url = api_url  + "/invites/";
 
@@ -124,6 +125,7 @@ const NotificationScreen = ({navigation}) => {
             // There was an error retrieving the token, so display an error message
             console.error('Error retrieving food:', error);
         }
+        Alert.alert('Invite Accepted', 'You have accepted the invite.');
     };
 
 
@@ -144,6 +146,8 @@ const NotificationScreen = ({navigation}) => {
                 setInvites((prevInvites) => prevInvites.filter((invite) => invite.id !== inviteId));
             })
             .catch((error) => console.log('Error declining invite:', error));
+
+        Alert.alert('Invite Declined', 'You have declined the invite.');
     };
     // const handleDecline = () => {
     //     console.log("declined")

@@ -8,6 +8,7 @@ import { MyContext } from "../../App";
 import axios from "axios";
 import { api_url } from "../consts/api_url";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import types from "../consts/types";
 
 //we need to get all the plants_in_garden for shellyrishma only - have to change views to allow for filters
 const url = api_url + '/plants_in_garden/';  //testing from plants_in_garden/ to plantsingarden
@@ -79,6 +80,9 @@ const HarvestScreen = ({navigation,route}) => {
     // const [modalVisible, setModalVisible] = useState(false); // state variable for modal visibility
 
     const LogCard = ({item}) =>{
+
+        const type = types.find((food) => food.name === item?.food_detail?.type);
+
         return (
             <View style={styles.LogCard}>
                 <View style={{
@@ -89,15 +93,20 @@ const HarvestScreen = ({navigation,route}) => {
                 }}>
                     { info &&
                         <>
-                            <Text style={{fontWeight: 'bold', fontSize: 15, marginTop:10 ,marginLeft:-15}}>
-                                {item?.food_detail?.food ?? "No food found"}
-                            </Text>
-                            {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
-                            {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
-                            {/*</Text>*/}
-                            <Text style={{fontWeight: 'bold', fontSize: 13, marginLeft:-15}}>  {/*changed fontweight from grey to bold*/}
-                                {item?.garden_detail?.name ?? "No garden found"}
-                            </Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, right: 15}}>
+                                <Image
+                                    source={type?.image} // Use the image from the matched type object
+                                    style={{ height: 50, width: 50 }}
+                                />
+                                <View style={{ marginLeft: 10 }}>
+                                    <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
+                                        {item?.food_detail?.food ?? "No food found"}
+                                    </Text>
+                                    <Text style={{ fontWeight: 'bold', fontSize: 13 }}>
+                                        {item?.garden_detail?.name ?? "No garden found"}
+                                    </Text>
+                                </View>
+                            </View>
                         </>
                     }
 
