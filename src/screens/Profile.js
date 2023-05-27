@@ -4,10 +4,11 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {api_url} from "../consts/api_url";
 import COLORS from "../consts/colors";
+import colors from "../consts/colors";
 
 
 const url = api_url + '/user/';
-
+// setting images
 const images = {
     image1: require('../images/1.png'),
     image2: require('../images/2.png'),
@@ -22,13 +23,16 @@ const ProfileScreen = ({ navigation }) => {
     const [token, setToken] = useState('');
     const [data, setData] = useState([]);
     const [profilePictureID, setProfilePictureID] = useState("")
+    // setting variables
     const handleImageSelection = (imageKey) => {
         setSelectedImage(imageKey);
     };
+    // setting variables
 
     const handleUsernameChange = (newUsername) => {
         setUsername(newUsername);
     };
+    // getting username variables
 
     useEffect(() => {
         const getUsername = async () => {
@@ -58,7 +62,7 @@ const ProfileScreen = ({ navigation }) => {
         };
         fetchData();
     }, []);
-
+    // update the usernames using an async call
     const updateUsername = async () => {
         try {
             const userId = await AsyncStorage.getItem('user_id');
@@ -90,7 +94,7 @@ const ProfileScreen = ({ navigation }) => {
 
 
 
-
+    // the rendering of the page
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -131,7 +135,7 @@ const ProfileScreen = ({ navigation }) => {
                         style={styles.updateButton}
                         onPress={updateUsername}
                     >
-                        <Text style={styles.updateButtonText}>Update Username</Text>
+                        <Text style={styles.updateButtonText}>Update Details</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -149,7 +153,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        // backgroundColor: '#fff',
         // alignItems: 'center',
     },
     title: {
@@ -189,13 +193,17 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         padding: 10,
+
     },
     updateButton: {
-        backgroundColor: COLORS.secondary,
+        backgroundColor: COLORS.primary,
         paddingHorizontal: 20,
-        paddingVertical: 10,
-        borderRadius: 5,
-        marginTop: 20,
+        paddingVertical: 15,
+        marginTop: 40,
+        width: '60%',
+        padding: 15,
+        alignItems:'center',
+        borderRadius: 25,
     },
 
     updateButtonText: {
