@@ -8,7 +8,7 @@ const url = api_url + '/plants_in_garden/';
 const HarvestWeightScreen = ({navigation}) => {
     const [harvestWeight, setHarvestWeight] = useState('');
     const { myState } = useContext(MyContext);
-
+    // adding a harvest
     const onAddHarvest = async (harvestWeight, ) => {
         try {
             const token = await AsyncStorage.getItem('token');

@@ -58,6 +58,7 @@ const SignUpScreen = ({ navigation }) => {
                 email: email,
                 first_name: firstName,
                 last_name: lastName,
+                display_name: username
             }),
         })
             .then((response) => {

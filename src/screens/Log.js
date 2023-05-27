@@ -281,11 +281,7 @@ const LogScreen = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Icon
-                    name="arrow-back"
-                    size={25}
-                    onPress={() => navigation.goBack()}
-                />
+
                 <Text style={styles.headerText}>Harvest Log</Text>
             </View>
             <View style={[styles.filterContainer, { flexDirection: 'column' }]}>
@@ -399,7 +395,6 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 20,
         fontWeight: 'bold',
-        marginLeft: 10,
     },
     filterContainer: {
         flexDirection: 'row',

@@ -10,27 +10,30 @@ import colors from "../consts/colors";
 const url = api_url + '/user/';
 // setting images
 const images = {
-    image1: require('../images/1.png'),
-    image2: require('../images/2.png'),
-    image3: require('../images/3.png'),
-    image4: require('../images/4.png'),
-    image5: require('../images/5.png'),
+    1: require('../images/1.png'),
+    2: require('../images/2.png'),
+    3: require('../images/3.png'),
+    4: require('../images/4.png'),
+    5: require('../images/5.png'),
 };
 
 const ProfileScreen = ({ navigation }) => {
-    const [selectedImage, setSelectedImage] = useState('image1');
+    const [selectedImage, setSelectedImage] = useState('');
     const [username, setUsername] = useState('');
     const [token, setToken] = useState('');
     const [data, setData] = useState([]);
     const [profilePictureID, setProfilePictureID] = useState("")
+    const [displayName, setDisplayName] = useState("")
+    const [userID, setUserID] = useState("")
     // setting variables
     const handleImageSelection = (imageKey) => {
         setSelectedImage(imageKey);
+        setProfilePictureID(imageKey)
     };
     // setting variables
 
-    const handleUsernameChange = (newUsername) => {
-        setUsername(newUsername);
+    const handleDisplayNameChange = (newDisplayName) => {
+        setDisplayName(newDisplayName);
     };
     // getting username variables
 
@@ -47,15 +50,32 @@ const ProfileScreen = ({ navigation }) => {
         };
         getUsername();
     }, []);
-
+    useEffect(() => {
+        const getToken = async () => {
+            try {
+                const value = await AsyncStorage.getItem('token');
+                if (value !== null) {
+                    setToken(value);
+                }
+            } catch (error) {
+                console.log('Error retrieving data:', error);
+            }
+        };
+        getToken();
+    }, []);
     useEffect(() => {
         const fetchData = async () => {
             try {
                 // get username, gardens, users to populate dropdowns
                 const profilePicture = await AsyncStorage.getItem('profilePicture')
+                const displayName = await  AsyncStorage.getItem('displayName')
+                const userID = await AsyncStorage.getItem('usernameID');
                 setProfilePictureID(profilePicture)
-                setSelectedImage("image" + profilePicture.toString())
-
+                setSelectedImage( profilePicture.toString())
+                setDisplayName(displayName)
+                setUserID(userID)
+                console.log("asdf " + displayName)
+                console.log("asdf " + userID)
             } catch (error) {
                 console.log('Error retrieving data:', error);
             }
@@ -63,34 +83,68 @@ const ProfileScreen = ({ navigation }) => {
         fetchData();
     }, []);
     // update the usernames using an async call
-    const updateUsername = async () => {
+    // const updateDetails = async () => {
+    //     try {
+    //         console.log("asdfasd")
+    //         console.log(userID)
+    //         const updatedUser = {
+    //             display_name: displayName,
+    //             profile_picture: profilePictureID
+    //         };
+    //
+    //         const response = await fetch(url + userID + "/", {
+    //             method: 'PATCH',
+    //             headers: {
+    //                 'Authorization': `Bearer ${token}`,
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify(updatedUser),
+    //         });
+    //
+    //         if (response.ok) {
+    //             console.log('Username updated successfully');
+    //             console.log(response)
+    //             // Handle successful update
+    //         } else {
+    //             console.log('Username update failed');
+    //             console.log(response)
+    //             // Handle failed update
+    //         }
+    //     } catch (error) {
+    //         console.error('Error updating username:', error);
+    //         // Handle error
+    //     }
+    // };
+    const updateDetails = async () => {
         try {
-            const userId = await AsyncStorage.getItem('user_id');
-            const updatedUser = {
-                username: username,
+            const token = await AsyncStorage.getItem('token');
+            const headers = {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
             };
+            const body = JSON.stringify({
+                display_name: displayName,
+                profile_picture: profilePictureID});
 
-            const response = await fetch(url + userId, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedUser),
+            const response = await fetch(url + userID + "/", {
+                method: 'PATCH',
+                headers: headers,
+                body: body,
             });
 
-            if (response.ok) {
-                console.log('Username updated successfully');
-                // Handle successful update
+            if (response.status === 201 || response.status === 200) {
+                // The garden was added successfully, so close the modal
+                console.log('yey')
+                console.log(response)
             } else {
-                console.log('Username update failed');
-                // Handle failed update
+                // There was an error adding the garden, so display an error message
+                console.error('Error updating details:', response.status);
             }
         } catch (error) {
-            console.error('Error updating username:', error);
-            // Handle error
+            // There was an error retrieving the token, so display an error message
+            console.error('Error :', error);
         }
     };
-
 
 
 
@@ -100,8 +154,7 @@ const ProfileScreen = ({ navigation }) => {
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container}>
                 <View style={styles.head}>
-                    <Icon name="arrow-back-ios" size={28} onPress={() => navigation.navigate('Harvest')} />
-                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Profile</Text>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 10}}>Edit Profile</Text>
                 </View>
 
                 <View style={styles.profile}>
@@ -127,13 +180,13 @@ const ProfileScreen = ({ navigation }) => {
 
                     <TextInput
                         style={styles.usernameInput}
-                        onChangeText={handleUsernameChange}
-                        value={username}
+                        onChangeText={handleDisplayNameChange}
+                        value={displayName}
                     />
 
                     <TouchableOpacity
                         style={styles.updateButton}
-                        onPress={updateUsername}
+                        onPress={updateDetails}
                     >
                         <Text style={styles.updateButtonText}>Update Details</Text>
                     </TouchableOpacity>

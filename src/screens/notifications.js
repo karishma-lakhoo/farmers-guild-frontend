@@ -17,6 +17,9 @@ const NotificationScreen = ({navigation}) => {
     const [invites, setInvites] = useState([]);
     const [token, setToken] = useState('');
     const [myUsername, setMyUsername] = useState('');
+
+    // get username from API
+
     useEffect(() => {
         const getUsername = async () => {
             try {
@@ -33,7 +36,7 @@ const NotificationScreen = ({navigation}) => {
 
     const filteredInfo = invites.filter(item => item.receiver_detail.username === myUsername);
 
-
+    // get token from API
 
     useEffect(() => {
         const getToken = async () => {
@@ -96,6 +99,7 @@ const NotificationScreen = ({navigation}) => {
     //         .catch((error) => console.log('Error Accepting invite:', error));
     // };
 
+    //this is when the request is accepted
     const handleAccept = async (gardenID) => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -129,7 +133,7 @@ const NotificationScreen = ({navigation}) => {
         Alert.alert('Invite Accepted', 'You have accepted the invite.');
     };
 
-
+    // if the request is denied
     const handleDecline = (inviteId) => {
         const headers = {
             'Authorization': `Bearer ${token}`,
@@ -153,6 +157,7 @@ const NotificationScreen = ({navigation}) => {
     // const handleDecline = () => {
     //     console.log("declined")
     // }
+    // log card styling and rendering
     const LogCard = ({item}) =>{
         const { id, garden_detail, sender_detail, receiver_detail } = item;
         const selectedImage = images.find(image => image.id === item.sender_detail.profile_picture);
