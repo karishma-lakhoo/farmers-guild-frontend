@@ -19,6 +19,7 @@ import { api_url } from "../consts/api_url";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SelectList} from "react-native-dropdown-select-list";
 import COLORS from "../consts/colors";
+import types from "../consts/types";
 
 // setting the default values for the dropdowns
 const GARDEN_OPTIONS = [
@@ -227,6 +228,9 @@ const LogScreen = ({navigation}) => {
     }, [token, pageNumber]);
 
     const renderItem = ({item}) => {
+
+        const type = types.find((food) => food.name === item?.food_detail?.type);
+
         const date = new Date(item.datetime);
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -242,21 +246,31 @@ const LogScreen = ({navigation}) => {
                 }}>
                     { data &&
                         <>
-                            <Text style={{fontWeight: 'bold', fontSize: 16}}>
-                                {item?.food_detail?.food ?? "No food found"}
-                            </Text>
-                            <Text style={{color: 'grey', fontSize: 12}}>
-                                {item?.weight ?? "No weight found"} g
-                            </Text>
-                            <Text style={{color: 'grey', fontSize: 12}}>
-                                {formattedDate}
-                            </Text>
-                            <Text style={{color: 'grey', fontSize: 12}}>
-                                Garden: {item?.garden_detail?.name ?? "No garden found"}
-                            </Text>
-                            <Text style={{color: 'grey', fontSize: 12}}>
-                                User: {item?.user?.username ?? "No user found"}
-                            </Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: -6, right: 5}}>
+                                <Image
+                                    source={type?.image} // Use the image from the matched type object
+                                    style={{ height: 50, width: 50 }}
+                                />
+                                <View style={{ marginLeft: 20 }}>
+                                    <Text style={{fontWeight: 'bold', fontSize: 16}}>
+                                        {item?.food_detail?.food ?? "No food found"}
+                                    </Text>
+                                    <Text style={{color: 'grey', fontSize: 12}}>
+                                        {item?.weight ?? "No weight found"} g
+                                    </Text>
+                                    <Text style={{color: 'grey', fontSize: 12}}>
+                                        {formattedDate}
+                                    </Text>
+                                    <Text style={{color: 'grey', fontSize: 12}}>
+                                        Garden: {item?.garden_detail?.name ?? "No garden found"}
+                                    </Text>
+                                    <Text style={{color: 'grey', fontSize: 12}}>
+                                        User: {item?.user?.username ?? "No user found"}
+                                    </Text>
+                                </View>
+
+                            </View>
+
                         </>
                     }
                 </View>
