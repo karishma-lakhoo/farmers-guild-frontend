@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Text, FlatList, SafeAreaView, ScrollView, StyleSheet, Pressable, Modal} from 'react-native';
+import {View, Text, FlatList, SafeAreaView, ScrollView, StyleSheet, Pressable, Modal, Image} from 'react-native';
 import axios from 'axios';
 import {MyContext} from "../../App";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -9,6 +9,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {SecondaryButton} from "../consts/button";
 import { Alert } from 'react-native';
+import images from "../consts/profile_images";
 
 // const url = api_url  + "/invites/";
 
@@ -154,7 +155,7 @@ const NotificationScreen = ({navigation}) => {
     // }
     const LogCard = ({item}) =>{
         const { id, garden_detail, sender_detail, receiver_detail } = item;
-
+        const selectedImage = images.find(image => image.id === item.sender_detail.profile_picture);
         return (
 
             <View style={styles.LogCard}>
@@ -166,8 +167,18 @@ const NotificationScreen = ({navigation}) => {
                 }}>
                     { invites &&
                         <>
-                            <Text style={{fontWeight: 'bold', fontSize: 18, marginTop:8 ,marginLeft:-15}}>{item.garden_detail.name}</Text>
-                            <Text style={{fontSize: 12, marginTop:0 ,marginLeft:-15}}>From {item.sender_detail.username}</Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 0, right: 15}}>
+                                <Image
+                                    source={selectedImage?.image}
+                                    style={{ height: 50, width: 50 }}
+                                />
+                                <View style={{ marginLeft: 30 }}>
+                                    <Text style={{fontWeight: 'bold', fontSize: 18, marginTop:8 ,marginLeft:-15}}>{item.garden_detail.name}</Text>
+                                    <Text style={{fontSize: 12, marginTop:0 ,marginLeft:-15}}>From {item.sender_detail.username}</Text>
+                                </View>
+                            </View>
+
+
                             {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
                             {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
                             {/*</Text>*/}

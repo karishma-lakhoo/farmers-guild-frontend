@@ -263,14 +263,16 @@ const HomeScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
 
+
+
   gardenCard:{
     height: 60,
-    width: 150,
-    elevation: 9,
-    borderRadius: 50,
+    width: 350,
+    elevation: 8,
+    borderRadius: 10,
     justifyContent: 'center',
     //backgroundColor: 'white',
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#FFF",
     marginVertical: 10,
     marginHorizontal: 10,
     paddingHorizontal: 10,
@@ -304,7 +306,7 @@ const styles = StyleSheet.create({
 
   },
   plusV:{
-    top: 35,
+    top: 45,
     width: 10,
     height: 60,
     
@@ -355,7 +357,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
     alignItems: 'center',
     // justifyContent: 'center',
   },
