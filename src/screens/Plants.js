@@ -21,6 +21,7 @@ import {MyContext} from "../../App";
 const {width} = Dimensions.get("screen");
 const cardWidth = width/2-20;
 const url = api_url + '/food/';
+import types from "../consts/types";
 
 const PlantsScreen = ({navigation}) => {
     const [selectedCategoryIndex,setSelectedCategoryIndex] = React.useState(0);
@@ -95,19 +96,24 @@ const PlantsScreen = ({navigation}) => {
     }
 
     const Card = ({food}) =>{
+
+        const type = types.find((item) => item.name === food.type);
+
         return(
             <TouchableHighlight underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => {
                 setMyState(food);
                 navigation.navigate('PlantDetails')
             }}>
                 <View style={styles.card}>
-                    <View style={{alignItems:'center', top:-40}}>
-                        {/*<Image source={food.image} style={{height:120, width:120}}/>*/}
+                    <View style={{ alignItems: 'center', top: -40 }}>
+                        <Image
+                            source={type?.image} // Use the image from the matched type object
+                            style={{ height: 120, width: 120 }}
+                        />
                     </View>
                     <View style={{marginHorizontal:20}}>
                         <Text style={{fontSize:16, fontWeight:'bold', marginTop:10}}>{food.food}</Text>
                         <Text style={{fontSize:13, color:COLORS.grey}}>{food.supertype}</Text>
-
                     </View>
                     <View style={styles.plantAt}>
                         <Icon name="add" size={20} color={COLORS.white}/>
