@@ -18,6 +18,7 @@ import {api_url} from "../consts/api_url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {MyContext} from "../../App";
 import categories from "../consts/categories";
+import images from "../consts/profile_images";
 const url = api_url + '/user/';
 const {width} = Dimensions.get("screen");
 const cardWidth = width/2-20;
@@ -72,6 +73,8 @@ const InviteScreen = ({navigation}) => {
     }, [token]);
 
     const Card = ({food}) =>{
+
+        const selectedImage = images.find(image => image.id === food.profile_picture);
         return(
             <TouchableHighlight underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => {
                 setMyState(food);
@@ -79,7 +82,10 @@ const InviteScreen = ({navigation}) => {
             }}>
                 <View style={styles.card}>
                     <View style={{alignItems:'center', top:-40}}>
-                        {/*<Image source={food.image} style={{height:120, width:120}}/>*/}
+                        <Image
+                            source={selectedImage?.image}
+                            style={{ height: 120, width: 120 }}
+                        />
                     </View>
                     <View style={{marginHorizontal:20}}>
                         <Text style={{fontSize:16, fontWeight:'bold', marginTop:10}}>{food.username}</Text>
@@ -113,7 +119,7 @@ const InviteScreen = ({navigation}) => {
                     <Text style={{marginTop:5,marginLeft: 25, fontSize:22,color:COLORS.grey}}>Who do you want to invite?</Text>
                 </View>
             </View>
-            <View style={{marginTop:0,flexDirection:'row',paddingHorizontal:20}}>
+            <View style={{marginTop:0,flexDirection:'row',paddingHorizontal:20, paddingVertical: 30}}>
                 <View style={styles.inputContainer}>
                     <Icon name="search" size={28} style={{width: 28}} />
                     <TextInput

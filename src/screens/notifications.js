@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {api_url} from "../consts/api_url";
 import COLORS from "../consts/colors";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {SecondaryButton} from "../consts/button";
 
 // const url = api_url  + "/invites/";
@@ -161,7 +162,8 @@ const NotificationScreen = ({navigation}) => {
                 }}>
                     { invites &&
                         <>
-                            <Text style={{fontWeight: 'bold', fontSize: 12, marginTop:20 ,marginLeft:-15}}> {item.garden_detail.name} by {item.sender_detail.username}</Text>
+                            <Text style={{fontWeight: 'bold', fontSize: 18, marginTop:8 ,marginLeft:-15}}>{item.garden_detail.name}</Text>
+                            <Text style={{fontSize: 12, marginTop:0 ,marginLeft:-15}}>From {item.sender_detail.username}</Text>
                             {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
                             {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
                             {/*</Text>*/}
@@ -173,14 +175,14 @@ const NotificationScreen = ({navigation}) => {
 
                     {/*<Text style={{ fontSize: 13, color: 'grey'}}>{item.receiver_detail.username}</Text>*/}
                 </View>
-                <View style={{ marginBottom: 50, right: 85}}>
+                <View style={{ marginBottom: 40, right: 60}}>
                     <Pressable style={styles.actionBtn} onPress={() => handleAccept(item.garden_detail.id)}>
                         <Text style={styles.actionBtnText}>Accept</Text>
                     </Pressable>
                 </View>
-                <View style={{ marginBottom: 50, right: 0 }}>
+                <View style={{ marginBottom: 40, right: 10 }}>
                     <Pressable style={styles.actionBtn2} onPress={() => handleDecline(item.id)}>
-                        <Text style={styles.actionBtnText}>Decline</Text>
+                        <FontAwesomeIcon name="times" size={20} color="white" style={styles.crossIcon} />
                     </Pressable>
                 </View>
             </View>
@@ -198,8 +200,7 @@ const NotificationScreen = ({navigation}) => {
     return (
         <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
             <View style={styles.header}>
-                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')} testID="material-icons"/>
-                <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Invites</Text>
+                <Text style = {{fontSize: 20, fontWeight: 'bold', marginLeft: 10}}>Pending Invites</Text>
             </View>
             <FlatList
                 showsVerticalScrollIndicator={false}
@@ -263,7 +264,7 @@ const styles = StyleSheet.create({
         elevation: 8, // This is for Android
     },
     actionBtn: {
-        height: 50,
+        height: 40,
         width: 80,
         backgroundColor: '#5DBB63',
         marginBottom: 10,
@@ -278,19 +279,20 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
     actionBtn2: {
-        height: 50,
-        width: 80,
+        height: 40,
+        width: 40,
         backgroundColor: 'red',
         marginBottom: 10,
-        borderRadius: 10,
+        borderRadius: 25,
         position: 'absolute',
         top: 0,
         right: 0,
-        marginRight: 0,
-        paddingRight: 20,
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 1,
+    },
+    crossIcon: {
+        alignSelf: 'center',
     },
     actionBtnText:{
         marginBottom: 3,
