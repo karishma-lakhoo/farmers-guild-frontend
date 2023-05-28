@@ -15,6 +15,7 @@ const { width, height } = Dimensions.get('window');
 
 
 const PlantDetailsScreen = ({navigation}) => {
+    // State Variables
     const [data, setData] = useState([{}])
     const {myState} = useContext(MyContext);
     const [gardenId, setGardenId] = useState('');
@@ -25,7 +26,7 @@ const PlantDetailsScreen = ({navigation}) => {
     useEffect(() => {
         getGardenId();
     }, []);
-
+    // Getting the garden ID from the Home page
     const getGardenId = async () => {
         try {
             const value = await AsyncStorage.getItem('gardenId');
@@ -38,8 +39,10 @@ const PlantDetailsScreen = ({navigation}) => {
     };
 
     console.log(gardenId)
+    // POST request to add a plant entry into the PlantsInGarden table in the database
     const onAddPlant = async (harvestWeight) => {
         try {
+            // Getting the bearer token from async storage
             const token = await AsyncStorage.getItem('token');
             const headers = {
                 'Authorization': `Bearer ${token}`,
@@ -68,7 +71,9 @@ const PlantDetailsScreen = ({navigation}) => {
             console.error('Error retrieving food:', error);
         }
     };
+    // Displaying the plant images based on the type of plant
     const type = types.find((item) => item.name === myState.type);
+    // renders the plant Details screen
     return (
 
         <SafeAreaView>

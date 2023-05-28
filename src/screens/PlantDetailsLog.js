@@ -15,11 +15,13 @@ const { width, height } = Dimensions.get('window');
 
 
 const PlantDetailsLogScreen= ({navigation}) => {
+    // Setting state variables
     const [data, setData] = useState([{}])
+    // getting the data from the Log page
     const {myState} = useContext(MyContext);
     const type = types.find((item) => item.name === myState.type);
 
-
+    // renders the plant details log screen
     return (
         <SafeAreaView>
             <View style={style.header}>
