@@ -78,6 +78,9 @@ const LogScreen = ({navigation}) => {
                 const filteredGardensValue = await AsyncStorage.getItem('filteredGardensArray');
                 const filteredUsersValue = await AsyncStorage.getItem('filteredUsersArray');
                 const usernameID = await AsyncStorage.getItem('usernameID')
+                const displayName = await AsyncStorage.getItem('displayName')
+                console.log("dis play")
+                console.log(displayName)
                 // console.log(usernameID)
                 const parsedUsersValue = JSON.parse(filteredUsersValue);
                 setFilteredUsersArray(parsedUsersValue);
@@ -85,7 +88,7 @@ const LogScreen = ({navigation}) => {
                 setFilteredGardensArray(parsedGardensValue);
                 if (usernameValue !== null) {
                     setUsername(usernameValue);
-                    setUserValue({ item: usernameValue, id: usernameID }); // Set the initial value of userValue to the username
+                    setUserValue({ item: displayName, id: usernameID }); // Set the initial value of userValue to the username
                 }
 
             } catch (error) {
@@ -359,7 +362,7 @@ const LogScreen = ({navigation}) => {
             </View>
             {isLoading ? (
                 <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color="purple" />
+                    <ActivityIndicator size="large" color={COLORS.primary} />
                 </View>
             ) : (
                 <FlatList

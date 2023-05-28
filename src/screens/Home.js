@@ -76,15 +76,17 @@ const HomeScreen = ({navigation}) => {
       if(item.garden_detail.name === filteredGardensArray[j].item){
         const username = item.user.username;
         const usernameID = item.user.id;
+        const displayName = item.user.display_name
+        console.log(displayName)
         if (username === myUsername){
           AsyncStorage.setItem('usernameID', item.user.id);
           AsyncStorage.setItem('profilePicture', item.user.profile_picture);
           AsyncStorage.setItem('displayName', item.user.display_name)
         }
-        if (!uniqueUsernames.has(username)) {
-          uniqueUsernames.add(username); // Add the username to the set
+        if (!uniqueUsernames.has(displayName)) {
+          uniqueUsernames.add(displayName); // Add the username to the set
           const add = {
-            item: username,
+            item: displayName,
             id: usernameID,
           };
           filteredUsersArray.push(add)
@@ -358,7 +360,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     borderRadius: 40,
     marginBottom: 20,
-    marginLeft: 300,
+    marginLeft: 275,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1,
