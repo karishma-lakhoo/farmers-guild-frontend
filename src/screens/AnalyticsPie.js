@@ -9,7 +9,6 @@ import subtypes_pie from "../consts/subtypes_pie";
 import super_to_type_pie from "../consts/super_to_type_pie";
 import type_to_sub from "../consts/type_to_sub";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// console.log(super_to_type_pie[0]["Fruit"])
 import types_pie from "../consts/types_pie";
 import { api_url } from "../consts/api_url";
 import { useRoute } from '@react-navigation/native';
@@ -22,13 +21,10 @@ import { useRoute } from '@react-navigation/native';
 //     { x: 'Dates', y: 20 },
 //     { x: 'Oranges', y: 25 },
 // ];
-// this is for all supertypes, types and subtypes
 
-
-
-
-
+// this is for ALL supertypes, ALL types and ALL subtypes
 function generateOutputAll(data, supertypeCountName, initialValues) {
+
     const supertypeCount = {};
 
     // Set initial values
@@ -36,9 +32,9 @@ function generateOutputAll(data, supertypeCountName, initialValues) {
         const key = Object.keys(item)[0];
         supertypeCount[key] = item[key];
     });
-    console.log("dictionary")
-    console.log(supertypeCount)
-
+    // console.log("dictionary")
+    // console.log(supertypeCount)
+    //
     // Sum up supertype counts
     data?.forEach(item => {
         Object.entries(item[supertypeCountName]).forEach(([type, count]) => {
@@ -49,13 +45,14 @@ function generateOutputAll(data, supertypeCountName, initialValues) {
     });
     console.log("hehehe")
     console.log(supertypeCount)
-    // Format output
+    // Format output of data
     const output = [];
     Object.entries(supertypeCount).forEach(([type, count]) => {
         output.push({ x: type, y: count });
     });
     return output;
 }
+// This is for specific supertypes, types and subtypes
 function generateOutput2(data, countName1, countName2, initialValues) {
     const supertypeCount = {};
 
@@ -66,8 +63,8 @@ function generateOutput2(data, countName1, countName2, initialValues) {
         const key = countName2;
         supertypeCount[key] = item[key];
     });
-    console.log("dictionary")
-    console.log(supertypeCount)
+    // console.log("dictionary")
+    // console.log(supertypeCount)
     if(countName1 === "supertype_count"){
         // Sum up supertype counts
         data?.forEach(item => {
@@ -94,7 +91,7 @@ function generateOutput2(data, countName1, countName2, initialValues) {
             }
         });
     }
-    // Format output
+    // Format output of data
     const output = [];
     for (let i =0; i < supertypeCount[countName2].length; i++){
         Object.entries(supertypeCount[countName2][i]).forEach(([type, count]) => {
@@ -112,12 +109,12 @@ const AnalyticsPieScreen = ({navigation}) => {
 
 
     //start of fetch request
-
+    // State variables
     const [isDataLoaded, setIsDataLoaded] = useState(true);
     const [output, setOutput] = useState([]);
     const [true_data, set_true_Data] = useState([{}])
     const [token, setToken] = useState('');
-
+    // Getting the Authorisation bearer token from the database
     useEffect(() => {
         const getToken = async () => {
             try {
@@ -132,51 +129,30 @@ const AnalyticsPieScreen = ({navigation}) => {
         };
         getToken();
     }, []);
-
+    // Doing a GET request to the database to get the data from the Analytics filter page
     useEffect(() => {
         if (!token) {
             return;
         }
-
         const headers = {
             'Authorization': `Bearer ${token}`,
         };
-
-
         fetch(url, {
             method: "GET",
             headers: headers
         })
-
             .then(resp => resp.json())
             .then(data => {
-
-
-
                 set_true_Data(data); // update the data state variable with the API response
                 setIsDataLoaded(false);
-
             })
             .catch(error => console.log("error"))
     }, [token]);
 
-
-
-
-
-    // console.log("This is the true data bbleeeeeeeeehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh ///////////")
-    // console.log(true_data)
-    // console.log("This is the true data ///////////")
-
-    //  console.log("Selected category:", category);
-    //  console.log("Selected subcategory:", subcategory);
-    // const formattedData = generateOutputAll(dummy_data, category, subtypes_pie)
     let formattedData;
     if (!isDataLoaded){
-//        var legendData;
-//   var  colorScale;
-//    var total;
-//    var percentageData ;
+
+// this is for ALL supertypes, ALL types and ALL subtypes
         if(subcategory === "All Supertypes" || subcategory === "All Types" || subcategory === "All Subtypes" ){
             if(category === "supertype_count"){
                 formattedData = generateOutputAll(true_data, category, supertypes_pie)
@@ -198,6 +174,7 @@ const AnalyticsPieScreen = ({navigation}) => {
                 name: `${datum.x} (${((datum.y / total) * 100).toFixed(2)}%)`,
             }));
         }
+        // this is for specific supertypes, types and subtypes
         else{
             if(category === "supertype_count"){
                 formattedData = generateOutput2(true_data, category, subcategory, super_to_type_pie)
@@ -211,21 +188,15 @@ const AnalyticsPieScreen = ({navigation}) => {
             var percentageData = formattedData.map((datum) => ({
                 name: `${datum.x} (${((datum.y / total) * 100).toFixed(2)}%)`,
             }));
-            // console.log("percentage")
-            // console.log(percentageData)
-            // console.log("formatted")
-            // console.log(formattedData)
         }
         return (
-
-
-
-
             <View>
                 <View style={styles.header}>
+                    {/*back arrow*/}
                     <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.goBack()}/>
                     <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Pie Chart</Text>
                 </View>
+                {/*displaying the piechart*/}
                 <VictoryPie
                     data={formattedData}
                     //true_data = {data}
@@ -236,6 +207,7 @@ const AnalyticsPieScreen = ({navigation}) => {
                 <ScrollView>
                     <Text style={{color: 'black', marginLeft:10}}>{`From ${start_date} to ${end_date}`}</Text>
                     <View style={{ flexDirection: 'row' }}>
+                        {/*displaying the legend*/}
                         <VictoryLegend
                             orientation="vertical"
                             gutter={20}
@@ -245,9 +217,6 @@ const AnalyticsPieScreen = ({navigation}) => {
                     </View>
                 </ScrollView>
             </View>
-
-
-
         );
     }
 

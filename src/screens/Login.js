@@ -8,26 +8,23 @@ import {api_url} from "../consts/api_url";
 
 
 const LoginScreen = ({navigation}) => {
-    const[isForgotPwPopupVisible,setIsForgotPwPopupVisible] = useState(false);
+    // State variables
     const[chooseData,setchooseData] = useState();
-    const changeforgotpwPopupVisible = (bool) => {
-        setIsForgotPwPopupVisible(bool);
-    }
 
     const setData = (data) => {
-        setchooseData(data);            //can be used to obtain info from popup
+        setchooseData(data);   //can be used to obtain info from popup
     }
+    // state variables for username and password
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
 
     const handleUsernameChange = (text) => {
         setUsername(text);
     };
-
     const handlePasswordChange = (text) => {
         setPassword(text);
     };
+    // when the sign in button is pressed, it does a POST request to the database under the TOKEN endpoint
     const onSignInPressed = () => {
         // console.log(username)
         // console.log(password)
@@ -42,8 +39,10 @@ const LoginScreen = ({navigation}) => {
             }),
         })
             .then((response) => {
+                // SUCCESS
                 if (response.status === 200) {
                     return response.json();
+                // FAIL
                 } else if (response.status === 400) {
                     throw new Error('Invalid username or password');
                 } else {
@@ -51,6 +50,7 @@ const LoginScreen = ({navigation}) => {
                 }
             })
             .then((data) => {
+                // Saving the token and username to Async Storage
                 AsyncStorage.setItem('token', data.access);
                 AsyncStorage.setItem('username', username)
                     .then(() => {
@@ -68,11 +68,8 @@ const LoginScreen = ({navigation}) => {
                 alert(error.message);
             });
     };
-    const onForgotPasswordPressed = () => {
-        console.warn("Forgot Password");
 
-    };
-
+    // renders the Login Page
     return (
         <View style={styles.container}>
             <Text  style={styles.title}> Welcome Back! </Text>
@@ -94,29 +91,10 @@ const LoginScreen = ({navigation}) => {
                 <Text style={Btn.text}> SIGN IN </Text>
             </Pressable>
 
-            <Pressable
-                onPress={() => setIsForgotPwPopupVisible(true)}
-                style={Btn2.container}>
-                {/*<Text style={Btn2.text}> Forgot Password </Text>*/}
-            </Pressable>
 
             <Pressable onPress={() => navigation.navigate('SignUp')} style={Btn2.container}>
                 <Text style={Btn2.text}> Sign Up  </Text>
             </Pressable>
-
-
-
-            {/*<Modal*/}
-            {/*    transparent = {true}*/}
-            {/*    animationType = 'fade'*/}
-            {/*    visible = {isForgotPwPopupVisible}*/}
-            {/*    nRequestClose = {() => changeforgotpwPopupVisible(false)}>*/}
-
-            {/*    <Forgotpw_popup*/}
-            {/*        changeforgotpwPopupVisible = {changeforgotpwPopupVisible}*/}
-            {/*        setData = {setData}/>*/}
-
-            {/*</Modal>*/}
         </View>
     )
 }

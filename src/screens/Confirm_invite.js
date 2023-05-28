@@ -10,15 +10,13 @@ import {MyContext} from "../../App";
 import {api_url} from "../consts/api_url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
+//  getting the dimensions of the window
 const { width, height } = Dimensions.get('window');
-
+// setting the url
 const url = api_url + '/users_in_garden/';
 
 const ConfirmInviteScreen= ({navigation}) => {
-
-
-
+    // State variables
     const [data, setData] = useState([{}])
     const [table, setTable] = useState([])
     const [Usertable, setUserTable] = useState([])
@@ -30,22 +28,11 @@ const ConfirmInviteScreen= ({navigation}) => {
     const [userId, setUserId] = useState('');
     const [testName, setTestName] = useState('');
 
+    // console.log("adsfasdf")
+    // console.log(myState.id)
+    // console.log("12345")
 
-
-
-
-    //retrieving garden name
-
-   
-
-        //retrieved garden name
-
-
-
-    console.log("adsfasdf")
-    console.log(myState.id)
-    console.log("12345")
-
+    // getting the garden ID from the home screen
     const getGardenId = async () => {
         try {
             const value = await AsyncStorage.getItem('gardenId');
@@ -57,7 +44,7 @@ const ConfirmInviteScreen= ({navigation}) => {
         }
     };
 
-    
+    // getting the userID from the home screen
     const getUserId = async () => {
         try {
             const value = await AsyncStorage.getItem('username');
@@ -103,7 +90,7 @@ const ConfirmInviteScreen= ({navigation}) => {
 
 
 
-            // Retrieve a particular name
+            // Retrieve a particular name of the garden
       const gardenIdToFind = gardenId; 
       const garden = data.find((item) => item.garden === gardenIdToFind);
       if (garden) {
@@ -113,13 +100,11 @@ const ConfirmInviteScreen= ({navigation}) => {
       } else {
         console.log("Garden not found with ID:", gardenIdToFind);
       }
-
-
           } catch (error) {
             console.log(error);
           }
         };
-      
+        // Getting the Authorization bearer token from the database
         const getToken = async () => {
           try {
             const value = await AsyncStorage.getItem('token');
@@ -134,75 +119,7 @@ const ConfirmInviteScreen= ({navigation}) => {
         getToken();
         fetchGardens();
       }, []);
-
-
-      //getting row for garden
-      //getting row
-  {/*  useEffect(() => {
-        const fetchUsers = async () => {
-          if (!token) {
-            return;
-          }
-      
-          const headers = {
-            'Authorization': `Bearer ${token}`,
-          };
-      
-          try {
-            const response = await fetch(api_url + '/user/', {
-              method: "GET",
-              headers: headers,
-            });
-            const data = await response.json();
-         //   setUserTable(data);
-      
-            console.log("These are the users:");
-            console.log(data);
-            console.log("These are the users.");
-
-
-
-            // Retrieve a particular name
-      const usernameToFind = username; 
-      const user = data.find((item) => item.username === usernameToFind);
-      if (user) {
-        const userId = user.id;
-        console.log("The id of the user is:", userId);
-        setUserId(userId);
-      } else {
-        console.log("User not found with name:", usernameToFind);
-      }
-
-
-          } catch (error) {
-            console.log(error);
-          }
-        };   
-      
-        const getToken = async () => {
-          try {
-            const value = await AsyncStorage.getItem('token');
-            if (value !== null) {
-              setToken(value);
-            }
-          } catch (error) {
-            console.log('Error retrieving data:', error);
-          }
-        };
-      
-        getToken();
-        fetchUsers();
-      }, []);
-*/}
-
-      //getting row for garden
-
-    
-
-
-
-
-
+    //  POST request to send new invite to the database
     const onInvite = async (harvestWeight) => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -236,19 +153,16 @@ const ConfirmInviteScreen= ({navigation}) => {
             console.error('Error retrieving user:', error);
         }
     };
-
-
-    console.log("POST INFO")
-    console.log(gardenId)
-    //console.log(myUser.id)
-    console.log(myState.id)
-
+    //
+    // console.log("POST INFO")
+    // console.log(gardenId)
+    // //console.log(myUser.id)
+    // console.log(myState.id)
      //   if (Name_ofGarden.length >0){
     return (
-
-        
         <SafeAreaView style={{backgroundColor: COLORS.white}}>
             <View style={style.header}>
+                {/*back arrow*/}
                 <Icon name="arrow-back-ios" size={28} onPress={() => navigation.navigate('Plants')}/>
                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>Confirm</Text>
             </View>
@@ -259,7 +173,6 @@ const ConfirmInviteScreen= ({navigation}) => {
                         alignItems: 'center',
                         height: 120,
                     }}>
-
                 </View>
                 <View style={style.details}>
                     <View

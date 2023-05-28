@@ -40,7 +40,7 @@ function getCategoryCounts(data, category, countObject) { //all types, typecount
 
 
 
-
+// get the sum of each category over time period
 function getCategoryCounts2(data, category, countObject, start_date, end_date) {
     // console.log(countObject)
     // console.log(category)
@@ -92,11 +92,10 @@ function getCategoryCounts2(data, category, countObject, start_date, end_date) {
 
 
 const AnalyticsLineScreen = ({navigation}) => {
-
-
-
+    // State variables
     const route = useRoute();
     const { category, subcategory , start_date, end_date} = route.params;
+    // url with start and end years that come from the previous filter screen
     const url = api_url + '/harvest_log/analytics/?start_year='+start_date+'&end_year='+end_date;
     console.log(category)
     console.log(subcategory)
@@ -110,7 +109,7 @@ const AnalyticsLineScreen = ({navigation}) => {
 
     const [true_data, set_true_Data] = useState([{}])
     const [token, setToken] = useState('');
-
+    //  get the bearer token from the database
     useEffect(() => {
         const getToken = async () => {
             try {
@@ -125,7 +124,7 @@ const AnalyticsLineScreen = ({navigation}) => {
         };
         getToken();
     }, []);
-
+    // GET request to get all harvest done from the harvest Analytics url
     useEffect(() => {
         if (!token) {
             return;
@@ -162,7 +161,7 @@ const AnalyticsLineScreen = ({navigation}) => {
             .catch(error => console.log("error"))
     }, [token]); 
 
-    // console.log(counts); // prints an array of length 12 with the count of Fruit for each month
+    // console.log(counts); // prints an array of length 12 with the count of Fruit for each month if time period of 1 year is chosen
         const data = {
             labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul","Aug", "Sept", "Oct", "Nov", "Dec"],
             datasets: [
@@ -174,7 +173,7 @@ const AnalyticsLineScreen = ({navigation}) => {
             ],
             legend: [subcategory+"s"+ " Yielded"] // optional
         };
-
+    // displays multiple years if time period is greater than one year
     const yearLabels = [];
     for (let i = start_date; i <= end_date; i++) {
         yearLabels.push(`Year ${i - start_date + 1}`);
@@ -191,6 +190,7 @@ const AnalyticsLineScreen = ({navigation}) => {
         ],
         legend: [subcategory+"s"+ " Yielded"] // optional
     };
+    // setting colors of the graph screen
     const chartConfig = {
         backgroundGradientFrom: "#1E2923",
         backgroundGradientFromOpacity: 0,
@@ -204,10 +204,12 @@ const AnalyticsLineScreen = ({navigation}) => {
     return (
         <SafeAreaView style={{backgroundColor: COLORS.primary, flex: 1}}>
             <View style={styles.header}>
+                {/*back arrow*/}
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.goBack()} style={{color:"white"}}/>
                <Text style = {{fontSize: 20, fontWeight: 'bold', color:"white"}}>Line Graph</Text>
             </View>
             <View style={styles.container}>
+                {/*for time period of 1 year*/}
                 {start_date === end_date ? (
                     <View>
                         <Text style={{ color: "white", marginLeft: 10, marginBottom: 10 }}>
@@ -221,6 +223,7 @@ const AnalyticsLineScreen = ({navigation}) => {
                         />
                     </View>
                 ) : (
+                    // for time period with multiple years
                     <View>
                         <Text style={{ color: "white", marginLeft: 10, marginBottom: 10 }}>
                             {`From ${start_date} to ${end_date}`}

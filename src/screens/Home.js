@@ -14,6 +14,7 @@ import COLORS from "../consts/colors";
 
 const url = api_url + '/users_in_garden/';
 const HomeScreen = ({navigation}) => {
+  // State variables
   const { myUser } = useContext(MyContext);
   const[isModalVisible,setIsModalVisible] = useState(false);
   const { myState, setMyState } = useContext(MyContext);
@@ -23,6 +24,8 @@ const HomeScreen = ({navigation}) => {
   const route = useRoute();
   const [myUsername, setMyUsername] = useState('');
   const [myUsernameID, setMyUsernameID] = useState('');
+
+  // Getting the username from the Login page
   useEffect(() => {
     const getUsername = async () => {
       try {
@@ -36,8 +39,6 @@ const HomeScreen = ({navigation}) => {
     };
     getUsername();
   }, []);
-  // console.log("shelly welly is a cutie pie")
-  // console.log(username)
 
   const filteredInfo = info.filter(item => item.user.username === myUsername);
 
@@ -108,7 +109,7 @@ const HomeScreen = ({navigation}) => {
   // console.log(filteredInfo[0].garden_detail.name)
   // console.log(filteredUsersArray)
 
-
+  // GET the authorisation bearer token from the Database
   useEffect(() => {
     const getToken = async () => {
       try {
@@ -125,6 +126,7 @@ const HomeScreen = ({navigation}) => {
     getToken();
   }, []);
 
+  // GET request to the UsersInGarden Table to get the list of all the gardens and all the users attached to said garden
   useEffect(() => {
     if (!token) {
       return;
@@ -161,7 +163,7 @@ const HomeScreen = ({navigation}) => {
   const setData = (data) => {
     setChooseData(data);
   }
-
+  // Get the list of all the gardens from the GARDENS table in the database
   const fetchGardens = async () => {
     if (!token) {
       return;
@@ -182,7 +184,7 @@ const HomeScreen = ({navigation}) => {
       console.log(error);
     }
   };
-
+  // Saving the garden ID for chosen garden so that it can be used on other pages
   const saveGardenId = async (gardenId) => {
     try {
       await AsyncStorage.setItem('gardenId', gardenId.toString());
@@ -191,11 +193,10 @@ const HomeScreen = ({navigation}) => {
     }
   };
 
+  // Displays all the gardens in a list
 
   const GardenCard = ({gardens}) => {
-
     const navigateToHarvest = () => {
-     
       saveGardenId(gardens.id);
       setMyState(gardens);
       navigation.navigate('Harvest', { gardenName: gardens.name });
@@ -212,37 +213,28 @@ const HomeScreen = ({navigation}) => {
       <SafeAreaView style={styles.container}>
         <View style={styles.topBar}>
           <Text style={styles.header}>Your gardens</Text>
+          {filteredInfo.length === 0 ? (
+              <View style={styles.noGardensContainer}>
+                <Image
+                    source={require('../images/scarecrow.png')}
+                    style= {styles.noGardensImage} />
+                <Text style={styles.noGardensText}>No gardens</Text>
+              </View>
+          ) : (
+              <View style={styles.gardensContainer}>
+                <FlatList
+                    showsVerticalScrollIndicator = {false}
+                    contentContainerStyle={{paddingBottom:80}}
+                    data = {filteredInfo} //add gardens file
+                    renderItem = {({item}) => <GardenCard gardens={item.garden_detail}/>}
+                />
 
-          <FlatList
-              showsVerticalScrollIndicator = {false}
-              contentContainerStyle={{paddingBottom:80}}
-              data = {filteredInfo} //add gardens file
-              renderItem = {({item}) => <GardenCard gardens={item.garden_detail}/>}
-          />
+              </View>
 
+          )}
           <Pressable style={styles.actionBtn2} onPress={() => changeModalVisible(true)}>
             <FontAwesomeIcon name="plus" size={30} color="white" style={styles.crossIcon} />
           </Pressable>
-
-          {/*<TouchableOpacity*/}
-
-          {/*    style = {styles.add}*/}
-          {/*    onPress = {() => {*/}
-          {/*      changeModalVisible(true);*/}
-          {/*      // console.log(myUser)*/}
-          {/*      }}>*/}
-
-          {/*        <TouchableOpacity*/}
-          {/*           style = {styles.plusV}>*/}
-          {/*        </TouchableOpacity>*/}
-
-          {/*        <TouchableOpacity*/}
-          {/*           style = {styles.plusH}>*/}
-          {/*        </TouchableOpacity>*/}
-
-          {/*  /!*<Image source = {require('../images/plus_sign.png')}/> *!/*/}
-
-          {/*</TouchableOpacity>*/}
           <Modal
               transparent = {true} //addGardenButton
               animationType = 'fade'
@@ -255,16 +247,6 @@ const HomeScreen = ({navigation}) => {
                 fetchGardens={fetchGardens}
             />
           </Modal>
-          {/*<Modal
-              transparent = {true} //addGardenButton
-              animationType = 'fade'
-              visible = {isAddGardenPopupVisible} //changeAddGardenPopupVisible
-              nRequestClose = {() => changeAddGardenPopupVisible(false)}>
-
-            <AddGardenPopup/>
-          </Modal>  */}
-
-
         </View>
 
       </SafeAreaView>
@@ -301,10 +283,30 @@ const styles = StyleSheet.create({
     marginVertical: 50,
     //justifyContent: 'center',
   },
+  noGardensImage: {
+    width: 200,
+    height: 200,
+    resizeMode: 'contain',
+    marginTop: 20
+  },
   GardensText:{
     fontWeight: 'bold',
     fontSize: 20,
 
+  },
+  noGardensContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noGardensText: {
+    fontSize: 18,
+    marginTop: 10,
+    fontWeight:"bold"
+  },
+
+  gardensContainer: {
+    flex: 1,
   },
 
 
@@ -322,7 +324,7 @@ const styles = StyleSheet.create({
     top: 45,
     width: 10,
     height: 60,
-    
+
     backgroundColor: '#000000',
     borderRadius: 50,
 
@@ -331,7 +333,7 @@ const styles = StyleSheet.create({
     marginBottom: 60,
     width: 60,
     height: 10,
-   
+
     backgroundColor: '#000000',
     borderRadius: 50,
 
@@ -350,7 +352,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#000000',
-    
+
     borderRadius: 25,
 
   },
@@ -368,7 +370,7 @@ const styles = StyleSheet.create({
   },
 
   popupbackground: {
-    
+
     backgroundColor:"#000000aa",
     flex: 1,
     justifyContent: 'center',

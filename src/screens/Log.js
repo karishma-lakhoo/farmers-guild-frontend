@@ -50,7 +50,7 @@ const FILTER_OPTIONS = [
 let url = api_url + '/harvest_log/?ordering=-datetime';
 
 const LogScreen = ({navigation}) => {
-
+    // State variables
     const controller = useRef(new AbortController());
     const [sortValue, setSortValue] = useState(FILTER_OPTIONS[0]);
     const [userValue, setUserValue] = useState({});
@@ -82,9 +82,6 @@ const LogScreen = ({navigation}) => {
                 const filteredUsersValue = await AsyncStorage.getItem('filteredUsersArray');
                 const usernameID = await AsyncStorage.getItem('usernameID')
                 const displayName = await AsyncStorage.getItem('displayName')
-                // console.log("dis play")
-                // console.log(displayName)
-                // console.log(usernameID)
                 const parsedUsersValue = JSON.parse(filteredUsersValue);
                 setFilteredUsersArray(parsedUsersValue);
                 const parsedGardensValue = JSON.parse(filteredGardensValue);
@@ -100,13 +97,11 @@ const LogScreen = ({navigation}) => {
         };
         fetchData();
     }, []);
-    // doing the filtering
-
+    // doing the filtering of data  and a GET Request based on the parameters chosen in the dropdowns
     useEffect(() => {
         setPageNumber(2)
         setData([])
         setIsLoading(true);
-
         let orderingGarden = 'datetime'
         if (sortValue.id !== "ON") {
             orderingGarden = '-datetime'
@@ -181,6 +176,7 @@ const LogScreen = ({navigation}) => {
     };
 
     // console.log(filteredGardensArray)
+    // loading more data when the load more button is clioked by doing GET requests to the database
     const loadMoreData = () => {
         const nextPageUrl = `${url}&page=${pageNumber}`;
         fetch(nextPageUrl, {
@@ -209,7 +205,7 @@ const LogScreen = ({navigation}) => {
             });
     };
 
-
+    // GET the bearer token from the database to allow authorisation when making a request to the database
     useEffect(() => {
         const getToken = async () => {
             try {
@@ -231,11 +227,10 @@ const LogScreen = ({navigation}) => {
         // this is where the initial get request is done
         loadMoreData();
     }, [token, pageNumber]);
-
+    // Displays each log in a log card
     const renderItem = ({item}) => {
 
         const type = types.find((food) => food.name === item?.food_detail?.type);
-
         const date = new Date(item.datetime);
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -266,18 +261,23 @@ const LogScreen = ({navigation}) => {
                                     />
                                     <View style={{ marginLeft: 20 }}>
                                         <Text style={{fontWeight: 'bold', fontSize: 16}}>
+                                            {/*food name*/}
                                             {item?.food_detail?.food ?? "No food found"}
                                         </Text>
                                         <Text style={{color: 'grey', fontSize: 12}}>
+                                            {/*food weight*/}
                                             {item?.weight ?? "No weight found"} g
                                         </Text>
                                         <Text style={{color: 'grey', fontSize: 12}}>
+                                            {/*date*/}
                                             {formattedDate}
                                         </Text>
                                         <Text style={{color: 'grey', fontSize: 12}}>
+                                            {/*garden*/}
                                             Garden: {item?.garden_detail?.name ?? "No garden found"}
                                         </Text>
                                         <Text style={{color: 'grey', fontSize: 12}}>
+                                            {/*displays display name of user associated to harvest log*/}
                                             User: {item?.user?.display_name ?? "No user found"}
                                         </Text>
                                     </View>
@@ -292,7 +292,7 @@ const LogScreen = ({navigation}) => {
 
         );
     };
-
+    // Renders the Log Screen
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>

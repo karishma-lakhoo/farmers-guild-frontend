@@ -12,6 +12,7 @@ const HarvestWeightScreen = ({navigation}) => {
     // adding a harvest
     const onAddHarvest = async (harvestWeight, ) => {
         try {
+            // GET the authorisation Bearer token from Async Storage
             const token = await AsyncStorage.getItem('token');
             const headers = {
                 'Authorization': `Bearer ${token}`,
@@ -22,7 +23,7 @@ const HarvestWeightScreen = ({navigation}) => {
                 weight: harvestWeight,
                 garden: myState.garden});
 
-
+            // Post request to the harvest log to add a new harvest
             const response = await fetch(api_url + '/harvest_log/', {
                 method: 'POST',
                 headers: headers,

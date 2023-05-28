@@ -28,6 +28,7 @@ function handleSearch(text) {
 
 
 const InviteScreen = ({navigation}) => {
+    // State variables
     const [selectedCategoryIndex,setSelectedCategoryIndex] = React.useState(0);
     const {myState, setMyState} = useContext(MyContext);
     const [data, setData] = useState([])
@@ -35,7 +36,7 @@ const InviteScreen = ({navigation}) => {
     const [searchText, setSearchText] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     
-
+    //  GET the authorisation bearer token from the database
     useEffect(() => {
         const getToken = async () => {
             try {
@@ -49,7 +50,7 @@ const InviteScreen = ({navigation}) => {
         };
         getToken();
     }, []);
-
+    //  GET Request to the INVITES table in the database
     useEffect(() => {
         if (!token) {
             return;
@@ -71,7 +72,7 @@ const InviteScreen = ({navigation}) => {
             })
             .catch(error => console.log("error"))
     }, [token]);
-
+    //  Displays all the invites on this page in cards
     const Card = ({food}) =>{
 
         const selectedImage = images.find(image => image.id === food.profile_picture);
@@ -98,6 +99,7 @@ const InviteScreen = ({navigation}) => {
 
         )
     }
+    // Allows the user to search through a list of users, from which they can choose which one to invite
     const handleSearch = text => {
         setSearchText(text);
         const filtered = data.filter(
@@ -107,10 +109,10 @@ const InviteScreen = ({navigation}) => {
         setFilteredData(filtered);
     };
 
-
     return (
         <SafeAreaView style={{flex:1}}>
             <View style={styles.head}>
+                {/*back arrow*/}
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Invite Users</Text>
             </View>

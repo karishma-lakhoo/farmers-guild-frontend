@@ -12,14 +12,17 @@ import {Picker} from "@react-native-picker/picker";
 
 
 const Analytics_FilterScreen = ({ navigation }) => {
+    // State variables
     const [firstYear, setFirstYear] = useState(2010)
     const n_years = (2023-firstYear) + 1
     const [selectedYear, setSelectedYear] = useState(null);
     const [selectedYear2, setSelectedYear2] = useState(null);
+
+    // Calculations for setting the list of years in the 2 dropdowns
     const years1 = Array.from({ length: n_years }, (_, i) => (2023 - i).toString()); // generates an array of 100 years, from "2023" to "1924"
     const years2 = Array.from({ length: years1.indexOf(selectedYear)+1 }, (_, j) => (2023 - j).toString()); // generates an array of years, from "2023" down to the selected year as a string
 
-
+    //  2 dropdowns for the year selector
     const renderPickerItems1 = () => {
         return years1.map(year => (
             <Picker.Item key={year} label={year.toString()} value={year} />
@@ -30,19 +33,19 @@ const Analytics_FilterScreen = ({ navigation }) => {
             <Picker.Item key={year} label={year.toString()} value={year} />
         ));
     };
+    // variables for the 2 graphs
     const [category, setCategory] = React.useState("");
     const [subCategory, setSubCategory] = React.useState("");
     const [graph, setGraph] = React.useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubCategory, setSelectedSubCategory] = useState("");
     const [subCategories, setSubCategories] = useState(foodSubCategoriesLine); // initialize subCategories to foodSubCategoriesLine
-
     const categories = foods
     const graphs = [
         {key: "Line Graph", value: "Line Graph"},
         {key: "Pie Graph", value: "Pie Chart"}
     ]
-
+    // determines whether the pie chart or line graph is pressed on the dropdown
     const handlePress = () => {
         // console.log(graph)
         if(graph === "Pie Graph"){
@@ -62,7 +65,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
             });
         }
     };
-
+    // Choosing which subcategories to set
     const handleGraphSelection = (selected) => {
         setGraph(selected);
         const selectedGraph = graphs.find(item => item.key === selected);
@@ -78,6 +81,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={styles.header}>
+                {/*back arrow*/}
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Graph Filters</Text>
             </View>
@@ -85,6 +89,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
                 <Text style = {{marginBottom: 5}}>
                     {`From January:`}
                 </Text>
+                {/*year selectors*/}
                 <SelectList
                     setSelected={(selected) => {
                         setSelectedYear(selected);
@@ -101,6 +106,7 @@ const Analytics_FilterScreen = ({ navigation }) => {
                 <Text style = {{marginBottom: 5}}>
                     {`To December:`}
                 </Text>
+                {/*year selectors*/}
                 <SelectList
                     setSelected={(selected) => {
                         setSelectedYear2(selected);
@@ -113,9 +119,8 @@ const Analytics_FilterScreen = ({ navigation }) => {
 
                 />
                 <Text>
-
                 </Text>
-
+                {/*dropdown for type of graph*/}
                 <Text style = {{marginBottom: 5}}>
                     {`Graph Type:`}
                 </Text>
@@ -128,9 +133,8 @@ const Analytics_FilterScreen = ({ navigation }) => {
 
                 />
                 <Text>
-
                 </Text>
-
+                {/*dropdown for categories*/}
                 <Text style = {{marginBottom: 5}}>
                     {`Category Type:`}
                 </Text>
@@ -146,11 +150,10 @@ const Analytics_FilterScreen = ({ navigation }) => {
 
                 />
                 <Text>
-
                 </Text>
                 <Text>
-
                 </Text>
+                {/*once categories is chosen, this dropdown will appear*/}
                 {selectedCategory && (
                     <SelectList
                         setSelected={(selected) => {

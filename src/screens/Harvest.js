@@ -9,10 +9,10 @@ import axios from "axios";
 import { api_url } from "../consts/api_url";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import types from "../consts/types";
-
-//we need to get all the plants_in_garden for shellyrishma only - have to change views to allow for filters
-const url = api_url + '/plants_in_garden/';  //testing from plants_in_garden/ to plantsingarden
+// URL to the PlantsInGarden Table
+const url = api_url + '/plants_in_garden/';
 const HarvestScreen = ({navigation,route}) => {
+    // State variables
     const[isHarvestPopupVisible,setIsHarvestPopupVisible] = useState(false);
     const [harvestName, setHarvestName] = useState('');
     const [chooseData,setChooseData] = useState();
@@ -20,7 +20,7 @@ const HarvestScreen = ({navigation,route}) => {
     const [token, setToken] = useState('');
     const {myState, setMyState} = useContext(MyContext);
     const gardenName = route.params?.gardenName;
-
+    // Getting the Authorisation Bearer token
     const fetchData = () => {
         const headers = {
             Authorization: `Bearer ${token}`,
@@ -55,7 +55,7 @@ const HarvestScreen = ({navigation,route}) => {
         }
         fetchData();
     }, [token]);
-
+    // Filtering the information based on the name of the garden selected on the HomePage
     const filteredInfo = info.filter(item => item.garden_detail.name === gardenName);
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -80,7 +80,7 @@ const HarvestScreen = ({navigation,route}) => {
     // const [modalVisible, setModalVisible] = useState(false); // state variable for modal visibility
 
     const LogCard = ({item}) =>{
-
+        // gets the images based on the type of plant present in the harvest log
         const type = types.find((food) => food.name === item?.food_detail?.type);
 
         return (
@@ -100,16 +100,18 @@ const HarvestScreen = ({navigation,route}) => {
                                 />
                                 <View style={{ marginLeft: 10 }}>
                                     <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
+                                        {/*displays food name*/}
                                         {item?.food_detail?.food ?? "No food found"}
                                     </Text>
                                     <Text style={{ fontWeight: 'bold', fontSize: 13 }}>
+                                        {/*displays garden name*/}
                                         {item?.garden_detail?.name ?? "No garden found"}
                                     </Text>
                                 </View>
                             </View>
                         </>
                     }
-
+                    {/*displays the food ID*/}
                     <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.id}</Text>
                     <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.food.id}</Text>
                     {/*<Text style={{ fontSize: 13, color: 'grey'}}>{item.garden.name}</Text>*/}
