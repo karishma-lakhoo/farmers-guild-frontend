@@ -9,6 +9,7 @@ import plants from "./Plants";
 import {MyContext} from "../../App";
 import {api_url} from "../consts/api_url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import types from "../consts/types";
 const url = api_url + '/plants_in_garden/';
 const { width, height } = Dimensions.get('window');
 
@@ -16,6 +17,7 @@ const { width, height } = Dimensions.get('window');
 const PlantDetailsLogScreen= ({navigation}) => {
     const [data, setData] = useState([{}])
     const {myState} = useContext(MyContext);
+    const type = types.find((item) => item.name === myState.type);
 
 
     return (
@@ -24,15 +26,13 @@ const PlantDetailsLogScreen= ({navigation}) => {
                 <Icon name="arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>Details</Text>
             </View>
+            <View style={{ alignItems: 'center', top: 0 }}>
+                <Image
+                    source={type?.image} // Use the image from the matched type object
+                    style={{ height: 170, width: 170, marginBottom: 20 }}
+                />
+            </View>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View
-                    style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: 280,
-                    }}>
-
-                </View>
                 <View style={style.details}>
                     <View
                         style={{
