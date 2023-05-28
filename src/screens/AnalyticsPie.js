@@ -14,6 +14,7 @@ import types_pie from "../consts/types_pie";
 import { api_url } from "../consts/api_url";
 import { useRoute } from '@react-navigation/native';
 
+
 // const data = [
 //     { x: 'Apples', y: 35 },
 //     { x: 'Bananas', y: 40 },
@@ -23,7 +24,9 @@ import { useRoute } from '@react-navigation/native';
 // ];
 // this is for all supertypes, types and subtypes
 
-const url = api_url + '/harvest_log/analytics/?start_year=2022&end_year=2022'; 
+
+
+
 
 function generateOutputAll(data, supertypeCountName, initialValues) {
     const supertypeCount = {};
@@ -33,6 +36,8 @@ function generateOutputAll(data, supertypeCountName, initialValues) {
         const key = Object.keys(item)[0];
         supertypeCount[key] = item[key];
     });
+    console.log("dictionary")
+    console.log(supertypeCount)
 
     // Sum up supertype counts
     data?.forEach(item => {
@@ -42,8 +47,8 @@ function generateOutputAll(data, supertypeCountName, initialValues) {
             }
         });
     });
-    // console.log("hehehe")
-    // console.log(supertypeCount)
+    console.log("hehehe")
+    console.log(supertypeCount)
     // Format output
     const output = [];
     Object.entries(supertypeCount).forEach(([type, count]) => {
@@ -96,21 +101,18 @@ function generateOutput2(data, countName1, countName2, initialValues) {
             output.push({ x: type, y: count });
         });
     }
+    console.log("output")
+    console.log(output)
     return output;
-} 
-
-// console.log("generated");
-const test1 = "type_count";
-const test2 = "Citrus";
-// console.log(generateOutput2(dummy_data, test1, test2, type_to_sub));
-// console.log("generated");
-// if it is ALL
-// console.log("formatted data")
-// console.log(formattedData)
-
-// console.log(formattedData);
+}
 const AnalyticsPieScreen = ({navigation}) => {
+    const route = useRoute();
+    const { category, subcategory, start_date, end_date } = route.params;
+    const url = api_url + '/harvest_log/analytics/?start_year='+start_date+'&end_year='+end_date;
+
+
     //start of fetch request
+
     const [isDataLoaded, setIsDataLoaded] = useState(true);
     const [output, setOutput] = useState([]);
     const [true_data, set_true_Data] = useState([{}])
@@ -139,6 +141,8 @@ const AnalyticsPieScreen = ({navigation}) => {
         const headers = {
             'Authorization': `Bearer ${token}`,
         };
+
+
         fetch(url, {
             method: "GET",
             headers: headers
@@ -146,23 +150,26 @@ const AnalyticsPieScreen = ({navigation}) => {
 
             .then(resp => resp.json())
             .then(data => {
-                
-                
-               
+
+
+
                 set_true_Data(data); // update the data state variable with the API response
                 setIsDataLoaded(false);
-                
+
             })
             .catch(error => console.log("error"))
     }, [token]);
 
-      console.log("This is the true data bbleeeeeeeeehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh ///////////")
-    console.log(true_data)
-    console.log("This is the true data ///////////")
-    const route = useRoute();
-    const { category, subcategory } = route.params;
-  //  console.log("Selected category:", category);
-  //  console.log("Selected subcategory:", subcategory);
+
+
+
+
+    // console.log("This is the true data bbleeeeeeeeehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh ///////////")
+    // console.log(true_data)
+    // console.log("This is the true data ///////////")
+
+    //  console.log("Selected category:", category);
+    //  console.log("Selected subcategory:", subcategory);
     // const formattedData = generateOutputAll(dummy_data, category, subtypes_pie)
     let formattedData;
     if (!isDataLoaded){
@@ -170,61 +177,80 @@ const AnalyticsPieScreen = ({navigation}) => {
 //   var  colorScale;
 //    var total;
 //    var percentageData ;
-    if(subcategory === "All Supertypes" || subcategory === "All Types" || subcategory === "All Subtypes" ){
-        if(category === "supertype_count"){
-            formattedData = generateOutputAll(true_data, category, supertypes_pie)
-        }
-        if(category === "type_count"){
-            formattedData = generateOutputAll(true_data, category, types_pie)
+        if(subcategory === "All Supertypes" || subcategory === "All Types" || subcategory === "All Subtypes" ){
+            if(category === "supertype_count"){
+                formattedData = generateOutputAll(true_data, category, supertypes_pie)
+                // console.log("am i working")
+                // console.log(formattedData)
+            }
+            if(category === "type_count"){
+                formattedData = generateOutputAll(true_data, category, types_pie)
 
-        }
-        if(category === "subtype_count"){
-            formattedData = generateOutputAll(true_data, category, subtypes_pie)
-        }
-    }
-    else{
-        if(category === "supertype_count"){
-            formattedData = generateOutput2(true_data, category, subcategory, super_to_type_pie)
-        }
-        if(category === "type_count"){
-            formattedData = generateOutput2(true_data, category, subcategory, type_to_sub)
-        }
+            }
+            if(category === "subtype_count"){
+                formattedData = generateOutputAll(true_data, category, subtypes_pie)
 
-    var  legendData = formattedData.map((datum) => ({ name: datum.x }));
-    var colorScale = generateColorScale(formattedData.length);
-    var total = formattedData.reduce((acc, curr) => acc + curr.y, 0);
-    var percentageData = formattedData.map((datum) => ({
-        name: `${datum.x} (${((datum.y / total) * 100).toFixed(2)}%)`,
-    }));
-    console.log(percentageData)
-}
-    return (
-        <View>
-            <View style={styles.header}>
-                <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.goBack()}/>
-                <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Pie Chart</Text>
-            </View>
-            <VictoryPie
-                data={formattedData}
-                //true_data = {data}
-                x="x"
-                y="y"
-                colorScale={colorScale}
-                labels={() => null}/>
-            <ScrollView>
-                <View style={{ flexDirection: 'row' }}>
-                    <VictoryLegend
-                        orientation="vertical"
-                        gutter={20}
-                        colorScale={colorScale}
-                        data={percentageData}
-                    />
+            }
+            var legendData = formattedData.map((datum) => ({ name: datum.x }));
+            var colorScale = generateColorScale(formattedData.length);
+            var total = formattedData.reduce((acc, curr) => acc + curr.y, 0);
+            var percentageData = formattedData.map((datum) => ({
+                name: `${datum.x} (${((datum.y / total) * 100).toFixed(2)}%)`,
+            }));
+        }
+        else{
+            if(category === "supertype_count"){
+                formattedData = generateOutput2(true_data, category, subcategory, super_to_type_pie)
+            }
+            if(category === "type_count"){
+                formattedData = generateOutput2(true_data, category, subcategory, type_to_sub)
+            }
+            var  legendData = formattedData.map((datum) => ({ name: datum.x }));
+            var colorScale = generateColorScale(formattedData.length);
+            var total = formattedData.reduce((acc, curr) => acc + curr.y, 0);
+            var percentageData = formattedData.map((datum) => ({
+                name: `${datum.x} (${((datum.y / total) * 100).toFixed(2)}%)`,
+            }));
+            // console.log("percentage")
+            // console.log(percentageData)
+            // console.log("formatted")
+            // console.log(formattedData)
+        }
+        return (
+
+
+
+
+            <View>
+                <View style={styles.header}>
+                    <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.goBack()}/>
+                    <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Pie Chart</Text>
                 </View>
-            </ScrollView>
-        </View>
-    );
+                <VictoryPie
+                    data={formattedData}
+                    //true_data = {data}
+                    x="x"
+                    y="y"
+                    colorScale={colorScale}
+                    labels={() => null}/>
+                <ScrollView>
+                    <Text style={{color: 'black', marginLeft:10}}>{`From ${start_date} to ${end_date}`}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <VictoryLegend
+                            orientation="vertical"
+                            gutter={20}
+                            colorScale={colorScale}
+                            data={percentageData}
+                        />
+                    </View>
+                </ScrollView>
+            </View>
+
+
+
+        );
     }
-        
+
 };
 const styles = StyleSheet.create({
     header: {
