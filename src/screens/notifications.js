@@ -242,7 +242,7 @@ const NotificationScreen = ({navigation}) => {
     };
 
     return (
-        <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
+        <SafeAreaView style={{flex: 1 }}>
             <View style={styles.header}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 10 }}>
                     Pending Invites

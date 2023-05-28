@@ -127,7 +127,7 @@ const HarvestScreen = ({navigation,route}) => {
     };
 
     return (
-        <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
+        <SafeAreaView style={{flex: 1}}>
             <View style={styles.header}>
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')} testID="material-icons"/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Harvest Plants</Text>

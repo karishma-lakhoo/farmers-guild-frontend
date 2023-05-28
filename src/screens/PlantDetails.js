@@ -69,7 +69,7 @@ const PlantDetailsScreen= ({navigation}) => {
     };
 
     return (
-        <SafeAreaView style={{backgroundColor: COLORS.white}}>
+        <SafeAreaView>
             <View style={style.header}>
                 <Icon name="arrow-back-ios" size={28} onPress={() => navigation.navigate('Plants')}/>
                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>Details</Text>

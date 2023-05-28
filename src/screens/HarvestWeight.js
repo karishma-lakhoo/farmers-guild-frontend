@@ -3,6 +3,7 @@ import React, {useContext, useState} from 'react';
 import {api_url} from "../consts/api_url";
 import {MyContext} from "../../App";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import COLORS from "../consts/colors";
 const url = api_url + '/plants_in_garden/';
 
 const HarvestWeightScreen = ({navigation}) => {
@@ -74,7 +75,7 @@ const HarvestWeightScreen = ({navigation}) => {
 }
 const styles = StyleSheet.create({
     touchableOpacity: {
-        backgroundColor: '#006400',
+        backgroundColor: COLORS.primary,
         width: '80%',
         padding: 15,
         alignItems:'center',
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
 
 const Btn = StyleSheet.create({
     container : {
-        backgroundColor: '#006400',
+        backgroundColor: COLORS.primary,
         width: '80%',
         padding: 15,
         alignItems:'center',

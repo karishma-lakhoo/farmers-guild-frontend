@@ -76,13 +76,13 @@ const Analytics_FilterScreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
+        <SafeAreaView style={{flex: 1}}>
             <View style={styles.header}>
                 <Icon name = "arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}>Graph Filters</Text>
             </View>
             <View style={{paddingHorizontal: 10, paddingTop: 20}}>
-                <Text>
+                <Text style = {{marginBottom: 5}}>
                     {`From January:`}
                 </Text>
                 <SelectList
@@ -93,11 +93,12 @@ const Analytics_FilterScreen = ({ navigation }) => {
                     data={years1}
                     placeholder={"Start Date"}
                     // defaultOption={{key: 'SUP', value: 'SuperType'}}
+                    boxStyles={{backgroundColor:"white"}}
                 />
                 <Text>
 
                 </Text>
-                <Text>
+                <Text style = {{marginBottom: 5}}>
                     {`To December:`}
                 </Text>
                 <SelectList
@@ -108,12 +109,14 @@ const Analytics_FilterScreen = ({ navigation }) => {
                     data={years2}
                     placeholder={"End Date"}
                     // defaultOption={{key: 'SUP', value: 'SuperType'}}
+                    boxStyles={{backgroundColor:"white"}}
+
                 />
                 <Text>
 
                 </Text>
 
-                <Text>
+                <Text style = {{marginBottom: 5}}>
                     {`Graph Type:`}
                 </Text>
                 <SelectList
@@ -121,12 +124,14 @@ const Analytics_FilterScreen = ({ navigation }) => {
                     data={graphs}
                     placeholder={"Select Graph Type"}
                     // defaultOption={{key: 'SUP', value: 'SuperType'}}
+                    boxStyles={{backgroundColor:"white"}}
+
                 />
                 <Text>
 
                 </Text>
 
-                <Text>
+                <Text style = {{marginBottom: 5}}>
                     {`Category Type:`}
                 </Text>
                 <SelectList
@@ -137,6 +142,8 @@ const Analytics_FilterScreen = ({ navigation }) => {
                     data={categories}
                     placeholder={"Select Category"}
                     // defaultOption={{key: 'SUP', value: 'SuperType'}}
+                    boxStyles={{backgroundColor:"white"}}
+
                 />
                 <Text>
 
@@ -154,6 +161,8 @@ const Analytics_FilterScreen = ({ navigation }) => {
                         }}
                         data={subCategories[selectedCategory]}
                         placeholder={`Select Subcategory`}
+                        boxStyles={{backgroundColor:"white"}}
+
                     />
                 )}
             </View>

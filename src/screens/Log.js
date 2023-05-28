@@ -325,6 +325,7 @@ const LogScreen = ({navigation}) => {
                                 }}
                                 data={years1}
                                 placeholder={"Start Date"}
+                                boxStyles={{backgroundColor:"white"}}
                                 // defaultOption={{key: 'SUP', value: 'SuperType'}}
                             />
                         </View>
@@ -338,6 +339,7 @@ const LogScreen = ({navigation}) => {
                                 }}
                                 data={years2}
                                 placeholder={"End Date"}
+                                boxStyles={{backgroundColor:"white"}}
                                 // defaultOption={{key: 'SUP', value: 'SuperType'}}
                             />
                         </View>
@@ -385,12 +387,11 @@ const LogScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
+        // backgroundColor: 'white'
     },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: 'white',
         padding: 15,
         marginTop: 20
     },
