@@ -156,7 +156,7 @@ const ProfileScreen = ({ navigation }) => {
                 <View style={styles.head}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 10}}>Edit Profile</Text>
                 </View>
-
+                <Text style={styles.username}>{username}</Text>
                 <View style={styles.profile}>
                     <Text style={styles.title}>Choose Profile Picture</Text>
                     <Image source={images[selectedImage]} style={styles.profileImage} />
@@ -175,9 +175,7 @@ const ProfileScreen = ({ navigation }) => {
                             </TouchableOpacity>
                         ))}
                     </ScrollView>
-
-                    <Text style={styles.username}>{username}</Text>
-
+                    <Text style={styles.leftAlign}>Change Display Name</Text>
                     <TextInput
                         style={styles.usernameInput}
                         onChangeText={handleDisplayNameChange}
@@ -189,6 +187,15 @@ const ProfileScreen = ({ navigation }) => {
                         onPress={updateDetails}
                     >
                         <Text style={styles.updateButtonText}>Update Details</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.logOutButton}
+                        onPress={() => {
+                            navigation.navigate("Login")
+                        }}
+                    >
+                        <Text style={styles.updateButtonText}>Log Out</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -217,6 +224,8 @@ const styles = StyleSheet.create({
     profile: {
         alignItems: 'center',
     },
+    description: {
+    },
     profileImage: {
         width: 100,
         height: 100,
@@ -230,39 +239,61 @@ const styles = StyleSheet.create({
     imageSelectionButton: {
         margin: 5,
     },
+    leftAlign: {
+        textAlign: 'left',
+        marginLeft: -185,
+        paddingBottom:10,
+        fontWeight: "bold"
+    },
     selectionImage: {
         width: 50,
         height: 50,
         borderRadius: 25,
     },
     username: {
-        fontSize: 18,
+        textAlign:'center',
+        fontSize: 30,
         fontWeight: 'bold',
-        marginBottom: 40,
+        marginBottom: 20,
+        marginTop: -20,
+        color:COLORS.primary
     },
     usernameInput: {
-        width: 200,
-        height: 40,
+        width: '90%',
+        height: 58,
+        marginBottom: 20,
+        fontSize: 16,
         borderRadius: 10,
-        borderWidth: 1,
-        padding: 10,
-
+        padding: 12,
+        backgroundColor: COLORS.light
     },
+
     updateButton: {
         backgroundColor: COLORS.primary,
         paddingHorizontal: 20,
         paddingVertical: 15,
-        marginTop: 40,
+        marginTop: 15,
         width: '60%',
         padding: 15,
         alignItems:'center',
         borderRadius: 25,
     },
-
+    logOutButton: {
+        backgroundColor: COLORS.primary,
+        paddingHorizontal: 20,
+        paddingVertical: 15,
+        marginTop: 20,
+        width: '60%',
+        padding: 15,
+        alignItems:'center',
+        borderRadius: 25,
+    },
     updateButtonText: {
         color: '#fff',
         fontWeight: 'bold',
     },
+
+
 });
 
 export default ProfileScreen;

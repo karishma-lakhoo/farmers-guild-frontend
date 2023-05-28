@@ -79,8 +79,8 @@ const LogScreen = ({navigation}) => {
                 const filteredUsersValue = await AsyncStorage.getItem('filteredUsersArray');
                 const usernameID = await AsyncStorage.getItem('usernameID')
                 const displayName = await AsyncStorage.getItem('displayName')
-                console.log("dis play")
-                console.log(displayName)
+                // console.log("dis play")
+                // console.log(displayName)
                 // console.log(usernameID)
                 const parsedUsersValue = JSON.parse(filteredUsersValue);
                 setFilteredUsersArray(parsedUsersValue);
@@ -125,13 +125,12 @@ const LogScreen = ({navigation}) => {
             }
         }
         if(!buttonPressed){
-            console.log("not pressed")
-            console.log("asdfasdfsafasf")
+            // console.log("not pressed")
+            // console.log("asdfasdfsafasf")
             url = api_url + '/harvest_log/?ordering=' + orderingGarden + "&garden="+ gardenQuery  + "&user=" + userQuery;
         }
         else{
-            console.log("pressed")
-            console.log("my fingies are cold")
+            // console.log("pressed")
             url = api_url + '/harvest_log/?ordering=' + orderingGarden + "&garden="+ gardenQuery  + "&user=" + userQuery + '&start_year=' + startYear + '&end_year=' + endYear;
         }
         setData([])
@@ -152,10 +151,10 @@ const LogScreen = ({navigation}) => {
                 setIsLoading(false); // Set isLoading to false when data is updated or when an error occurs
             });
 
-        console.log("data must be fetched")
-        console.log(sortValue)
-        console.log(gardenValue)
-        console.log(userValue)
+        // console.log("data must be fetched")
+        // console.log(sortValue)
+        // console.log(gardenValue)
+        // console.log(userValue)
     },[sortValue, gardenValue, userValue, startYear, endYear, buttonPressed]);
     // setting variables
     const handleGardenFilterChange = (selected) => {
@@ -172,9 +171,9 @@ const LogScreen = ({navigation}) => {
         setSortValue(selected);
     };
     const handleButtonPress = () => {
-        console.log("what am i")
+        // console.log("what am i")
         setButtonPressed(true)
-        console.log(buttonPressed)
+        // console.log(buttonPressed)
 
     };
 
@@ -419,7 +418,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-
         elevation: 5,
 
     },

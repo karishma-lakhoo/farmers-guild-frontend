@@ -51,7 +51,7 @@ const HomeScreen = ({navigation}) => {
     }
     filteredGardensArray.push(add)
   }
-  console.log(filteredGardensArray)
+  // console.log(filteredGardensArray)
   // filteredInfo.forEach(item => filteredGardensArray.push(item.garden_detail.name))
   AsyncStorage.setItem('filteredGardensArray', JSON.stringify(filteredGardensArray))
       .then(() => {
@@ -61,9 +61,9 @@ const HomeScreen = ({navigation}) => {
         console.log('Error storing array:', error);
       });
 
-  console.log("filtered garden array")
-  // console.log(filteredInfo[0].garden_detail.name)
-  console.log(filteredGardensArray)
+  // console.log("filtered garden array")
+  // // console.log(filteredInfo[0].garden_detail.name)
+  // console.log(filteredGardensArray)
 
   // store associated users into async storage
   const filteredUsersArray = [{item: "All Users", id: "AU"}];
@@ -77,7 +77,7 @@ const HomeScreen = ({navigation}) => {
         const username = item.user.username;
         const usernameID = item.user.id;
         const displayName = item.user.display_name
-        console.log(displayName)
+        // console.log(displayName)
         if (username === myUsername){
           AsyncStorage.setItem('usernameID', item.user.id);
           AsyncStorage.setItem('profilePicture', item.user.profile_picture);
@@ -104,9 +104,9 @@ const HomeScreen = ({navigation}) => {
         console.log('Error storing array:', error);
       });
 
-  console.log("filtered user array")
+  // console.log("filtered user array")
   // console.log(filteredInfo[0].garden_detail.name)
-  console.log(filteredUsersArray)
+  // console.log(filteredUsersArray)
 
 
   useEffect(() => {
@@ -141,8 +141,8 @@ const HomeScreen = ({navigation}) => {
     })
         .then(resp => resp.json())
         .then(info => {
-          console.log("info is here")
-          console.log(info);
+          // console.log("info is here")
+          // console.log(info);
           setInfo(info); // update the data state variable with the API response
         })
         .catch(error => console.log("error"))

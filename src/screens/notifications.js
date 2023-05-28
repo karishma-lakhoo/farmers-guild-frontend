@@ -68,7 +68,7 @@ const NotificationScreen = ({navigation}) => {
         })
             .then(resp => resp.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
 
                 setInvites(data); // update the data state variable with the API response
             })
@@ -118,7 +118,7 @@ const NotificationScreen = ({navigation}) => {
             console.log(response.status)
             if (response.status === 201) {
                 // The garden was added successfully, so close the modal
-                console.log('yey');
+                // console.log('yey');
 
                 // Remove the accepted invite from the state
                 setInvites((prevInvites) => prevInvites.filter((invite) => invite.garden_detail.id !== gardenID));
@@ -158,81 +158,115 @@ const NotificationScreen = ({navigation}) => {
     //     console.log("declined")
     // }
     // log card styling and rendering
-    const LogCard = ({item}) =>{
+    const LogCard = ({ item }) => {
         const { id, garden_detail, sender_detail, receiver_detail } = item;
-        const selectedImage = images.find(image => image.id === item.sender_detail.profile_picture);
+        const selectedImage = images.find(
+            (image) => image.id === item.sender_detail.profile_picture
+        );
         return (
-
             <View style={styles.LogCard}>
-                <View style={{
-                    height: 100,
-                    marginLeft: 20,
-                    paddingVertical: 20,
-                    flex: 1
-                }}>
-                    { invites &&
+                <View
+                    style={{
+                        height: 100,
+                        marginLeft: 20,
+                        paddingVertical: 20,
+                        flex: 1,
+                    }}
+                >
+                    {filteredInfo.length === 0 ? (
+                        <View>
+                            <Text>No invites</Text>
+                        </View>
+                    ) : (
                         <>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 0, right: 15}}>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    marginTop: 0,
+                                    right: 15,
+                                }}
+                            >
                                 <Image
                                     source={selectedImage?.image}
                                     style={{ height: 50, width: 50 }}
                                 />
                                 <View style={{ marginLeft: 30 }}>
-                                    <Text style={{fontWeight: 'bold', fontSize: 18, marginTop:8 ,marginLeft:-15}}>{item.garden_detail.name}</Text>
-                                    <Text style={{fontSize: 12, marginTop:0 ,marginLeft:-15}}>From {item.sender_detail.username}</Text>
+                                    <Text
+                                        style={{
+                                            fontWeight: 'bold',
+                                            fontSize: 18,
+                                            marginTop: 8,
+                                            marginLeft: -15,
+                                        }}
+                                    >
+                                        {item.garden_detail.name}
+                                    </Text>
+                                    <Text
+                                        style={{
+                                            fontSize: 12,
+                                            marginTop: 0,
+                                            marginLeft: -15,
+                                        }}
+                                    >
+                                        From {item.sender_detail.username}
+                                    </Text>
                                 </View>
                             </View>
-
-
-                            {/*<Text style={{fontWeight: 'bold', fontSize: 16}}>*/}
-                            {/*    {item?.plants_in_garden?.food?.id ?? "No food id found"}*/}
-                            {/*</Text>*/}
-                            {/*<Text style={{fontWeight: 'bold', fontSize: 13, marginLeft:-15}}>  /!*changed fontweight from grey to bold*!/*/}
-                            {/*    {item?.garden_detail?.name ?? "No garden found"}*/}
-                            {/*</Text>*/}
                         </>
-                    }
-
-                    {/*<Text style={{ fontSize: 13, color: 'grey'}}>{item.receiver_detail.username}</Text>*/}
+                    )}
                 </View>
-                <View style={{ marginBottom: 40, right: 60}}>
-                    <Pressable style={styles.actionBtn} onPress={() => handleAccept(item.garden_detail.id)}>
+                <View style={{ marginBottom: 40, right: 60 }}>
+                    <Pressable
+                        style={styles.actionBtn}
+                        onPress={() => handleAccept(item.garden_detail.id)}
+                    >
                         <Text style={styles.actionBtnText}>Accept</Text>
                     </Pressable>
                 </View>
                 <View style={{ marginBottom: 40, right: 10 }}>
-                    <Pressable style={styles.actionBtn2} onPress={() => handleDecline(item.id)}>
-                        <FontAwesomeIcon name="times" size={20} color="white" style={styles.crossIcon} />
+                    <Pressable
+                        style={styles.actionBtn2}
+                        onPress={() => handleDecline(item.id)}
+                    >
+                        <FontAwesomeIcon
+                            name="times"
+                            size={20}
+                            color="white"
+                            style={styles.crossIcon}
+                        />
                     </Pressable>
                 </View>
             </View>
         );
     };
 
-    // const renderItem = ({ item }) => (
-    //     <View style={styles.inviteContainer}>
-    //         <Text style={styles.inviteText}>You have been invited to {item.garden_detail.name} by {item.sender_detail.username}</Text>
-    //         <SecondaryButton style={styles.acceptButton}>Accept</SecondaryButton>
-    //         <SecondaryButton style={styles.declineButton}>Decline</SecondaryButton>
-    //     </View>
-    // );
-
     return (
-        <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
+        <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
             <View style={styles.header}>
-                <Text style = {{fontSize: 20, fontWeight: 'bold', marginLeft: 10}}>Pending Invites</Text>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 10 }}>
+                    Pending Invites
+                </Text>
             </View>
-            <FlatList
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 80 }}
-                data={filteredInfo}
-                renderItem={({ item }) => <LogCard item={item} />}
-            />
-
+            {filteredInfo.length === 0 ? (
+                <View style={styles.noInvitesContainer}>
+                    <Image
+                        source={require('../images/scarecrow.png')}
+                        style={styles.noInvitesImage}
+                    />
+                    <Text style={styles.noInvitesText}>No invites as yet</Text>
+                </View>
+            ) : (
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ paddingBottom: 80 }}
+                    data={filteredInfo}
+                    renderItem={({ item }) => <LogCard item={item} />}
+                />
+            )}
         </SafeAreaView>
-    )
-
-}
+    );
+};
 
 const styles = StyleSheet.create({
     inviteContainer: {
@@ -242,25 +276,25 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     inviteText: {
-        fontSize: 16
+        fontSize: 16,
     },
     acceptButton: {
         backgroundColor: COLORS.secondary,
-        marginLeft: 10
+        marginLeft: 10,
     },
     declineButton: {
         backgroundColor: COLORS.dark,
-        marginLeft: 10
+        marginLeft: 10,
     },
     header: {
         paddingVertical: 50,
         flexDirection: 'row',
         alignItems: 'center',
         marginHorizontal: 10,
-        marginTop:20,
+        marginTop: 20,
     },
     container: {
         flex: 1,
@@ -314,12 +348,27 @@ const styles = StyleSheet.create({
     crossIcon: {
         alignSelf: 'center',
     },
-    actionBtnText:{
+    actionBtnText: {
         marginBottom: 3,
         marginLeft: 18,
-        fontWeight: "bold",
+        fontWeight: 'bold',
         fontSize: 11,
         color: 'white',
+    },
+    noInvitesContainer: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    noInvitesImage: {
+        width: 200,
+        height: 200,
+        resizeMode: 'contain',
+        marginTop: 20
+    },
+    noInvitesText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginTop: 20,
     },
 });
 
