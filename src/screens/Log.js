@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
     SafeAreaView,
     Text,
@@ -8,7 +8,7 @@ import {
     Image,
     Alert,
     ActivityIndicator,
-    TouchableOpacity
+    TouchableOpacity, TouchableHighlight
 } from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -20,6 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SelectList} from "react-native-dropdown-select-list";
 import COLORS from "../consts/colors";
 import types from "../consts/types";
+import {MyContext} from "../../App";
 
 // setting the default values for the dropdowns
 const GARDEN_OPTIONS = [
@@ -69,7 +70,9 @@ const LogScreen = ({navigation}) => {
     const n_years = (2023-firstYear) + 1
     const years1 = Array.from({ length: n_years }, (_, i) => (2023 - i).toString()); // generates an array of 100 years, from "2023" to "1924"
     const years2 = Array.from({ length: years1.indexOf(startYear)+1 }, (_, j) => (2023 - j).toString()); // generates an array of years, from "2023" down to the selected year as a string
-    // get username, gardnens and other data
+    const {myState, setMyState} = useContext(MyContext);
+
+    // get username, gardens and other data
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -239,44 +242,54 @@ const LogScreen = ({navigation}) => {
         const year = date.getFullYear();
         const formattedDate = `${day}-${month}-${year}`;
         return (
-            <View style={styles.LogCard}>
-                <View style={{
-                    height: 100,
-                    marginLeft: 20,
-                    paddingVertical: 12,
-                    flex: 1,
-                }}>
-                    { data &&
-                        <>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: -6, right: 5}}>
-                                <Image
-                                    source={type?.image} // Use the image from the matched type object
-                                    style={{ height: 50, width: 50 }}
-                                />
-                                <View style={{ marginLeft: 20 }}>
-                                    <Text style={{fontWeight: 'bold', fontSize: 16}}>
-                                        {item?.food_detail?.food ?? "No food found"}
-                                    </Text>
-                                    <Text style={{color: 'grey', fontSize: 12}}>
-                                        {item?.weight ?? "No weight found"} g
-                                    </Text>
-                                    <Text style={{color: 'grey', fontSize: 12}}>
-                                        {formattedDate}
-                                    </Text>
-                                    <Text style={{color: 'grey', fontSize: 12}}>
-                                        Garden: {item?.garden_detail?.name ?? "No garden found"}
-                                    </Text>
-                                    <Text style={{color: 'grey', fontSize: 12}}>
-                                        User: {item?.user?.display_name ?? "No user found"}
-                                    </Text>
+            <TouchableHighlight underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => {
+                setMyState(item.food_detail);
+                // console.log("assdfasdfasdfasdfasdfasdf")
+                // console.log(item?.food_detail?.food)
+                // console.log("my statte")
+                // console.log(myState)
+                navigation.navigate('PlantDetailsLog')
+            }}>
+                <View style={styles.LogCard}>
+                    <View style={{
+                        height: 100,
+                        marginLeft: 20,
+                        paddingVertical: 12,
+                        flex: 1,
+                    }}>
+                        { data &&
+                            <>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: -6, right: 5}}>
+                                    <Image
+                                        source={type?.image} // Use the image from the matched type object
+                                        style={{ height: 50, width: 50 }}
+                                    />
+                                    <View style={{ marginLeft: 20 }}>
+                                        <Text style={{fontWeight: 'bold', fontSize: 16}}>
+                                            {item?.food_detail?.food ?? "No food found"}
+                                        </Text>
+                                        <Text style={{color: 'grey', fontSize: 12}}>
+                                            {item?.weight ?? "No weight found"} g
+                                        </Text>
+                                        <Text style={{color: 'grey', fontSize: 12}}>
+                                            {formattedDate}
+                                        </Text>
+                                        <Text style={{color: 'grey', fontSize: 12}}>
+                                            Garden: {item?.garden_detail?.name ?? "No garden found"}
+                                        </Text>
+                                        <Text style={{color: 'grey', fontSize: 12}}>
+                                            User: {item?.user?.display_name ?? "No user found"}
+                                        </Text>
+                                    </View>
+
                                 </View>
 
-                            </View>
-
-                        </>
-                    }
+                            </>
+                        }
+                    </View>
                 </View>
-            </View>
+            </TouchableHighlight>
+
         );
     };
 

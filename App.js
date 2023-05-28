@@ -21,6 +21,7 @@ import InviteScreen from "./src/screens/Invite";
 import ConfirmInviteScreen from "./src/screens/Confirm_invite";
 import NotificationScreen from "./src/screens/notifications";
 import ProfileScreen from "./src/screens/Profile";
+import PlantDetailsLogScreen from "./src/screens/PlantDetailsLog";
 
 
 const Stack = createStackNavigator();
@@ -39,6 +40,7 @@ export default function App() {
                     <Stack.Screen name="Home" component={BottomNavigator}/>
                     <Stack.Screen name="Log" component={LogScreen}/>
                     <Stack.Screen name="PlantDetails" component={PlantDetailsScreen}/>
+                    <Stack.Screen name="PlantDetailsLog" component={PlantDetailsLogScreen}/>
                     <Stack.Screen name="HarvestWeight" component={HarvestWeightScreen}/>
                     <Stack.Screen name="Plants" component={PlantsScreen}/>
                     <Stack.Screen name="Analytics_Filter" component={Analytics_FilterScreen}/>

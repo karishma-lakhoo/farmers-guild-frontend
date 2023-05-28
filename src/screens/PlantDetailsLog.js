@@ -13,65 +13,15 @@ const url = api_url + '/plants_in_garden/';
 const { width, height } = Dimensions.get('window');
 
 
-const PlantDetailsScreen = ({navigation}) => {
+const PlantDetailsLogScreen= ({navigation}) => {
     const [data, setData] = useState([{}])
     const {myState} = useContext(MyContext);
-    const [gardenId, setGardenId] = useState('');
 
-    console.log("adsfasdf")
-    console.log(myState.id)
-    console.log("12345")
-    useEffect(() => {
-        getGardenId();
-    }, []);
-
-    const getGardenId = async () => {
-        try {
-            const value = await AsyncStorage.getItem('gardenId');
-            if (value !== null) {
-                setGardenId(value);
-            }
-        } catch (error) {
-            console.log('Error retrieving garden name:', error);
-        }
-    };
-
-    console.log(gardenId)
-    const onAddPlant = async (harvestWeight) => {
-        try {
-            const token = await AsyncStorage.getItem('token');
-            const headers = {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            };
-            const body = JSON.stringify({
-                food: myState.id,
-                garden: gardenId,
-            });
-            console.log(body)
-            const response = await fetch(api_url + '/plants_in_garden/', {
-                method: 'POST',
-                headers: headers,
-                body: body,
-            });
-
-            if (response.status === 201) {
-                // The garden was added successfully, so close the modal
-                console.log('yey')
-            } else {
-                // There was an error adding the garden, so display an error message
-                console.error('Error adding food:', response.status);
-            }
-        } catch (error) {
-            // There was an error retrieving the token, so display an error message
-            console.error('Error retrieving food:', error);
-        }
-    };
 
     return (
         <SafeAreaView>
             <View style={style.header}>
-                <Icon name="arrow-back-ios" size={28} onPress={() => navigation.navigate('Plants')}/>
+                <Icon name="arrow-back-ios" size={28} onPress={() => navigation.navigate('Home')}/>
                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>Details</Text>
             </View>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -101,7 +51,7 @@ const PlantDetailsScreen = ({navigation}) => {
                     {/*    end up giving u kisses. Keep your children away from him and yourself. As they say in planes*/}
                     {/*    help yourself before helping others.*/}
                     {/*</Text>*/}
-                    {/*<Text style={style.detailsText}>Name: {myState.food}</Text>*/}
+                    <Text style={style.detailsText}>Name: {myState.food}</Text>
                     <Text style={style.detailsText}>Sow: {myState.sow}</Text>
                     <Text style={style.detailsText}>Plant Season: {myState.plant}</Text>
                     <Text style={style.detailsText}>Harvest Season: {myState.harvest_info}</Text>
@@ -113,12 +63,6 @@ const PlantDetailsScreen = ({navigation}) => {
                     <Text style={style.detailsText}>Description: {myState.description}</Text>
                     <Text style={style.detailsText}>Current state: {myState.food}</Text>
                     <View style={{marginTop: 40, marginBottom: 40}}>
-                        {/*do a post request here*/}
-                        <SecondaryButton title="Plant It" onPress={() => {
-                            onAddPlant();
-                            navigation.navigate('Home');
-                        }
-                        }/>
                     </View>
                 </View>
             </ScrollView>
@@ -157,4 +101,4 @@ const style = StyleSheet.create({
     },
 });
 
-export default PlantDetailsScreen;
+export default PlantDetailsLogScreen;

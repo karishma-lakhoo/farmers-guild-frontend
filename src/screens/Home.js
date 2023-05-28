@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   header:{
     fontWeight: 'bold',
     fontSize: 30,
-    color: 'black',
+    color: COLORS.primary,
     alignItems: 'center',
     marginVertical: 50,
     //justifyContent: 'center',
