@@ -239,18 +239,11 @@ const HomeScreen = ({navigation}) => {
               <View style={styles.gardensContainer}>
                 <FlatList
                     showsVerticalScrollIndicator = {false}
+                    numColumns={2}
                     contentContainerStyle={{paddingBottom:80}}
                     data = {filteredInfo} //add gardens file
                     renderItem = {({item}) => <GardenCard gardens={item.garden_detail}/>}
                 />
-
-          <FlatList
-              showsVerticalScrollIndicator = {false}
-              numColumns={2}
-              contentContainerStyle={{paddingBottom:80}}
-              data = {filteredInfo} //add gardens file
-              renderItem = {({item}) => <GardenCard gardens={item.garden_detail}/>}
-          />
 
               </View>
 
@@ -345,6 +338,9 @@ const styles = StyleSheet.create({
   GardensText:{
     fontWeight: 'bold',
     fontSize: 20,
+    color: 'white',
+    alignSelf: 'center',
+    marginTop: 20,
 
   },
   noGardensContainer: {
