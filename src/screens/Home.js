@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRoute} from "@react-navigation/native";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import COLORS from "../consts/colors";
+import home_images from "../consts/home_images";
 
 
 const url = api_url + '/users_in_garden/';
@@ -39,6 +40,8 @@ const HomeScreen = ({navigation}) => {
     };
     getUsername();
   }, []);
+  // console.log("shelly welly is a cutie pie")
+  // console.log(username)
 
   const filteredInfo = info.filter(item => item.user.username === myUsername);
 
@@ -196,7 +199,11 @@ const HomeScreen = ({navigation}) => {
   // Displays all the gardens in a list
 
   const GardenCard = ({gardens}) => {
+    const randomId = Math.floor(Math.random() * 10) + 1;
+    const newImage = home_images.find((kawaii) => kawaii.id === randomId.toString());
+
     const navigateToHarvest = () => {
+
       saveGardenId(gardens.id);
       setMyState(gardens);
       navigation.navigate('Harvest', { gardenName: gardens.name });
@@ -204,7 +211,15 @@ const HomeScreen = ({navigation}) => {
 
     return (
         <TouchableOpacity style={styles.gardenCard} onPress={navigateToHarvest}>
-          <Text style={styles.GardensText}>{gardens.name}</Text>
+          <View>
+            <View style={{marginBottom: 179, backgroundColor: COLORS.primary, width:180, height: 70, borderTopRightRadius: 10, borderTopLeftRadius: 10}}>
+              <Text style={styles.GardensText}>{gardens.name}</Text>
+            </View>
+            <Image
+                source={newImage?.image} // Use the image from the matched type object
+                style={{position: 'absolute', height: 100, width: 100, alignSelf: 'center' , marginTop: 100}}
+            />
+          </View>
         </TouchableOpacity>
     );
   }
@@ -229,12 +244,40 @@ const HomeScreen = ({navigation}) => {
                     renderItem = {({item}) => <GardenCard gardens={item.garden_detail}/>}
                 />
 
+          <FlatList
+              showsVerticalScrollIndicator = {false}
+              numColumns={2}
+              contentContainerStyle={{paddingBottom:80}}
+              data = {filteredInfo} //add gardens file
+              renderItem = {({item}) => <GardenCard gardens={item.garden_detail}/>}
+          />
+
               </View>
 
           )}
           <Pressable style={styles.actionBtn2} onPress={() => changeModalVisible(true)}>
             <FontAwesomeIcon name="plus" size={30} color="white" style={styles.crossIcon} />
           </Pressable>
+
+          {/*<TouchableOpacity*/}
+
+          {/*    style = {styles.add}*/}
+          {/*    onPress = {() => {*/}
+          {/*      changeModalVisible(true);*/}
+          {/*      // console.log(myUser)*/}
+          {/*      }}>*/}
+
+          {/*        <TouchableOpacity*/}
+          {/*           style = {styles.plusV}>*/}
+          {/*        </TouchableOpacity>*/}
+
+          {/*        <TouchableOpacity*/}
+          {/*           style = {styles.plusH}>*/}
+          {/*        </TouchableOpacity>*/}
+
+          {/*  /!*<Image source = {require('../images/plus_sign.png')}/> *!/*/}
+
+          {/*</TouchableOpacity>*/}
           <Modal
               transparent = {true} //addGardenButton
               animationType = 'fade'
@@ -247,6 +290,16 @@ const HomeScreen = ({navigation}) => {
                 fetchGardens={fetchGardens}
             />
           </Modal>
+          {/*<Modal
+              transparent = {true} //addGardenButton
+              animationType = 'fade'
+              visible = {isAddGardenPopupVisible} //changeAddGardenPopupVisible
+              nRequestClose = {() => changeAddGardenPopupVisible(false)}>
+
+            <AddGardenPopup/>
+          </Modal>  */}
+
+
         </View>
 
       </SafeAreaView>
@@ -258,8 +311,8 @@ const styles = StyleSheet.create({
 
 
   gardenCard:{
-    height: 60,
-    width: 350,
+    height: 250,
+    width: 180,
     elevation: 8,
     borderRadius: 10,
     justifyContent: 'center',
@@ -324,7 +377,7 @@ const styles = StyleSheet.create({
     top: 45,
     width: 10,
     height: 60,
-
+    
     backgroundColor: '#000000',
     borderRadius: 50,
 
@@ -333,7 +386,7 @@ const styles = StyleSheet.create({
     marginBottom: 60,
     width: 60,
     height: 10,
-
+   
     backgroundColor: '#000000',
     borderRadius: 50,
 
@@ -352,7 +405,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#000000',
-
+    
     borderRadius: 25,
 
   },
@@ -370,7 +423,7 @@ const styles = StyleSheet.create({
   },
 
   popupbackground: {
-
+    
     backgroundColor:"#000000aa",
     flex: 1,
     justifyContent: 'center',

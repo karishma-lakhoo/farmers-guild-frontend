@@ -75,29 +75,6 @@ const NotificationScreen = ({navigation}) => {
             .catch(error => console.log("error"))
     }, [token]);
 
-    // const handleAccept = (gardenId) => {
-    //     console.log(gardenId)
-    //     const headers = {
-    //         'Authorization': `Bearer ${token}`,
-    //         'Content-Type': 'application/json',
-    //     };
-    //     const body = JSON.stringify({
-    //         garden: gardenId});
-    //
-    //     fetch(api_url + '/users_in_garden/', {
-    //         method: 'POST',
-    //         headers: headers,
-    //         body: body,
-    //     })
-    //         .then((resp) => resp.json())
-    //         .then((data) => {
-    //             console.log('Invite Accepted:', data);
-    //
-    //             // Remove the declined invite from the state
-    //             setInvites((prevInvites) => prevInvites.filter((invite) => invite.garden_detail.id !== gardenId));
-    //         })
-    //         .catch((error) => console.log('Error Accepting invite:', error));
-    // };
 
     //this is when the request is accepted
     const handleAccept = async (gardenID) => {
@@ -154,9 +131,7 @@ const NotificationScreen = ({navigation}) => {
 
         Alert.alert('Invite Declined', 'You have declined the invite.');
     };
-    // const handleDecline = () => {
-    //     console.log("declined")
-    // }
+
     // log card styling and rendering
     const LogCard = ({ item }) => {
         const { id, garden_detail, sender_detail, receiver_detail } = item;
@@ -358,6 +333,7 @@ const styles = StyleSheet.create({
     noInvitesContainer: {
         flex: 1,
         alignItems: 'center',
+        marginTop: 120,
     },
     noInvitesImage: {
         width: 200,

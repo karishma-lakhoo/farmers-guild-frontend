@@ -24,6 +24,7 @@ const url = api_url + '/food/';
 import types from "../consts/types";
 
 const PlantsScreen = ({navigation}) => {
+    // State variables
     const [selectedCategoryIndex,setSelectedCategoryIndex] = React.useState(0);
     const {myState, setMyState} = useContext(MyContext);
     const [data, setData] = useState([])
@@ -67,6 +68,7 @@ const PlantsScreen = ({navigation}) => {
             .catch(error => console.log("error"))
     }, [token]);
 
+    //Implenting the category picker above the flatlist
 
     const ListCategories = () => {
         return(
@@ -95,12 +97,14 @@ const PlantsScreen = ({navigation}) => {
         )
     }
 
+    // Implementing the card design for the flatlist to display plants
+
     const Card = ({food}) =>{
 
         const type = types.find((item) => item.name === food.type);
 
         return(
-            <TouchableHighlight underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => {
+            <TouchableHighlight  underlayColor={COLORS.white} activeOpacity={0.9} onPress={() => {
                 setMyState(food);
                 navigation.navigate('PlantDetails')
             }}>
@@ -124,6 +128,8 @@ const PlantsScreen = ({navigation}) => {
         )
     }
 
+    // filters the data based on the search text
+
     const handleSearch = text => {
         setSearchText(text);
         const filtered = data.filter(
@@ -142,7 +148,7 @@ const PlantsScreen = ({navigation}) => {
         );
         setFilteredData(filtered);
     };
-
+    // renders the flatlist
     return (
         <SafeAreaView style={{flex:1}}>
             <View style={styles.head}>
@@ -237,6 +243,7 @@ const styles = StyleSheet.create({
     card: {
         height: 220,
         width: cardWidth,
+        color: '#A4bE5C',
         marginHorizontal: 10,
         marginBottom: 20,
         marginTop: 50,

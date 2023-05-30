@@ -15,7 +15,7 @@ const { width, height } = Dimensions.get('window');
 
 
 const PlantDetailsLogScreen= ({navigation}) => {
-    // Setting state variables
+    // state variables
     const [data, setData] = useState([{}])
     // getting the data from the Log page
     const {myState} = useContext(MyContext);

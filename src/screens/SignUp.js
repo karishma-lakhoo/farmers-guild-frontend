@@ -13,19 +13,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api_url } from '../consts/api_url';
 import COLORS from '../consts/colors';
 
-// const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzExODM1NjA3LCJpYXQiOjE2ODAyOTk2MDcsImp0aSI6ImMyZDQyYTdkNmI5MzRlNTZhNWQ1NzZiNWMwNTdhM2YzIiwidXNlcl9pZCI6IjliNzUxNDMzLTlhZWUtNDU5My04ZjJjLWU5M2MzM2Q2Yjg0NiJ9.5Sep2XrKNjMho1B9J4DNViMAjULnq_fuJs-IXPXrKB4'
-
-// const headers = {
-//     'Authorization': `Bearer ${token}`,
-// };
-
 const SignUpScreen = ({ navigation }) => {
+    // State variables
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
 
+    // Event handlers for input changes
     const handleUsernameChange = (text) => {
         setUsername(text);
     };
@@ -46,6 +42,7 @@ const SignUpScreen = ({ navigation }) => {
         setLastName(text);
     };
 
+    // Event handler for sign up button pressed
     const onSignUpPressed = () => {
         fetch(api_url + '/user/register/', {
             method: 'POST',
@@ -58,7 +55,7 @@ const SignUpScreen = ({ navigation }) => {
                 email: email,
                 first_name: firstName,
                 last_name: lastName,
-                display_name: username
+                display_name: username,
             }),
         })
             .then((response) => {
@@ -74,8 +71,8 @@ const SignUpScreen = ({ navigation }) => {
             .then((data) => {
                 AsyncStorage.setItem('token', data.access);
                 AsyncStorage.setItem('username', username);
-                console.log(username)
-                console.log(data.access)
+                console.log(username);
+                console.log(data.access);
             })
             .then(() => {
                 navigation.navigate('Home');
@@ -90,48 +87,56 @@ const SignUpScreen = ({ navigation }) => {
                 setEmail('');
                 setFirstName('');
                 setLastName('');
-            })
+            });
     };
 
+    // Event handler for alternative sign up button pressed
     const onSignUpPressed1 = () => {
-        alert("user created")
-    }
+        alert('user created');
+    };
 
     return (
         <View style={styles.container}>
-            <Text  style={styles.title}> Create Account </Text>
+            <Text style={styles.title}> Create Account </Text>
             <TextInput
                 onChangeText={handleUsernameChange}
                 value={username}
                 style={styles.input}
-                placeholder="Username"/>
+                placeholder="Username"
+            />
             <TextInput
                 onChangeText={handleEmailChange}
                 value={email}
                 style={styles.input}
-                placeholder="Email"/>
+                placeholder="Email"
+            />
             <TextInput
                 onChangeText={handlePasswordChange}
                 value={password}
                 style={styles.input}
                 placeholder="Password"
-                secureTextEntry={true}/>
+                secureTextEntry={true}
+            />
             <TextInput
                 onChangeText={handleFirstNameChange}
                 value={firstName}
                 style={styles.input}
-                placeholder="First Name"/>
+                placeholder="First Name"
+            />
             <TextInput
                 onChangeText={handleLastNameChange}
                 value={lastName}
                 style={styles.input}
-                placeholder="Last Name"/>
+                placeholder="Last Name"
+            />
 
             <Pressable
                 onPress={() => {
                     navigation.navigate('Login');
                     onSignUpPressed();
-                }}  style={Btn.container}>
+                }}
+                style={Btn.container}
+            >
                 <Text style={Btn.text}> REGISTER </Text>
             </Pressable>
 
@@ -140,12 +145,12 @@ const SignUpScreen = ({ navigation }) => {
                 <Text style={styles.link}> Privacy Policy</Text>
             </Text>
 
-            <Pressable onPress={() => navigation.navigate('Login')}  style={Btn2.container}>
+            <Pressable onPress={() => navigation.navigate('Login')} style={Btn2.container}>
                 <Text style={Btn2.text}> Have an Account? Sign in! </Text>
             </Pressable>
         </View>
-    )
-}
+    );
+};
 const styles = StyleSheet.create({
     root: {
         alignItems: 'center',

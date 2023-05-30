@@ -43,7 +43,7 @@ const Harvest_popup = (navigation) => {
             </TouchableOpacity>
 
             <TouchableOpacity style = {styles.touchableOpacity}
-                onPress = {() => closeModal(false,'Close')}>
+                onPress = {() => { closeModal(false,'Close')}}>
                     <Text style = {styles.text}>
                     Close
                     </Text>

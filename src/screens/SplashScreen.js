@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import LottieView from 'lottie-react-native';
+
+// App startup animation
 
 export default function SplashScreen({navigation}) {
     useEffect(() => {
@@ -19,6 +21,7 @@ export default function SplashScreen({navigation}) {
                 loop
                 style={styles.animation}
             />
+            <Text style={{fontFamily: 'Roboto', fontWeight: 'bold', fontSize: 20 }}>Farmers GUIld</Text>
         </View>
     );
 }

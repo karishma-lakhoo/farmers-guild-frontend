@@ -18,6 +18,7 @@ const images = {
 };
 
 const ProfileScreen = ({ navigation }) => {
+    //state variables
     const [selectedImage, setSelectedImage] = useState('');
     const [username, setUsername] = useState('');
     const [token, setToken] = useState('');
@@ -82,39 +83,9 @@ const ProfileScreen = ({ navigation }) => {
         };
         fetchData();
     }, []);
-    // update the usernames using an async call
-    // const updateDetails = async () => {
-    //     try {
-    //         console.log("asdfasd")
-    //         console.log(userID)
-    //         const updatedUser = {
-    //             display_name: displayName,
-    //             profile_picture: profilePictureID
-    //         };
-    //
-    //         const response = await fetch(url + userID + "/", {
-    //             method: 'PATCH',
-    //             headers: {
-    //                 'Authorization': `Bearer ${token}`,
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify(updatedUser),
-    //         });
-    //
-    //         if (response.ok) {
-    //             console.log('Username updated successfully');
-    //             console.log(response)
-    //             // Handle successful update
-    //         } else {
-    //             console.log('Username update failed');
-    //             console.log(response)
-    //             // Handle failed update
-    //         }
-    //     } catch (error) {
-    //         console.error('Error updating username:', error);
-    //         // Handle error
-    //     }
-    // };
+
+    // updating the details
+
     const updateDetails = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
